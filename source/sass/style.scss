@@ -1,0 +1,37 @@
+@import "blocks/menu.scss";
+@import "blocks/header.scss";
+@import "blocks/component.scss";
+
+
+@font-face {
+  font-family: "ProximaNova-Light";
+  src: url("../fonts/ProximaNova-Light.woff2") format("woff2"), url("../fonts/ProximaNova-Light.woff") format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+
+body {
+  font-family: "ProximaNova-Light", "Arial", Serif;
+}
+
+a, a:hover {
+  color: black;
+  text-decoration: none;
+}
+ul {
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+* {
+  box-sizing: border-box;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}

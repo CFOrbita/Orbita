@@ -1,66 +1,46 @@
-var navMain = document.querySelector('.nav');
-var navToggle = document.querySelector('.nav__toggle');
-var inputName = document.querySelector (".input__text[name='name']");
-var inputWeight = document.querySelector (".input__text[name='weight']");
-var inputAge = document.querySelector (".input__text[name='age']");
-var inputTel = document.querySelector (".input__text[name='tel']");
-var inputEmail = document.querySelector (".input__text[name='email']");
-var btn = document.querySelector(".btn--sub");
 
-if (btn) {
-  btn.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    if (!inputName.value) {
-      inputName.classList.add("input__text--error");
-      console.log("Нужно заполнить все поля");
-    }
-    else { delError(inputName)}
+/*Для слайд меню*/
+$(document).ready(function() {
 
-    if (!inputWeight.value) {
-      inputWeight.classList.add("input__text--error");
-      console.log("Нужно заполнить все поля");
-    }
+  var $toggleButton = $('.toggle-button'),
+    $menuWrap = $('.menu-wrap'),
+    $sidebarArrow = $('.sidebar-menu-arrow');
 
-    else { delError(inputWeight)}
+  // Hamburger button
 
-    if (!inputAge.value) {
-      inputAge.classList.add("input__text--error");
-      console.log("Нужно заполнить все поля");
-    }
-
-    else { delError(inputAge)}
-
-    if (!inputTel.value) {
-      inputTel.classList.add("input__text--error");
-      console.log("Нужно заполнить все поля");
-    }
-
-    else { delError(inputTel)}
-
-    if (!inputEmail.value) {
-      inputEmail.classList.add("input__text--error");
-      console.log("Нужно заполнить все поля");
-    }
-
-    else { delError(inputEmail)}
+  $toggleButton.on('click', function() {
+    $(this).toggleClass('button-open');
+    $menuWrap.toggleClass('menu-show');
   });
-}
 
-function delError (input) {
-  if ( input.classList.contains("input__text--error") )
-  {
-    input.classList.remove("input__text--error");
-  }
-}
+  // Sidebar navigation arrows
 
-navMain.classList.remove('nav--nojs');
+  $sidebarArrow.click(function() {
+    $(this).next().slideToggle(300);
+  });
 
-navToggle.addEventListener('click', function() {
-  if (navMain.classList.contains('nav--closed')) {
-    navMain.classList.remove('nav--closed');
-    navMain.classList.add('nav--opened');
-  } else {
-    navMain.classList.add('nav--closed');
-    navMain.classList.remove('nav--opened');
-  }
 });
+
+//////
+
+/*Для header-user*/
+
+$('.header-user__arrow').click(function(e) {
+  var $block = $('.header-user__menu');
+
+  if ($block.css('display') != 'block') {
+    $block.show(200);
+
+    var firstClick = true;
+    $(document).bind('click.myEvent', function(e) {
+      if (!firstClick && $(e.target).closest('.header-user__menu').length == 0) {
+        $block.hide(150);
+        $(document).unbind('click.myEvent');
+      }
+      firstClick = false;
+    });
+  }
+  e.preventDefault();
+});
+
+///////////////

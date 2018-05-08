@@ -1,7 +1,7 @@
 "use strict";
 
 var gulp = require("gulp");
-var less = require("gulp-less");
+var sass = require("gulp-sass");
 var plumber = require("gulp-plumber");
 var postcss = require("gulp-postcss");
 var autoprefixer = require("autoprefixer");
@@ -17,9 +17,9 @@ var run = require("run-sequence");
 var del = require("del");
 
 gulp.task("style", function() {
-  gulp.src("source/less/style.less")
+  gulp.src("source/sass/style.scss")
     .pipe(plumber())
-    .pipe(less())
+    .pipe(sass())
     .pipe(postcss([
       autoprefixer()
     ]))
@@ -58,7 +58,7 @@ gulp.task("images", function () {
 });
 
 gulp.task("webp", function () {
-  return gulp.src("source/img/**/*.{png,jpg}")
+  return gulp.src("source/img/**/*.{png,jpg,jpeg}")
     .pipe(webp({quality: 90}))
     .pipe(gulp.dest("source/img"));
 });
@@ -67,7 +67,8 @@ gulp.task("copy", function () {
   return gulp.src([
     "source/fonts/**/*.{woff,woff2}",
     "source/img/**",
-    "source/js/**"
+    "source/js/**",
+    "source/css/**"
   ], {
     base: "source"
   })
@@ -87,15 +88,15 @@ gulp.task("serve", function() {
     ui: false
   });
 
-  gulp.watch("source/less/**/*.less", ["style"]);
+  gulp.watch("source/sass/**/*.{scss,sass}", ["style"]);
   gulp.watch("source/*.html", ["html"]).on("change", server.reload);
 });
 
 gulp.task("build", function (done) {
   run("clean",
-      "copy",
-      "style",
-      "sprite",
-      "html",
-      done);
+    "copy",
+    "style",
+    "sprite",
+    "html",
+    done);
 });

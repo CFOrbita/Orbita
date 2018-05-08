@@ -3,11 +3,81 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Cat Energy</title>
+    <title>Orbita</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">    <script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.min.css">
-    <script src="js/picturefill.min.js"></script>
   </head>
   <body>
-
+      <header class="header">
+          <div class="header-menu">
+              <span class="toggle-button">
+                 <div class="menu-bar menu-bar-top"></div>
+                 <div class="menu-bar menu-bar-middle"></div>
+                 <div class="menu-bar menu-bar-bottom"></div>
+              </span>
+              <div class="menu-wrap">
+                  <div class="menu-sidebar">
+                      <ul class="menu">
+                          <li><a href="#">Зал</a></li>
+                          <li class="menu-item-has-children training"><a href="#">Тренировка</a>
+                            <span class="sidebar-menu-arrow">
+                               <i class=" fas fa-angle-down fa-sm"></i>
+                            </span>
+                              <ul class="sub-menu">
+                                  <li><a href="#">Дневник</a></li>
+                                  <li><a href="#">Комплексы</a></li>
+                                  <li><a href="#">Питание</a></li>
+                              </ul>
+                          </li>
+                          <li><a href="#">Shop</a></li>
+                          <li><a href="#">Контакты</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+        <div class="wrapper">
+          <section class="text">
+            <a class="header-title" href="#">Orbita</a>
+            <div class="header-user">
+              <i class="far fa-user fa-2x"></i>
+              <span class="header-user__arrow">
+                <i class="fas fa-angle-down fa-sm "></i>
+              </span>
+              <ul class="header-user__menu hide" id="user-menu">
+                <li class="user-menu__item"><a href="#">Войти</a></li>
+                <li class="user-menu__item"><a href="#">Зарегистрироваться</a></li>
+                <li class="user-menu__item"><a href="#">Через соцсеть</a></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+        <div class="md-modal md-effect-9" id="modal-9">
+          <div class="md-content">
+            <h3>Modal Dialog</h3>
+            <div>
+              <p>This is a modal window. You can do the following things with it:</p>
+              <ul>
+                <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
+                <li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
+                <li><strong>Close:</strong> click on the button below to close the modal.</li>
+              </ul>
+              <button class="md-close">Close me!</button>
+            </div>
+          </div>
+        </div>
+        <button class="md-trigger" data-modal="modal-9">3D Flip (vertical)</button>
+             </header>
+      <div class="md-overlay"></div><!-- the overlay element -->
+    <script src="js/scripts.js"></script>
+      <script src="js/modernizr.custom.js"></script>
+      <script src="js/classie.js"></script>
+      <script src="js/modalEffects.js"></script>
+      <script src="js/cssParser.js"></script>
+      <script src="js/css-filters-polyfill.js"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>
 </html>

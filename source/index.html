@@ -42,41 +42,67 @@
           <section class="text">
             <a class="header-title" href="#">Orbita</a>
             <div class="header-user">
-              <i class="far fa-user fa-2x"></i>
+              <i class="far fa-user fa-2x user-icon"></i>
               <span class="header-user__arrow">
-                <i class="fas fa-angle-down fa-sm "></i>
+                <i class="fas fa-angle-down fa-sm arrdown-icon"></i>
               </span>
               <ul class="header-user__menu hide" id="user-menu">
-                <li class="user-menu__item"><a href="#">Войти</a></li>
-                <li class="user-menu__item"><a href="#">Зарегистрироваться</a></li>
+                <li class="user-menu__item"><a href="#" class="login" data-toggle="modal" data-target="#exampleModalCenter">Войти</a></li>
+                <li class="user-menu__item"><a href="#" class="reg" data-toggle="modal" data-target="#exampleModalCenter">Зарегистрироваться</a></li>
                 <li class="user-menu__item"><a href="#">Через соцсеть</a></li>
               </ul>
             </div>
           </section>
         </div>
-        <div class="md-modal md-effect-9" id="modal-9">
-          <div class="md-content">
-            <h3>Modal Dialog</h3>
-            <div>
-              <p>This is a modal window. You can do the following things with it:</p>
-              <ul>
-                <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-                <li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
-                <li><strong>Close:</strong> click on the button below to close the modal.</li>
-              </ul>
-              <button class="md-close">Close me!</button>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <form action="post" class="materialContainer">
+                     <div class="box">
+                        <div class="title">Вход</div>
+                           <div class="input">
+                             <label for="name">Логин</label>
+                              <input type="text" name="name" id="name">
+                              <span class="spin"></span>
+                           </div>
+                           <div class="input">
+                              <label for="pass">Пароль</label>
+                              <input type="password" name="pass" id="pass">
+                              <span class="spin"></span>
+                           </div>
+                           <div class="button login">
+                             <button><span>ВЖУХ</span> <i class="fa fa-check"></i></button>
+                           </div>
+                           <a href="" class="pass-forgot">Забыли пароль?</a>
+                        </div>
+                        <div class="overbox">
+                            <div class="material-button alt-2"><span class="shape"></span></div>
+                            <div class="title">Регистрация</div>
+                            <div class="input">
+                              <label for="regname">E-mail</label>
+                              <input type="text" name="regname" id="regname">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input">
+                              <label for="regpass">Пароль</label>
+                              <input type="password" name="regpass" id="regpass">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input">
+                              <label for="reregpass">Повторите пароль</label>
+                              <input type="password" name="reregpass" id="reregpass">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="button">
+                              <button><span>Далее</span></button>
+                            </div>
+                        </div>
+                  </form>
+                </div>
             </div>
-          </div>
         </div>
-        <button class="md-trigger" data-modal="modal-9">3D Flip (vertical)</button>
-             </header>
-      <div class="md-overlay"></div><!-- the overlay element -->
+      </header>
     <script src="js/scripts.js"></script>
-      <script src="js/modernizr.custom.js"></script>
-      <script src="js/classie.js"></script>
-      <script src="js/modalEffects.js"></script>
-      <script src="js/cssParser.js"></script>
-      <script src="js/css-filters-polyfill.js"></script>
       <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>

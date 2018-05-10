@@ -8,6 +8,14 @@
   position: relative;
 }
 
+.user-icon:hover {
+  color: #ed2553;
+}
+
+.arrdown-icon:hover {
+  color: #ed2553;
+}
+
 .header-user__arrow {
   cursor: pointer;
 }
@@ -53,7 +61,7 @@
   width: 100%;
   left: 50%;
   transform: translate(-50%);
-  background-image: linear-gradient(to right, transparent 50.3%, black 50.3%);
+  background-image: linear-gradient(to right, transparent 50.3%, $electromagnetic 50.3%);
   transition: background-position .2s .1s ease-out;
   background-size: 200% auto;
 }

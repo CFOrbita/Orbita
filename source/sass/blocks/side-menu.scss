@@ -1,15 +1,10 @@
-::selection {
-  background-color: #EBEBF2;
-  color: #83828D;
-}
-
 
 /* ==================================== */
 /*		  	  Navigaton Menu
 /* ==================================== */
 
 .menu-wrap {
-  background-color: #6968AB;
+  background-color: $electromagnetic;
   position: fixed;
   top: 0;
   height: 100%;
@@ -47,7 +42,7 @@
   width: 100%;
   left: 50%;
   transform: translate(-50%);
-  background-image: linear-gradient(to right, transparent 50.3%, #FFFA3B 50.3%);
+  background-image: linear-gradient(to right, transparent 50.3%, #ed2553 50.3%);
   transition: background-position .2s .1s ease-out;
   background-size: 200% auto;
 }

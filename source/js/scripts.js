@@ -123,7 +123,7 @@ $(function() {
     }
   })
 
-  $(".material-button, .reg").click(function() {
+  $(".material-button").click(function() {
 
     if ($(this).hasClass('material-button')) {
       setTimeout(function() {
@@ -158,5 +158,8 @@ $(function() {
     }
   });
 
+  $(".reg").click(function() {
+    $(".material-button").click()
+  })
 });
 //

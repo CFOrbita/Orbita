@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Orbita</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.min.css">
+  </head>
+  <body>
+      <header class="header">
+          <div class="header-menu">
+              <span class="toggle-button">
+                 <div class="menu-bar menu-bar-top"></div>
+                 <div class="menu-bar menu-bar-middle"></div>
+                 <div class="menu-bar menu-bar-bottom"></div>
+              </span>
+              <div class="menu-wrap">
+                  <div class="menu-sidebar">
+                      <ul class="menu">
+                          <li><a href="#">Зал</a></li>
+                          <li class="menu-item-has-children training"><a href="#">Тренировка</a>
+                            <span class="sidebar-menu-arrow">
+                               <i class=" fas fa-angle-down fa-sm"></i>
+                            </span>
+                              <ul class="sub-menu">
+                                  <li><a href="#">Дневник</a></li>
+                                  <li><a href="#">Комплексы</a></li>
+                                  <li><a href="#">Питание</a></li>
+                              </ul>
+                          </li>
+                          <li><a href="#">Shop</a></li>
+                          <li><a href="#">Контакты</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+        <div class="wrapper">
+          <section class="text">
+            <a class="header-title" href="#">Orbita</a>
+            <div class="header-user">
+              <i class="far fa-user fa-2x user-icon"></i>
+              <span class="header-user__arrow">
+                <i class="fas fa-angle-down fa-sm arrdown-icon"></i>
+              </span>
+              <ul class="header-user__menu hide" id="user-menu">
+                <li class="user-menu__item"><a href="#" class="login" data-toggle="modal" data-target="#exampleModalCenter">Войти</a></li>
+                <li class="user-menu__item"><a href="#" class="reg" data-toggle="modal" data-target="#exampleModalCenter">Зарегистрироваться</a></li>
+                <li class="user-menu__item"><a href="#">Через соцсеть</a></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <form action="post" class="materialContainer">
+                     <div class="box">
+                        <div class="title">Вход</div>
+                           <div class="input input-log">
+                             <label for="name">Логин</label>
+                              <input type="text" name="name" id="name">
+                              <span class="spin"></span>
+                           </div>
+                           <div class="input input-pass">
+                              <label for="pass">Пароль</label>
+                              <input type="password" name="pass" id="pass">
+                              <span class="spin"></span>
+                           </div>
+                             <button class="button button-login">ВЖУХ <i class="fa fa-check"></i></button>
+                           <a href="forgot-pass.html" class="pass-forgot">Забыли пароль?</a>
+                        </div>
+                        <div class="overbox">
+                            <div class="material-button alt-2"><span class="shape"></span></div>
+                            <div class="title">Регистрация</div>
+                            <div class="input input-email">
+                              <label for="regname">E-mail</label>
+                              <input type="text" name="regname" id="regname">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input input-username">
+                              <label for="username">Имя</label>
+                              <input type="text" name="username" id="username">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input input-regpass">
+                              <label for="regpass">Пароль</label>
+                              <input type="password" name="regpass" id="regpass">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input input-reregpass">
+                              <label for="reregpass">Повторите пароль</label>
+                              <input type="password" name="reregpass" id="reregpass">
+                              <span class="spin"></span>
+                            </div>
+                          <button class="button button-reg">Далее <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                  </form>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center">Нужно войти в личный кабинет или зарегестрироваться
+          (справа в углу)</p>
+      </header>
+      <script src="js/scripts.js"></script>
+      <script defer="" src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

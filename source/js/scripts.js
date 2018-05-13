@@ -69,30 +69,13 @@ $(function() {
         $("label", this).css({
           "line-height": "60px",
           "font-size": "24px",
-          "font-weight": "300",
+          "font-weight": "600",
           "top": "10px"
         })
       });
 
     }
   });
-
-  $(".button").click(function(e) {
-    var pX = e.pageX,
-      pY = e.pageY,
-      oX = parseInt($(this).offset().left),
-      oY = parseInt($(this).offset().top);
-
-    $(this).append('<span class="click-efect x-' + oX + ' y-' + oY + '" style="margin-left:' + (pX - oX) + 'px;margin-top:' + (pY - oY) + 'px;"></span>')
-    $('.x-' + oX + '.y-' + oY + '').animate({
-      "width": "500px",
-      "height": "500px",
-      "top": "-250px",
-      "left": "-250px",
-
-    }, 600);
-    $("button", this).addClass('active');
-  })
 
   $(".alt-2").click(function() {
     if (!$(this).hasClass('material-button')) {
@@ -134,7 +117,7 @@ $(function() {
       }, 200)
       $(this).addClass('active').animate({
         "width": "700px",
-        "height": "700px"
+        "height": "900px"
       });
 
       setTimeout(function() {
@@ -161,5 +144,6 @@ $(function() {
   $(".reg").click(function() {
     $(".material-button").click()
   })
+
 });
 //

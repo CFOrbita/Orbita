@@ -1,0 +1,22 @@
+.fa-check {
+  position: absolute;
+  opacity: 0;
+  top: 22px;
+  left: 45%;
+  transition: 0.5s;
+}
+
+.fa-arrow-right {
+  position: absolute;
+  opacity: 0;
+  top: 26px;
+  left: 70%;
+  transition: 0.3s;
+}
+
+.fa-sync-alt {
+  position: absolute;
+  top: 26px;
+  left: 82%;
+  transition: 0.3s;
+}

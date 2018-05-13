@@ -32,7 +32,9 @@
   color: #f3f3f3;
   font-size: 1.18em;
   position: relative;
+
 }
+
 .menu-sidebar li > a::after {
   content: "";
   display: block;
@@ -126,28 +128,10 @@
 }
 
 /* Text Block */
-.wrapper {
-  color: #83828D;
-}
-
 .wrapper .text {
   display: flex;
-  padding: 10px 35px;
   width: 100%;
   align-items: center;
   padding: 10px 35px;
+  padding-top: 18px;
 }
-
-.wrapper .text .heading {
-  margin-bottom: 40px;
-  font-size: 2em;
-}
-.wrapper .text p {
-  line-height: 1.6em;
-}
-.wrapper .text .buttons {
-  margin-top: 40px;
-}
-
-
-

@@ -2,7 +2,9 @@
 @import "blocks/side-menu.scss";
 @import "blocks/header.scss";
 @import "blocks/login.scss";
-
+@import "blocks/forgot-pass.scss";
+@import "blocks/button.scss";
+@import "blocks/button-elements.scss";
 
 
 @font-face {
@@ -28,6 +30,7 @@ li {
 }
 * {
   box-sizing: border-box;
+
 }
 
 .show {

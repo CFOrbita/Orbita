@@ -1,0 +1,90 @@
+.button {
+  font-family: "ProximaNova-Light", Serif;
+  display: block;
+  vertical-align: top;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: #fff;
+  color: #ED2553;
+  border: none;
+  outline: none;
+  z-index: 2;
+  transition: 0.3s;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.button-login {
+  padding: 10px 80px;
+  line-height: 50px;
+  left: 20%;
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  font-weight: 900;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.2);
+  margin-bottom: 30px;
+
+  &:hover {
+    color: #ED2553;
+    border: 2px solid #ED2553;
+  }
+
+  &:active {
+    color: transparent;
+  }
+
+  &:active .fa-check{
+    opacity: 1;
+    font-size: 150%;
+  }
+}
+
+.button-reg {
+  display: none;
+  line-height: 50px;
+  margin: 0 auto;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  font-size: 18px;
+  color: #ED2553;
+  z-index: 111;
+  padding: 10px 80px;
+
+  &:active .fa-arrow-right{
+    opacity: 1;
+    left: 75%;
+  }
+}
+
+.button-refresh {
+  padding: 10px 46px;
+  max-width: 245px;
+  line-height: 50px;
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  font-weight: 900;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
+
+  &:hover {
+    color: #ED2553;
+    border: 2px solid #ED2553;
+  }
+
+  &:active .fa-sync-alt {
+    transform:  rotate(360deg);
+  }
+}
+
+
+
+

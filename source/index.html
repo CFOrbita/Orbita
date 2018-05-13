@@ -60,50 +60,53 @@
                   <form action="post" class="materialContainer">
                      <div class="box">
                         <div class="title">Вход</div>
-                           <div class="input">
+                           <div class="input input-log">
                              <label for="name">Логин</label>
                               <input type="text" name="name" id="name">
                               <span class="spin"></span>
                            </div>
-                           <div class="input">
+                           <div class="input input-pass">
                               <label for="pass">Пароль</label>
                               <input type="password" name="pass" id="pass">
                               <span class="spin"></span>
                            </div>
-                           <div class="button login">
-                             <button><span>ВЖУХ</span> <i class="fa fa-check"></i></button>
-                           </div>
-                           <a href="" class="pass-forgot">Забыли пароль?</a>
+                             <button class="button button-login">ВЖУХ <i class="fa fa-check"></i></button>
+                           <a href="forgot-pass.html" class="pass-forgot">Забыли пароль?</a>
                         </div>
                         <div class="overbox">
                             <div class="material-button alt-2"><span class="shape"></span></div>
                             <div class="title">Регистрация</div>
-                            <div class="input">
+                            <div class="input input-email">
                               <label for="regname">E-mail</label>
                               <input type="text" name="regname" id="regname">
                               <span class="spin"></span>
                             </div>
-                            <div class="input">
+                            <div class="input input-username">
+                              <label for="username">Имя</label>
+                              <input type="text" name="username" id="username">
+                              <span class="spin"></span>
+                            </div>
+                            <div class="input input-regpass">
                               <label for="regpass">Пароль</label>
                               <input type="password" name="regpass" id="regpass">
                               <span class="spin"></span>
                             </div>
-                            <div class="input">
+                            <div class="input input-reregpass">
                               <label for="reregpass">Повторите пароль</label>
                               <input type="password" name="reregpass" id="reregpass">
                               <span class="spin"></span>
                             </div>
-                            <div class="button">
-                              <button><span>Далее</span></button>
-                            </div>
+                          <button class="button button-reg">Далее <i class="fas fa-arrow-right"></i></button>
                         </div>
                   </form>
                 </div>
             </div>
         </div>
+        <p style="text-align: center">Нужно войти в личный кабинет или зарегестрироваться
+          (справа в углу)</p>
       </header>
-    <script src="js/scripts.js"></script>
+      <script src="js/scripts.js"></script>
       <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>
 </html>

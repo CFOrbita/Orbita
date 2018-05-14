@@ -25,7 +25,7 @@ $(document).ready(function() {
 
 /*Для header-user*/
 
-$('.header-user__arrow').click(function(e) {
+$('.header-user').click(function(e) {
   var $block = $('.header-user__menu');
 
   if ($block.css('display') != 'block') {
@@ -68,7 +68,7 @@ $(function() {
       $(this).parent(".input").each(function() {
         $("label", this).css({
           "line-height": "60px",
-          "font-size": "24px",
+          "font-size": "22",
           "font-weight": "600",
           "top": "10px"
         })
@@ -82,6 +82,7 @@ $(function() {
       $(".shape").css({
         "width": "100%",
         "height": "100%",
+        "right": "0",
         "transform": "rotate(0deg)"
       })
       setTimeout(function() {
@@ -124,12 +125,13 @@ $(function() {
         $(".shape").css({
           "width": "50%",
           "height": "50%",
+          "right": "15px",
           "transform": "rotate(45deg)"
         })
 
         $(".overbox .title").fadeIn(300);
         $(".overbox .input").fadeIn(300);
-        $(".overbox .button").fadeIn(300);
+        $(".overbox .button").fadeIn().css("display","block");
       }, 700)
 
       $(this).removeClass('material-button');
@@ -144,6 +146,5 @@ $(function() {
   $(".reg").click(function() {
     $(".material-button").click()
   })
-
 });
 //

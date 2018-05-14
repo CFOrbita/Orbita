@@ -1,0 +1,19 @@
+.edit-profile__wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-info {
+  max-width: 600px;
+  padding-left: 40px;
+}
+
+.another-info {
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.input-firstname {
+  margin: 0;
+}

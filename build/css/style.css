@@ -43,8 +43,8 @@
   left: 50%;
   -webkit-transform: translate(-50%);
           transform: translate(-50%);
-  background-image: -webkit-gradient(linear, left top, right top, color-stop(50.3%, transparent), color-stop(50.3%, #ed2553));
-  background-image: linear-gradient(to right, transparent 50.3%, #ed2553 50.3%);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(50.3%, transparent), color-stop(50.3%, white));
+  background-image: linear-gradient(to right, transparent 50.3%, white 50.3%);
   -webkit-transition: background-position .2s .1s ease-out;
   transition: background-position .2s .1s ease-out;
   background-size: 200% auto; }
@@ -155,10 +155,11 @@
   position: relative; }
 
 .user-icon:hover {
-  color: #ed2553; }
+  color: gray;
+  cursor: pointer; }
 
 .arrdown-icon:hover {
-  color: #ed2553; }
+  color: #636e72; }
 
 .header-user__arrow {
   cursor: pointer; }
@@ -166,12 +167,13 @@
 .header-user__menu {
   position: absolute;
   content: '';
-  top: 40px;
+  top: 45px;
   right: -16px;
   padding: 10px;
   padding-top: 0;
+  padding-bottom: 20px;
   border-radius: 5px;
-  height: 150px;
+  min-height: 105px;
   -webkit-box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
   -webkit-transition: 0.2s;
@@ -185,8 +187,8 @@
 .user-menu__item:first-child::before {
   content: '';
   position: absolute;
-  top: -22px;
-  right: -4px;
+  top: -16px;
+  right: -1px;
   border: 11px solid transparent;
   border-bottom: 11px solid white; }
 
@@ -216,9 +218,9 @@
   position: relative;
   top: 0;
   opacity: 1;
-  float: left;
+  margin: 0 auto;
   padding: 60px 50px 40px 50px;
-  width: 100%;
+  width: 80%;
   background: #fff;
   border-radius: 10px;
   transform: scale(1);
@@ -249,10 +251,10 @@
   z-index: -1; }
 
 .overbox .title {
-  color: #fff; }
+  color: black; }
 
 .overbox .title:before {
-  background: #fff; }
+  background: black; }
 
 .title {
   width: 100%;
@@ -261,7 +263,7 @@
   font-size: 34px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #ED2553;
+  color: black;
   position: relative; }
 
 .title:before {
@@ -271,7 +273,7 @@
   position: absolute;
   top: 0;
   left: -50px;
-  background: #ED2553; }
+  background: black; }
 
 .input,
 .input label,
@@ -319,8 +321,8 @@
 .input label,
 .button button {
   font-family: "ProximaNova-Light", Serif;
-  font-size: 24px;
-  color: rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+  color: #636e72;
   font-weight: 600;
   outline: none; }
 
@@ -341,15 +343,15 @@
   z-index: 3; }
 
 .input .spin {
-  background: #ED2553;
+  background: black;
   z-index: 4;
   width: 0; }
 
 .overbox .input .spin {
-  background: white; }
+  background: black; }
 
 .overbox .input:before {
-  background: rgba(255, 255, 255, 0.5); }
+  background: #bdc3c7; }
 
 .input label {
   position: absolute;
@@ -367,11 +369,11 @@
   font-size: 18px; }
 
 .overbox {
-  width: 100%;
+  width: 80%;
   height: 100%;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 45px;
   overflow: inherit;
   border-radius: 10px;
   padding: 60px 50px 40px 50px; }
@@ -380,7 +382,7 @@
 .overbox .input {
   z-index: 111;
   position: relative;
-  color: #fff !important;
+  color: black;
   display: none; }
 
 .overbox .title {
@@ -391,7 +393,7 @@
 
 .overbox .input input,
 .overbox .input label {
-  color: #fff; }
+  color: #636e72; }
 
 .overbox .material-button,
 .overbox .material-button .shape,
@@ -404,10 +406,10 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: #ed2553;
+  background: #f1f2f6;
   position: absolute;
   top: 40px;
-  right: -30px;
+  right: -35px;
   cursor: pointer;
   z-index: 11;
   transform: translate(0%, 0%);
@@ -427,7 +429,7 @@
 .material-button .shape:after,
 .alt-2 .shape:after {
   content: "";
-  background: #fff;
+  background: gray;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -489,7 +491,7 @@
   text-transform: uppercase;
   text-decoration: none;
   background-color: #fff;
-  color: #ED2553;
+  color: black;
   border: none;
   outline: none;
   z-index: 2;
@@ -499,9 +501,10 @@
     outline: none; }
 
 .button-login {
-  padding: 10px 80px;
+  padding: 10px 0;
+  width: 100%;
   line-height: 50px;
-  left: 20%;
+  margin: 0 auto;
   background-color: transparent;
   border: 2px solid rgba(0, 0, 0, 0.1);
   font-weight: 900;
@@ -509,8 +512,8 @@
   color: rgba(0, 0, 0, 0.2);
   margin-bottom: 30px; }
   .button-login:hover {
-    color: #ED2553;
-    border: 2px solid #ED2553; }
+    color: #636e72;
+    border: 2px solid #636e72; }
   .button-login:active {
     color: transparent; }
   .button-login:active .fa-check {
@@ -525,12 +528,15 @@
   border: 2px solid rgba(0, 0, 0, 0.1);
   font-weight: bold;
   font-size: 18px;
-  color: #ED2553;
+  color: #636e72;
   z-index: 111;
-  padding: 10px 80px; }
+  padding: 5px 0;
+  width: 100%; }
+  .button-reg:active {
+    color: transparent; }
   .button-reg:active .fa-arrow-right {
     opacity: 1;
-    left: 75%; }
+    left: 50%; }
 
 .button-refresh {
   padding: 10px 46px;
@@ -543,11 +549,25 @@
   color: rgba(0, 0, 0, 0.2);
   margin: 0 auto; }
   .button-refresh:hover {
-    color: #ED2553;
-    border: 2px solid #ED2553; }
+    color: #636e72;
+    border: 2px solid #636e72; }
+  .button-refresh:active {
+    color: transparent; }
   .button-refresh:active .fa-sync-alt {
+    opacity: 1;
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); }
+
+.button-avatar {
+  padding: 10px 41px;
+  max-width: 182px;
+  line-height: 20px;
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.2);
+  margin: 0 auto; }
 
 .fa-check {
   position: absolute;
@@ -560,17 +580,114 @@
 .fa-arrow-right {
   position: absolute;
   opacity: 0;
-  top: 26px;
-  left: 70%;
+  top: 22px;
+  left: 30%;
   -webkit-transition: 0.3s;
   transition: 0.3s; }
 
 .fa-sync-alt {
+  opacity: 0;
   position: absolute;
   top: 26px;
-  left: 82%;
+  left: 46%;
   -webkit-transition: 0.3s;
   transition: 0.3s; }
+
+.breadcrumb {
+  position: relative;
+  background-color: transparent;
+  padding: 10px 40px; }
+
+.breadcrumb::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #f1f2f6; }
+
+.breadcrumb::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #f1f2f6; }
+
+.avatar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  max-width: 182px; }
+
+.avatar__img {
+  position: relative;
+  width: 182px;
+  height: 182px;
+  border: 1px solid #636e72;
+  border-radius: 3px;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #f1f2f6;
+  background: url("../img/default_avatar-gray.png") no-repeat;
+  background-size: 100%;
+  background-position: 50%;
+  margin-bottom: 35px; }
+
+.avatar__upload {
+  position: relative; }
+
+.avatar__input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  z-index: 3; }
+  .avatar__input:hover + .button-avatar {
+    color: #636e72;
+    border: 2px solid #636e72; }
+
+.avatar__text {
+  padding-top: 40px;
+  margin: 0; }
+
+.edit-profile__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.main-info {
+  max-width: 600px;
+  padding-left: 40px; }
+
+.another-info {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.input-firstname {
+  margin: 0; }
 
 @font-face {
   font-family: "ProximaNova-Light";

@@ -2,9 +2,9 @@
   position: relative;
   top: 0;
   opacity: 1;
-  float: left;
+  margin: 0 auto;
   padding: 60px 50px 40px 50px;
-  width: 100%;
+  width: 80%;
   background: #fff;
   border-radius: 10px;
   transform: scale(1);
@@ -38,11 +38,11 @@
 }
 
 .overbox .title {
-  color: #fff;
+  color: black;
 }
 
 .overbox .title:before {
-  background: #fff;
+  background: black;
 }
 
 .title {
@@ -52,7 +52,7 @@
   font-size: 34px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #ED2553;
+  color: black;
   position: relative;
 }
 
@@ -63,7 +63,7 @@
   position: absolute;
   top: 0;
   left: -50px;
-  background: #ED2553;
+  background: black;
 }
 
 .input,
@@ -118,8 +118,8 @@
 .input label,
 .button button {
   font-family: "ProximaNova-Light", Serif;
-  font-size: 24px;
-  color: rgba(0, 0, 0, 0.8);
+  font-size: 20px;
+  color: #636e72;
   font-weight: 600;
   outline:  none;
 }
@@ -144,17 +144,17 @@
 }
 
 .input .spin {
-  background: #ED2553;
+  background: black;
   z-index: 4;
   width: 0;
 }
 
 .overbox .input .spin {
-  background: rgba(255, 255, 255, 1);
+  background: black;
 }
 
 .overbox .input:before {
-  background: rgba(255, 255, 255, 0.5);
+  background: #bdc3c7;
 }
 
 .input label {
@@ -175,11 +175,11 @@
 }
 
 .overbox {
-  width: 100%;
+  width: 80%;
   height: 100%;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 45px;
   overflow: inherit;
   border-radius: 10px;
   padding: 60px 50px 40px 50px;
@@ -189,7 +189,7 @@
 .overbox .input {
   z-index: 111;
   position: relative;
-  color: #fff !important;
+  color: black;
   display: none;
 }
 
@@ -203,7 +203,7 @@
 
 .overbox .input input,
 .overbox .input label {
-  color: #fff;
+  color: #636e72;
 }
 
 .overbox .material-button,
@@ -218,10 +218,10 @@
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: #ed2553;
+  background: #f1f2f6;
   position: absolute;
   top: 40px;
-  right: -30px;
+  right: -35px;
   cursor: pointer;
   z-index: 11;
   transform: translate(0%, 0%);
@@ -243,7 +243,7 @@
 .material-button .shape:after,
 .alt-2 .shape:after {
   content: "";
-  background: #fff;
+  background: gray;
   position: absolute;
   top: 50%;
   left: 50%;

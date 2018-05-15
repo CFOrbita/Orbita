@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -47,7 +47,10 @@
                 <i class="fas fa-angle-down fa-sm arrdown-icon"></i>
               </span>
               <ul class="header-user__menu edit-menu hide" id="user-menu">
-                <li class="user-menu__item"><a href="#" class="user-menu__item--link profile">Профиль</a></li>
+                <li class="user-menu__item"><a href="#" class="user-menu__item--link own-cart">Личная карта</a></li>
+                <li class="user-menu__item"><a href="#" class="user-menu__item--link edit">Редактирвоать</a></li>
+                <li class="user-menu__item"><a href="#" class="user-menu__item--link privacy">Приватность</a></li>
+                <li class="user-menu__item"><a href="#" class="user-menu__item--link help">Помощь</a></li>
                 <li class="user-menu__item"><a href="#" class="user-menu__item--link exit">Выйти</a></li>
               </ul>
             </div>
@@ -63,56 +66,64 @@
           </nav>
           <section class="edit-profile container">
               <h1 class="edit-title">Настройки профиля</h1>
-              <div class="edit-profile__wrapper">
-                  <div class="edit-profile__avatar avatar">
-                      <div class="avatar__img"></div>
-                      <div class="avatar__upload">
-                        <input class="avatar__input" type="file" name="upload" id="upload" accept="image/jpg, image/jpeg, image/png">
-                        <button class="button button-avatar" type="submit">Загрузить</button>
+              <div class="wrapper">
+                  <form action="#" method="post" class="edit-profile__wrapper">
+                      <div class="edit-profile__block edit-profile__left">
+                          <div class="edit-profile__avatar avatar">
+                              <div class="avatar__img"></div>
+                              <div class="avatar__upload">
+                                <input class="avatar__input" type="file" name="upload" id="upload" accept="image/jpg, image/jpeg, image/png">
+                                <button class="button button-avatar" type="submit">Загрузить</button>
+                              </div>
+                            <p class="avatar__text">Рекомендованный размер фото - не менее 200x200 px, jpg, png.</p>
+                          </div>
+                          <div class="edit-profile__calendar input">
+                              <label for="datapicker">Дата рождениия</label>
+                              <input type='text' class="datepicker-here calendar" data-position="right bottom" id="datapicker"/>
+                              <span class="spin"></span>
+                          </div>
                       </div>
-                    <p class="avatar__text">Рекомендованный размер фото - не менее 200x200 px, jpg, png.</p>
-                  </div>
-                  <div class="edit-profile__info main-info">
-                      <div class="input input-firstname">
-                        <label for="firstname">Имя</label>
-                        <input type="text" name="firstname" id="firstname">
-                        <span class="spin"></span>
+                      <div class="edit-profile__block edit-profile__right">
+                           <div  class="edit-profile__info">
+                               <div class="input input-firstname">
+                                 <label for="firstname">Имя</label>
+                                 <input type="text" name="firstname" id="firstname">
+                                 <span class="spin"></span>
+                               </div>
+                               <div class="input input-lastname">
+                                 <label for="lastname">Фамилия</label>
+                                 <input type="text" name="lastname" id="lastname">
+                                 <span class="spin"></span>
+                               </div>
+                               <div class="input input-city">
+                                 <label for="city">Город</label>
+                                 <input type="text" name="city" id="city">
+                                 <span class="spin"></span>
+                               </div>
+                               <div class="input input-club">
+                                 <label for="club">Клуб</label>
+                                 <input type="text" name="club" id="club">
+                                 <span class="spin"></span>
+                               </div>
+                               <div class="input input-email">
+                                 <label for="email">Email</label>
+                                 <input type="email" name="email" id="email">
+                                 <span class="spin"></span>
+                               </div>
+                               <div class="input input-phone">
+                                 <label for="phone">Номер телефона</label>
+                                 <input type="tel" name="phone" id="phone">
+                                 <span class="spin"></span>
+                               </div>
+                           </div>
                       </div>
-                      <div class="input input-lastname">
-                        <label for="lastname">Фамилия</label>
-                        <input type="text" name="lastname" id="lastname">
-                        <span class="spin"></span>
-                      </div>
-                      <div class="input input-city">
-                        <label for="city">Город</label>
-                        <input type="text" name="city" id="city">
-                        <span class="spin"></span>
-                      </div>
-                      <div class="input input-club">
-                        <label for="club">Клуб</label>
-                        <input type="text" name="club" id="club">
-                        <span class="spin"></span>
-                      </div>
-                  </div>
+                  </form>
+                  <button type="submit" class="button button-edit-save">Сохранить<i class="fa fa-check"></i></button>
               </div>
-            <div class="edit-profile__wrapper another-info">
-                <div class="input input-email">
-                  <label for="email">Email</label>
-                  <input type="email" name="email" id="email">
-                  <span class="spin"></span>
-                </div>
-                <div class="input input-phone">
-                  <label for="phone">Номер телефона</label>
-                  <input type="tel" name="phone" id="phone">
-                  <span class="spin"></span>
-                </div>
-              <form action="#" method="post">
-                <input class="input" id="age" type="date" min="1920-01-01" max="2000-01-01">
-              </form>
-            </div>
           </section>
       </main>
       <script src="js/scripts.js"></script>
+      <script src="js/datepicker.min.js"></script>
       <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>

@@ -68,7 +68,7 @@ $(function() {
       $(this).parent(".input").each(function() {
         $("label", this).css({
           "line-height": "60px",
-          "font-size": "22",
+          "font-size": "22px",
           "font-weight": "600",
           "top": "10px"
         })
@@ -147,4 +147,13 @@ $(function() {
     $(".material-button").click()
   })
 });
+//
+
+
+//
+// Инициализация
+$('#my-element').datepicker([options])
+
+// Доступ к экземпляру объекта
+$('#my-element').data('datepicker')
 //

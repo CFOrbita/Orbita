@@ -3,15 +3,36 @@
   justify-content: space-between;
 }
 
-.main-info {
+.edit-profile__block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-profile__info {
   max-width: 600px;
   padding-left: 40px;
 }
 
-.another-info {
+.edit-profile__left {
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
 
+.edit-profile__right {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.edit-profile__calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-profile__calendar-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: #636e72;
 }
 
 .input-firstname {

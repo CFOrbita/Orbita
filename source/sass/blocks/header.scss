@@ -33,6 +33,8 @@
   min-height: 105px;
   box-shadow: 0 2px 15px 0 rgba(0,0,0,.2);
   transition: 0.2s;
+  background-color: white;
+  z-index: 99;
 }
 
 .user-menu__item {
@@ -70,4 +72,19 @@
 
 .user-menu__item > a:hover::after {
   background-position: -100% 0;
+}
+
+.user-menu__item {
+  position: relative;
+}
+
+.user-menu__item:nth-child(2)::before,
+.user-menu__item:last-child::before{
+  position: absolute;
+  content: '';
+  top: 7px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #e5e5e5;
 }

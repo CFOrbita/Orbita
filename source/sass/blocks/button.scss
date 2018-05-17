@@ -109,7 +109,30 @@
 }
 
 .button-edit-save {
-  margin: 0 auto;
+  margin: 85px auto 85px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  padding: 10px 41px;
+
+  &:hover {
+    color: #636e72;
+    border: 2px solid #636e72;
+  }
+
+  &:active {
+    color: transparent;
+  }
+
+  &:active .fa-check{
+    opacity: 1;
+    font-size: 150%;
+    top: 20%;
+  }
+}
+
+.button-wishes {
+
   margin-top: 30px;
   border: 2px solid rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.2);

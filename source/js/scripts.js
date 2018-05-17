@@ -43,8 +43,27 @@ $('.header-user').click(function(e) {
   e.preventDefault();
 });
 
-///////////////
 
+$('.contacts').click(function(e) {
+  let $tooltip = $('.footer__list-tooltip');
+
+
+  if ($tooltip.css('display') != 'block') {
+    $tooltip.show(200);
+
+    var firstClick = true;
+    $(document).bind('click.myEvent', function(e) {
+      if (!firstClick && $(e.target).closest('.footer__list-tooltip').length == 0) {
+        $tooltip.hide(150);
+        $(document).unbind('click.myEvent');
+      }
+      firstClick = false;
+    });
+  }
+  e.preventDefault();
+});
+
+///////////////
 
 // Для логина
 $(function() {
@@ -149,11 +168,10 @@ $(function() {
 });
 //
 
-
 //
 // Инициализация
-$('#my-element').datepicker([options])
+$('#my-element').datepicker([options]);
 
 // Доступ к экземпляру объекта
-$('#my-element').data('datepicker')
+$('#my-element').data('datepicker');
 //

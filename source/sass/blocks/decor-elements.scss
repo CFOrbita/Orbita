@@ -1,0 +1,47 @@
+.success {
+  position: relative;
+ }
+
+.success::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.success-check {
+  position: relative;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  color: #000;
+  transition: .5s;
+  cursor: pointer;
+
+  &:hover {
+    color: #4CAF50;
+  }
+}
+
+.fa-edit {
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: deepskyblue;
+  }
+}
+
+.fa-trash-alt {
+  margin-left: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    color: red;
+  }
+}

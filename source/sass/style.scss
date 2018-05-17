@@ -9,6 +9,11 @@
 @import "blocks/avatar.scss";
 @import "blocks/edit.scss";
 @import "blocks/datepicker.scss";
+@import "blocks/footer.scss";
+@import "blocks/training.scss";
+@import "blocks/card.scss";
+@import "blocks/decor-elements.scss";
+
 
 
 @font-face {
@@ -16,6 +21,12 @@
   src: url("../fonts/ProximaNova-Light.woff2") format("woff2"), url("../fonts/ProximaNova-Light.woff") format("woff");
   font-weight: 400;
   font-display: swap;
+}
+
+
+html,
+body {
+  height: 100%;
 }
 
 body {
@@ -34,7 +45,18 @@ li {
 }
 * {
   box-sizing: border-box;
+}
 
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex: 0 0 auto;
 }
 
 .show {

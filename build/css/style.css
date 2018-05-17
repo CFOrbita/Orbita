@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ==================================== */
 /*		  	  Navigaton Menu
 /* ==================================== */
@@ -146,13 +147,28 @@
   padding: 10px 35px;
   padding-top: 18px; }
 
+.heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-top: 20px;
+  padding-right: 40px; }
+
 .header-title {
-  margin: 0 auto;
+  margin-left: auto;
   font-size: 55px;
-  color: black; }
+  color: black;
+  margin-right: -50px; }
 
 .header-user {
-  position: relative; }
+  position: relative;
+  margin-left: auto; }
 
 .user-icon:hover {
   color: gray;
@@ -162,7 +178,8 @@
   color: #636e72; }
 
 .header-user__arrow {
-  cursor: pointer; }
+  cursor: pointer;
+  margin-left: 5px; }
 
 .header-user__menu {
   position: absolute;
@@ -228,6 +245,36 @@
   width: 100%;
   height: 1px;
   background-color: #e5e5e5; }
+
+/* Для workout.html*/
+.heading--workout {
+  padding-top: 40px;
+  margin-bottom: 45px; }
+
+.heading-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-left: auto;
+  margin-right: -30px;
+  margin-bottom: 0; }
+
+.heading__list-item {
+  margin: 0;
+  margin-right: 30px;
+  text-transform: uppercase;
+  font-size: 16px;
+  -webkit-transition: 0.08s;
+  transition: 0.08s; }
+  .heading__list-item:hover {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1); }
+
+.heading__list-item:last-child {
+  margin-right: 0; }
 
 .box {
   position: relative;
@@ -585,8 +632,7 @@
   margin: 0 auto; }
 
 .button-edit-save {
-  margin: 0 auto;
-  margin-top: 30px;
+  margin: 85px auto 85px;
   border: 2px solid rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.2);
   font-weight: bold;
@@ -597,6 +643,22 @@
   .button-edit-save:active {
     color: transparent; }
   .button-edit-save:active .fa-check {
+    opacity: 1;
+    font-size: 150%;
+    top: 20%; }
+
+.button-wishes {
+  margin-top: 30px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  padding: 10px 41px; }
+  .button-wishes:hover {
+    color: #636e72;
+    border: 2px solid #636e72; }
+  .button-wishes:active {
+    color: transparent; }
+  .button-wishes:active .fa-check {
     opacity: 1;
     font-size: 150%;
     top: 20%; }
@@ -1495,11 +1557,205 @@
   background: none;
   border: none; }
 
+.footer {
+  background-color: #f1f2f6; }
+
+.footer-wrapper {
+  padding: 15px 0; }
+
+.footer__list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto; }
+
+.footer__list-item {
+  position: relative;
+  margin-right: 20px;
+  font-size: 14px; }
+
+.footer__list-item:last-child {
+  margin-right: 0; }
+
+.footer__text {
+  margin: 0;
+  text-align: center;
+  font-size: 12px; }
+
+.pseudo {
+  position: absolute;
+  content: '';
+  bottom: -18px;
+  right: 50%;
+  border: 11px solid transparent;
+  border-top: 11px solid #fff; }
+
+.footer__list-tooltip {
+  position: absolute;
+  display: none;
+  content: '';
+  width: 203px;
+  height: 48px;
+  line-height: 28px;
+  padding: 10px;
+  top: -65px;
+  right: -85px;
+  background-color: white;
+  -webkit-box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2); }
+
+.training {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  max-width: 900px; }
+
+.training-points {
+  width: 30%;
+  margin-top: 40px; }
+
+.training-workout {
+  width: 70%; }
+
+.training-workout__text {
+  text-align: center;
+  cursor: pointer; }
+  .training-workout__text:hover {
+    font-weight: bold; }
+
+.training-points__item {
+  margin-bottom: 20px; }
+  .training-points__item:hover {
+    font-weight: bold; }
+
+.training-points__item:last-child {
+  margin-bottom: 0; }
+
+.card {
+  -webkit-box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2); }
+
+.card-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #f1f2f6; }
+
+.card-header__left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.card-header__right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.card-content__title {
+  font-size: 19px;
+  padding: 10px 20px;
+  margin: 0; }
+
+.card-header__item {
+  position: relative;
+  margin-right: 10px;
+  font-weight: bold;
+  margin-bottom: 0; }
+
+.card-header__item:last-child {
+  margin-right: 0; }
+
+.card-header__item::after {
+  position: absolute;
+  content: '';
+  width: 1px;
+  height: 20px;
+  top: 1px;
+  right: -5px;
+  background-color: gray; }
+
+.card-header__item:nth-child(3)::after {
+  content: none; }
+
+.card-header__item:last-child::after {
+  content: none; }
+
+.card-content__list-item {
+  position: relative;
+  padding: 10px 20px;
+  margin: 0;
+  margin-left: 30px; }
+
+.card-content__list-item::before {
+  position: absolute;
+  content: '';
+  top: 43%;
+  left: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000; }
+
+.success {
+  position: relative; }
+
+.success::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%; }
+
+.success-check {
+  position: relative;
+  opacity: 1;
+  top: 0;
+  left: 0;
+  color: #000;
+  -webkit-transition: .5s;
+  transition: .5s;
+  cursor: pointer; }
+  .success-check:hover {
+    color: #4CAF50; }
+
+.fa-edit {
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s; }
+  .fa-edit:hover {
+    color: deepskyblue; }
+
+.fa-trash-alt {
+  margin-left: 15px;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s; }
+  .fa-trash-alt:hover {
+    color: red; }
+
 @font-face {
   font-family: "ProximaNova-Light";
   src: url("../fonts/ProximaNova-Light.woff2") format("woff2"), url("../fonts/ProximaNova-Light.woff") format("woff");
   font-weight: 400;
   font-display: swap; }
+
+html,
+body {
+  height: 100%; }
 
 body {
   font-family: "ProximaNova-Light", "Arial", Serif; }
@@ -1517,6 +1773,26 @@ li {
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box; }
+
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%; }
+
+.content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto; }
+
+.footer {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto; }
 
 .show {
   display: block; }

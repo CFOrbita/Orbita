@@ -1,0 +1,35 @@
+.training {
+  display: flex;
+  justify-content: space-around;
+  max-width: 900px;
+}
+
+.training-points {
+  width: 30%;
+  margin-top: 40px;
+}
+
+.training-workout {
+  width: 70%;
+}
+
+.training-workout__text {
+  text-align: center;
+  cursor: pointer;
+  
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.training-points__item {
+  margin-bottom: 20px;
+
+  &:hover{
+    font-weight: bold;
+  }
+}
+
+.training-points__item:last-child {
+  margin-bottom: 0;
+}

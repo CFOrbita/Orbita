@@ -69,3 +69,45 @@
   border-radius: 50%;
   background-color: #000;
 }
+//// Для add-workout
+.card-header__func {
+  display: flex;
+  align-items: center;
+}
+
+.card-header__func label {
+  margin-bottom: 0;
+}
+
+.card-label {
+  margin-bottom: 0;
+}
+
+.card-header__func-item {
+  margin-right: 15px;
+}
+
+.card-header__func-item--select {
+  padding: 10px;
+  outline: none;
+}
+
+.card-header__func--input {
+  padding: 10px;
+  border: none;
+  outline: none;
+  max-width: 60px;
+}
+
+.card-content--input {
+  padding: 10px;
+  border: none;
+
+  max-width: 60px;
+}
+
+.card-content__workout {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}

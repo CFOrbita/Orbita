@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Тренировка</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">    <script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.min.css">
+  </head>
+  <body>
+      <div class="wrapper">
+        <div class="content">
+          <header class="header">
+             <div class="header-menu">
+                 <span class="toggle-button">
+                     <div class="menu-bar menu-bar-top"></div>
+                     <div class="menu-bar menu-bar-middle"></div>
+                     <div class="menu-bar menu-bar-bottom"></div>
+                 </span>
+             <div class="menu-wrap">
+             <div class="menu-sidebar">
+             <ul class="menu">
+               <li><a href="#">Зал</a></li>
+               <li class="menu-item-has-children"><a href="workout.html">Тренировка</a>
+                 <span class="sidebar-menu-arrow">
+                   <i class=" fas fa-angle-down fa-sm"></i>
+                 </span>
+                 <ul class="sub-menu">
+                   <li><a href="#">Дневник</a></li>
+                   <li><a href="#">Комплексы</a></li>
+                   <li><a href="#">Питание</a></li>
+                 </ul>
+               </li>
+               <li><a href="#">Shop</a></li>
+               <li><a href="#">Контакты</a></li>
+             </ul>
+             </div>
+             </div>
+             </div>
+            <div class="heading">
+              <a class="header-title" href="#">Orbita</a>
+              <div class="header-user">
+                <i class="far fa-user fa-2x user-icon"></i>
+                <span class="header-user__arrow">
+                  <i class="fas fa-angle-down fa-sm arrdown-icon"></i>
+                </span>
+                <ul class="header-user__menu edit-menu hide" id="user-menu">
+                  <li class="user-menu__item"><a href="#" class="user-menu__item--link own-cart">Личная карта</a></li>
+                  <li class="user-menu__item"><a href="#" class="user-menu__item--link edit">Редактирвоать</a></li>
+                  <li class="user-menu__item"><a href="#" class="user-menu__item--link privacy">Приватность</a></li>
+                  <li class="user-menu__item"><a href="#" class="user-menu__item--link help">Помощь</a></li>
+                  <li class="user-menu__item"><a href="#" class="user-menu__item--link exit">Выйти</a></li>
+                </ul>
+              </div>
+            </div>
+          </header>
+          <main class="main">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Главная</a></li>
+                <li class="breadcrumb-item"><a href="workout.html">Тренировка</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Добавление тренировки</li>
+              </ol>
+            </nav>
+            <section class="add-workout container">
+              <h1 class="add-workout__title">Редактирование</h1>
+              <p class="add-workout__text">На этой странице вносятся изменения в тренировку</p>
+              <form method="post" class="add-workout__form">
+                <div class="add-workout__list card">
+                  <div class="card-item">
+                    <div class="card-header">
+                      <div class="card-header__func card-header--left">
+                        <ul class="card-header__func-item">
+                          <li>
+                            <a href="#" class="card-header__func-menu card-menu">
+                              <h2 class="card-menu__title">Режим</h2>
+                              <ul class="menu-dropdown">
+                                <li>Интервально</li>
+                                <li>ЗКМБР</li>
+                                <li>ЕМОМ</li>
+                                <li>На время</li>
+                              </ul>
+                            </a>
+                          </li>
+                        </ul>
+                        <input class="card-header__func-item card-header__func--input" type="number" placeholder="0" id="time">
+                        <label class="card-header__func-item card-label" for="time">мин.</label>
+                        <div class="card-header__func-item plus"><i class="fas fa-plus add-plus"></i></div>
+                      </div>
+                      <div class="card-header__func card-header--right">
+                        <input class="card-header__func-item done" type="checkbox" id="done">
+                        <label class="card-delete done-text" for="done">Выполнено</label>
+                      </div>
+                    </div>
+                    <div class="card-content">
+                      <div class="card-content__workout">
+                        <div class="input-wrapper">
+                          <label class="card-label" for="reps">Reps</label>
+                          <input class="card-content__workout-item card-content--input" type="number" placeholder="0" id="reps">
+                        </div>
+                        <ul class="card-header__func-item">
+                          <li>
+                            <a href="#" class="card-header__func-menu card-menu">
+                              <h2 class="card-menu__title">Упражнение</h2>
+                              <ul class="menu-dropdown">
+                                <li>Подтягивания</li>
+                                <li> Становая тяга</li>
+                                <li>ЕМОМ</li>
+                                <li>На время</li>
+                              </ul>
+                            </a>
+                          </li>
+                        </ul>
+                        <ul class="card-header__func-item">
+                          <li>
+                            <a href="#" class="card-header__func-menu card-menu">
+                              <h2 class="card-menu__title">Снаряд</h2>
+                              <ul class="menu-dropdown">
+                                <li>штанга</li>
+                                <li>медбол</li>
+                                <li>гиря</li>
+                                <li>гантель</li>
+                                <li>диск</li>
+                                <li>сендбэг</li>
+                              </ul>
+                            </a>
+                          </li>
+                        </ul>
+                        <div class="input-wrapper">
+                          <input class="card-content__workout-item minutes" type="number" placeholder="0" id="minutes">
+                          <label class="minutes-label" for="minutes">мин.</label>
+                        </div>
+                        <div class="card-content__workout-item delete"><i class="fas fa-trash-alt delete-plus"></i></div>
+                      </div>
+                      <div class="card-content card-header--middle">
+                        <textarea placeholder="Для заметок"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </section>
+           </main>
+        </div>
+        <footer class="footer">
+          <div class="footer-wrapper container">
+            <ul class="footer__list">
+              <li class="footer__list-item"><a class="footer__list-link" href="donation.html">Пожертвовать</a></li>
+              <li class="footer__list-item"><a class="footer__list-link" href="wishes.html">Пожелания</a></li>
+              <li class="footer__list-item">
+                <a class="footer__list-link contacts" href="#">Контакты</a>
+                <span class="footer__list-tooltip"><span class="pseudo"></span>E-mail: allahuakbar@jihad.com</span>
+              </li>
+            </ul>
+            <p class="footer__text">Designed by <span>Dimasick</span> & <span>Maxsick</span> </p>
+            <p class="footer__text">2018г. Все права защищены. Перепечатка запрещена.</p>
+          </div>
+        </footer>
+      </div>
+      <script src="js/scripts.js"></script>
+      <script src="js/datepicker.min.js"></script>
+      <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

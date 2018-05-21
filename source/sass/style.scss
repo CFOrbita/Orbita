@@ -13,6 +13,9 @@
 @import "blocks/training.scss";
 @import "blocks/card.scss";
 @import "blocks/decor-elements.scss";
+@import "blocks/wishes.scss";
+@import "blocks/custom-dropdown.scss";
+
 
 
 
@@ -39,6 +42,7 @@ a, a:hover {
 }
 ul {
   padding: 0;
+  margin: 0;
 }
 li {
   list-style: none;
@@ -65,4 +69,10 @@ li {
 
 .hide {
   display: none;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

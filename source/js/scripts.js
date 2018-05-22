@@ -170,8 +170,22 @@ $(function() {
 
 //
 // Инициализация
-$('#my-element').datepicker([options]);
+//$('#my-element').datepicker([options]);
 
 // Доступ к экземпляру объекта
 $('#my-element').data('datepicker');
 //
+
+////// Select add-workout
+$(document).ready(function() {
+
+  $(".selLabel").click(function () {
+    $('.dropdown').toggleClass('active');
+  });
+
+  $(".dropdown-list li").click(function() {
+    $('.selLabel').text($(this).text());
+    $('.dropdown').removeClass('active');
+    $('.selected-item p span').text($('.selLabel').text());
+  });
+});

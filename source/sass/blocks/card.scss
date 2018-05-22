@@ -111,3 +111,12 @@
   align-items: center;
   padding: 20px;
 }
+
+.card-content--add-workout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-content__workout-item {
+  margin-right: 20px;
+}

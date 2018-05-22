@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">    <script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.min.css">
+
   </head>
   <body>
       <div class="wrapper">
@@ -73,19 +74,26 @@
                   <div class="card-item">
                     <div class="card-header">
                       <div class="card-header__func card-header--left">
-                        <ul class="card-header__func-item">
-                          <li>
-                            <a href="#" class="card-header__func-menu card-menu">
-                              <h2 class="card-menu__title">Режим</h2>
-                              <ul class="menu-dropdown">
-                                <li>Интервально</li>
-                                <li>ЗКМБР</li>
-                                <li>ЕМОМ</li>
-                                <li>На время</li>
-                              </ul>
-                            </a>
-                          </li>
-                        </ul>
+                        <div class="card-header__func-item">
+                          <div class="card-header__func-menu dropdown">
+                            <span class="selLabel">Режим</span>
+                            <input type="hidden" name="cd-dropdown">
+                            <ul class="dropdown-list">
+                              <li data-value="1">
+                                <span>Интервально</span>
+                              </li>
+                              <li data-value="2">
+                                <span>ЗКМБР</span>
+                              </li>
+                              <li data-value="3">
+                                <span>ЕМОМ</span>
+                              </li>
+                              <li data-value="4">
+                                <span>На время</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                         <input class="card-header__func-item card-header__func--input" type="number" placeholder="0" id="time">
                         <label class="card-header__func-item card-label" for="time">мин.</label>
                         <div class="card-header__func-item plus"><i class="fas fa-plus add-plus"></i></div>
@@ -95,40 +103,48 @@
                         <label class="card-delete done-text" for="done">Выполнено</label>
                       </div>
                     </div>
-                    <div class="card-content">
+                    <div class="card-content card-content--add-workout">
                       <div class="card-content__workout">
                         <div class="input-wrapper">
                           <label class="card-label" for="reps">Reps</label>
                           <input class="card-content__workout-item card-content--input" type="number" placeholder="0" id="reps">
                         </div>
-                        <ul class="card-header__func-item">
-                          <li>
-                            <a href="#" class="card-header__func-menu card-menu">
-                              <h2 class="card-menu__title">Упражнение</h2>
-                              <ul class="menu-dropdown">
-                                <li>Подтягивания</li>
-                                <li> Становая тяга</li>
-                                <li>ЕМОМ</li>
-                                <li>На время</li>
-                              </ul>
-                            </a>
-                          </li>
-                        </ul>
-                        <ul class="card-header__func-item">
-                          <li>
-                            <a href="#" class="card-header__func-menu card-menu">
-                              <h2 class="card-menu__title">Снаряд</h2>
-                              <ul class="menu-dropdown">
-                                <li>штанга</li>
-                                <li>медбол</li>
-                                <li>гиря</li>
-                                <li>гантель</li>
-                                <li>диск</li>
-                                <li>сендбэг</li>
-                              </ul>
-                            </a>
-                          </li>
-                        </ul>
+                        <div class="card-content__workout-item dropdown">
+                          <span class="selLabel">Упражнение</span>
+                          <input type="hidden" name="cd-dropdown">
+                          <ul class="dropdown-list">
+                            <li data-value="1">
+                              <span>Подтягивания</span>
+                            </li>
+                            <li data-value="2">
+                              <span>Cтановая тяга</span>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="card-content__workout-item dropdown">
+                          <span class="selLabel">Снаряд</span>
+                          <input type="hidden" name="cd-dropdown">
+                          <ul class="dropdown-list">
+                            <li data-value="1">
+                              <span>штанга</span>
+                            </li>
+                            <li data-value="2">
+                              <span>медбол</span>
+                            </li>
+                            <li data-value="3">
+                              <span>гиря</span>
+                            </li>
+                            <li data-value="4">
+                              <span>гантель</span>
+                            </li>
+                            <li data-value="5">
+                              <span>диск</span>
+                            </li>
+                            <li data-value="6">
+                              <span>сендбэг</span>
+                            </li>
+                          </ul>
+                        </div>
                         <div class="input-wrapper">
                           <input class="card-content__workout-item minutes" type="number" placeholder="0" id="minutes">
                           <label class="minutes-label" for="minutes">мин.</label>
@@ -162,6 +178,7 @@
       </div>
       <script src="js/scripts.js"></script>
       <script src="js/datepicker.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
       <script defer src="https://use.fontawesome.com/releases/v5.0.12/js/all.js" integrity="sha384-Voup2lBiiyZYkRto2XWqbzxHXwzcm4A5RfdfG6466bu5LqjwwrjXCMBQBLMWh7qR" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>

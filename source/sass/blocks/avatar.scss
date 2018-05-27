@@ -17,11 +17,33 @@
   background: url("../img/default_avatar-gray.png")  no-repeat;
   background-size: 100%;
   background-position: 50%;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
+
+  &:hover .avatar__upload {
+    bottom: 0px;
+  }
 }
 
 .avatar__upload {
-  position: relative;
+  position: absolute;
+  content: '';
+  bottom: -60px;
+  width: 100%;
+  background-color: rgba(0,0,0, 0.5);
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.avatar__upload-text {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #fff;
+
+  &:hover {
+    font-weight: bold;
+    color: #fff;
+  }
 }
 
 .avatar__input {

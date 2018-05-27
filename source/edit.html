@@ -48,7 +48,7 @@
                     </span>
                     <ul class="header-user__menu edit-menu hide" id="user-menu">
                       <li class="user-menu__item"><a href="#" class="user-menu__item--link own-cart">Личная карта</a></li>
-                      <li class="user-menu__item"><a href="#" class="user-menu__item--link edit">Редактирвоать</a></li>
+                      <li class="user-menu__item"><a href="edit.html" class="user-menu__item--link edit">Редактирвоать</a></li>
                       <li class="user-menu__item"><a href="#" class="user-menu__item--link privacy">Приватность</a></li>
                       <li class="user-menu__item"><a href="#" class="user-menu__item--link help">Помощь</a></li>
                       <li class="user-menu__item"><a href="#" class="user-menu__item--link exit">Выйти</a></li>
@@ -64,60 +64,69 @@
               </ol>
             </nav>
             <section class="edit-profile container">
-                <h1 class="edit-title">Настройки профиля</h1>
+
                 <div class="wrapper">
                     <form action="#" method="post" class="edit-profile__wrapper">
                         <div class="edit-profile__block edit-profile__left">
-                            <div class="edit-profile__avatar avatar">
-                                <div class="avatar__img"></div>
-                                <div class="avatar__upload">
-                                  <input class="avatar__input" type="file" name="upload" id="upload" accept="image/jpg, image/jpeg, image/png">
-                                  <button class="button button-avatar" type="submit">Загрузить</button>
-                                </div>
-                              <p class="avatar__text">Рекомендованный размер фото - не менее 200x200 px, jpg, png.</p>
-                            </div>
-                            <div class="edit-profile__calendar input">
-                                <label for="datapicker">Дата рождениия</label>
-                                <input type='text' class="datepicker-here calendar" data-position="right bottom" id="datapicker"/>
-                                <span class="spin"></span>
-                            </div>
+                            <ul class="edit-list">
+                              <li class="edit-list__item">Пункт</li>
+                              <li class="edit-list__item">Пункт</li>
+                              <li class="edit-list__item">Пункт</li>
+                              <li class="edit-list__item">Пункт</li>
+                            </ul>
                         </div>
                         <div class="edit-profile__block edit-profile__right">
+                            <div class="edit-profile__avatar avatar">
+                                <div class="avatar__img">
+                                    <div class="avatar__upload">
+                                      <a class="avatar__upload-text" href="#">Обновить фотографию</a>
+                                      <a  class="avatar__upload-text" href="#">Удалить фотографию</a>
+                                    </div>
+                                </div>
+                            </div>
                              <div  class="edit-profile__info">
-                                 <div class="input input-firstname">
+                                 <div class="input input-firstname edit-profile__input">
                                    <label for="firstname">Имя</label>
                                    <input type="text" name="firstname" id="firstname">
+                                   <i class="fas fa-asterisk"></i>
                                    <span class="spin"></span>
                                  </div>
-                                 <div class="input input-lastname">
+                                 <div class="input input-lastname edit-profile__input">
                                    <label for="lastname">Фамилия</label>
                                    <input type="text" name="lastname" id="lastname">
+                                   <i class="fas fa-asterisk"></i>
                                    <span class="spin"></span>
                                  </div>
-                                 <div class="input input-city">
+                                 <div class="input input-city edit-profile__input">
                                    <label for="city">Город</label>
                                    <input type="text" name="city" id="city">
                                    <span class="spin"></span>
                                  </div>
-                                 <div class="input input-club">
+                                 <div class="input input-club edit-profile__input">
                                    <label for="club">Клуб</label>
                                    <input type="text" name="club" id="club">
                                    <span class="spin"></span>
                                  </div>
-                                 <div class="input input-email">
+                                 <div class="input input-email edit-profile__input">
                                    <label for="email">Email</label>
                                    <input type="email" name="email" id="email">
+                                   <i class="fas fa-asterisk"></i>
                                    <span class="spin"></span>
                                  </div>
-                                 <div class="input input-phone">
+                                 <div class="input input-phone edit-profile__input">
                                    <label for="phone">Номер телефона</label>
                                    <input type="tel" name="phone" id="phone">
+                                   <span class="spin"></span>
+                                 </div>
+                                 <div class="edit-profile__calendar input edit-profile__input">
+                                   <label for="datapicker">Дата рождениия</label>
+                                   <input type='text' class="datepicker-here calendar" data-position="bottom right" id="datapicker"/>
                                    <span class="spin"></span>
                                  </div>
                              </div>
                         </div>
                     </form>
-                    <button type="submit" class="button button-edit-save">Сохранить<i class="fa fa-check"></i></button>
+                    <button type="submit" class="button button-edit-save">Сохранить</button>
                 </div>
             </section>
         </main>

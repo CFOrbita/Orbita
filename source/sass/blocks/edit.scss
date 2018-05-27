@@ -10,16 +10,18 @@
 
 .edit-profile__info {
   max-width: 600px;
-  padding-left: 40px;
+
 }
 
 .edit-profile__left {
   display: flex;
+  width: 25%;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .edit-profile__right {
+  width:  75%;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -37,4 +39,17 @@
 
 .input-firstname {
   margin: 0;
+}
+
+.edit-profile__input {
+  height: 60px;
+  margin-top: 20px;
+}
+
+.edit-list {
+  font-size: 16px;
+}
+
+.edit-list__item {
+  margin-bottom: 20px;
 }

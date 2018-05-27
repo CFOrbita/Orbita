@@ -178,14 +178,13 @@ $('#my-element').data('datepicker');
 
 ////// Select add-workout
 $(document).ready(function() {
-
-  $(".selLabel").click(function () {
-    $('.dropdown').toggleClass('active');
+  ///////  Подсвечинваие СОХРАНИТЬ в edit.html
+  $('input').each(function() {
+   if($(this).change()) {
+   }
   });
-
-  $(".dropdown-list li").click(function() {
-    $('.selLabel').text($(this).text());
-    $('.dropdown').removeClass('active');
-    $('.selected-item p span').text($('.selLabel').text());
+  $('input').on('input', function(){
+   $('.button-edit-save').addClass('active');
   });
 });
+

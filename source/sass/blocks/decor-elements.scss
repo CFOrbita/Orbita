@@ -3,21 +3,23 @@
   opacity: 1;
   top: 0;
   left: 0;
-  color: #000;
+  color: #4CAF50;
   transition: .3s;
   cursor: pointer;
+  z-index: 2;
 
   &:hover {
-    color: #4CAF50;
+    opacity: 0.5;
   }
 }
 
 .fa-edit {
   cursor: pointer;
   transition: 0.2s;
+  color: deepskyblue;
 
   &:hover {
-    color: deepskyblue;
+    opacity: 0.5;
   }
 }
 
@@ -25,8 +27,30 @@
   margin-left: 15px;
   cursor: pointer;
   transition: 0.2s;
+  color: red;
 
   &:hover {
-    color: red;
+    opacity: 0.5;
+    margin-bottom: 2px;
   }
+}
+
+.add-plus {
+  color: #4caf50;
+  cursor: pointer;
+  transition: 0.3s;
+
+  &:hover {
+    opacity: 0.5;
+    transform: rotate(180deg);
+  }
+}
+
+.fa-asterisk {
+  position: absolute;
+  content: '';
+  top: 12px;
+  right: 5px;
+  color: #dc3545ab;
+  font-size: 12px;
 }

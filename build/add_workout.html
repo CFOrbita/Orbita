@@ -49,7 +49,7 @@
                 </span>
                 <ul class="header-user__menu edit-menu hide" id="user-menu">
                   <li class="user-menu__item"><a href="#" class="user-menu__item--link own-cart">Личная карта</a></li>
-                  <li class="user-menu__item"><a href="#" class="user-menu__item--link edit">Редактирвоать</a></li>
+                  <li class="user-menu__item"><a href="edit.html" class="user-menu__item--link edit">Редактирвоать</a></li>
                   <li class="user-menu__item"><a href="#" class="user-menu__item--link privacy">Приватность</a></li>
                   <li class="user-menu__item"><a href="#" class="user-menu__item--link help">Помощь</a></li>
                   <li class="user-menu__item"><a href="#" class="user-menu__item--link exit">Выйти</a></li>
@@ -74,91 +74,64 @@
                     <div class="card-header">
                       <div class="card-header__func card-header--left">
                         <div class="card-header__func-item">
-                          <div class="card-header__func-menu dropdown">
-                            <span class="selLabel">Режим</span>
-                            <input type="hidden" name="cd-dropdown">
-                            <ul class="dropdown-list">
-                              <li data-value="1">
-                                <span>Интервально</span>
-                              </li>
-                              <li data-value="2">
-                                <span>ЗКМБР</span>
-                              </li>
-                              <li data-value="3">
-                                <span>ЕМОМ</span>
-                              </li>
-                              <li data-value="4">
-                                <span>На время</span>
-                              </li>
-                            </ul>
-                          </div>
+                          <select class="card-header__func-menu card-select">
+                            <option selected="" disabled="">Режим</option>
+                            <option class="card-select__item">Интервально</option>
+                            <option class="card-select__item">ЗКМБР</option>
+                            <option class="card-select__item">ЕМОМ</option>
+                            <option class="card-select__item">На время</option>
+                          </select>
                         </div>
                         <input class="card-header__func-item card-header__func--input" type="number" placeholder="0" id="time">
                         <label class="card-header__func-item card-label" for="time">мин.</label>
                         <div class="card-header__func-item plus"><i class="fas fa-plus add-plus"></i></div>
                       </div>
                       <div class="card-header__func card-header--right">
-                        <input class="card-header__func-item done" type="checkbox" id="done">
-                        <label class="card-delete done-text" for="done">Выполнено</label>
+                        <input type="checkbox" id="done">
+                        <label for="done" class="checkbox"></label>
+                        <span class="checkbox__text">Выполнено</span>
                       </div>
                     </div>
-                    <div class="card-content card-content--add-workout">
-                      <div class="card-content__workout">
-                        <div class="input-wrapper">
-                          <label class="card-label" for="reps">Reps</label>
-                          <input class="card-content__workout-item card-content--input" type="number" placeholder="0" id="reps">
-                        </div>
-                        <div class="card-content__workout-item dropdown">
-                          <span class="selLabel">Упражнение</span>
-                          <input type="hidden" name="cd-dropdown">
-                          <ul class="dropdown-list">
-                            <li data-value="1">
-                              <span>Подтягивания</span>
-                            </li>
-                            <li data-value="2">
-                              <span>Cтановая тяга</span>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="card-content__workout-item dropdown">
-                          <span class="selLabel">Снаряд</span>
-                          <input type="hidden" name="cd-dropdown">
-                          <ul class="dropdown-list">
-                            <li data-value="1">
-                              <span>штанга</span>
-                            </li>
-                            <li data-value="2">
-                              <span>медбол</span>
-                            </li>
-                            <li data-value="3">
-                              <span>гиря</span>
-                            </li>
-                            <li data-value="4">
-                              <span>гантель</span>
-                            </li>
-                            <li data-value="5">
-                              <span>диск</span>
-                            </li>
-                            <li data-value="6">
-                              <span>сендбэг</span>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="input-wrapper">
-                          <input class="card-content__workout-item minutes" type="number" placeholder="0" id="minutes">
-                          <label class="minutes-label" for="minutes">мин.</label>
-                        </div>
-                        <div class="card-content__workout-item delete"><i class="fas fa-trash-alt delete-plus"></i></div>
+                    <div class="card-content__wrapper">
+                      <div class="card-content card-content--add-workout">
+                          <div class="card-content__workout">
+                            <div class="input-wrapper">
+                              <input class="card-content__workout-item card-content--input" type="number" placeholder="0" id="reps">
+                              <span>x</span>
+                              <input class="card-content__workout-item card-content--input input-sets" type="number" placeholder="0" id="sets">
+                            </div>
+                          </div>
+                          <select class="card-content__workout-item card-select">
+                            <option selected="" disabled="">Упражнение</option>
+                            <option class="card-select__item">Подтягивания</option>
+                            <option class="card-select__item">Cтановая тяга</option>
+                          </select>
+                          <select class="card-content__workout-item card-select">
+                            <option selected="" disabled="">Снаряд</option>
+                            <option class="card-select__item">штанга</option>
+                            <option class="card-select__item">медбол</option>
+                            <option class="card-select__item">гиря</option>
+                            <option class="card-select__item">гантель</option>
+                            <option class="card-select__item">диск</option>
+                            <option class="card-select__item">сендбэг</option>
+                          </select>
+                          <div class="input-wrapper">
+                            <input class="card-content__workout-item card-content--input minutes" type="number" placeholder="0" id="minutes">
+                            <label class="card-label" for="minutes">мин.</label>
+                          </div>
+                          <div class="card-content__workout-item delete"><i class="fas fa-trash-alt"></i></div>
                       </div>
-                      <div class="card-content card-header--middle">
-                        <textarea placeholder="Для заметок"></textarea>
+                      <div class="card-content card-comment">
+                        <textarea class="card-comment__textarea" placeholder="Для заметок"></textarea>
                       </div>
+                    </div>
+
                     </div>
                   </div>
-                </div>
-              </form>
-            </section>
-           </main>
+                </form></section></main></div>
+              
+            
+           
         </div>
         <footer class="footer">
           <div class="footer-wrapper container">
@@ -174,7 +147,7 @@
             <p class="footer__text">2018г. Все права защищены. Перепечатка запрещена.</p>
           </div>
         </footer>
-      </div>
+      
       <script src="js/scripts.js"></script>
       <script src="js/datepicker.min.js"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>

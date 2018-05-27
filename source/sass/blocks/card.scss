@@ -1,5 +1,6 @@
 .card {
   box-shadow: 0 2px 15px 0 rgba(0,0,0,.2);
+  margin-bottom: 25px;
 }
 
 .card-header {
@@ -25,7 +26,7 @@
 
 .card-header__item {
   position: relative;
-  margin-right: 10px;
+  margin-right: 20px;
   font-weight: bold;
   margin-bottom: 0;
 }
@@ -40,7 +41,7 @@
   width: 1px;
   height: 20px;
   top: 1px;
-  right: -5px;
+  right: -10px;
   background-color: gray;
 }
 
@@ -99,11 +100,20 @@
   max-width: 60px;
 }
 
-.card-content--input {
-  padding: 10px;
-  border: none;
+.card-content__workout-item {
+  margin-right: 20px;
+}
 
-  max-width: 60px;
+.card-content--input {
+  padding: 5px;
+  border: none;
+  margin-right: 0;
+  max-width: 50px;
+  outline: none;
+}
+
+.card-content__workout-item.input-sets {
+  margin-left: 25px;
 }
 
 .card-content__workout {
@@ -115,8 +125,25 @@
 .card-content--add-workout {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.card-content__workout-item {
-  margin-right: 20px;
+.card-select {
+  padding: 10px;
+  border: 1px solid #f1f2f6;
+}
+
+.card-content__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-comment {
+  padding: 10px;
+}
+
+.card-comment__textarea {
+  padding: 10px;
+  border: 1px solid #f1f2f6;
 }

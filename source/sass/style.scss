@@ -15,6 +15,7 @@
 @import "blocks/wishes.scss";
 @import "blocks/custom-dropdown.scss";
 @import "blocks/card.scss";
+@import "blocks/checkbox.scss";
 
 
 
@@ -72,6 +73,6 @@ li {
 
 .input-wrapper {
   display: flex;
-  flex-direction: column;
+
   align-items: center;
 }

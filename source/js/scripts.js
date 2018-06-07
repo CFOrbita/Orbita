@@ -1,4 +1,3 @@
-
 /*Для слайд меню*/
 $(document).ready(function() {
 
@@ -25,13 +24,12 @@ $(document).ready(function() {
 
 /*Для header-user*/
 
-$('.header-user').click(function(e) {
-  var $block = $('.header-user__menu');
-
+$('.header-user__arrow').click(function(e) {
+  let $block = $('.edit-menu');
   if ($block.css('display') != 'block') {
     $block.show(200);
 
-    var firstClick = true;
+    let firstClick = true;
     $(document).bind('click.myEvent', function(e) {
       if (!firstClick && $(e.target).closest('.header-user__menu').length == 0) {
         $block.hide(150);
@@ -43,11 +41,27 @@ $('.header-user').click(function(e) {
   e.preventDefault();
 });
 
+$('.header-user__icon').click(function(e) {
+  let $block = $('.func-menu');
+  if ($block.css('display') != 'block') {
+    $block.show(200);
+
+    let firstClick = true;
+    $(document).bind('click.myEvent', function(e) {
+      if (!firstClick && $(e.target).closest('.header-user__menu').length == 0) {
+        $block.hide(150);
+        $(document).unbind('click.myEvent');
+      }
+      firstClick = false;
+    });
+  }
+  e.preventDefault();
+});
+
+//Contacts
 
 $('.contacts').click(function(e) {
   let $tooltip = $('.footer__list-tooltip');
-
-
   if ($tooltip.css('display') != 'block') {
     $tooltip.show(200);
 

@@ -36,7 +36,23 @@
   position: absolute;
   content: '';
   top: 45px;
-  right: -16px;
+  right: -20px;
+  padding: 10px;
+  padding-top: 0;
+  padding-bottom: 20px;
+  border-radius: 5px;
+  min-height: 105px;
+  box-shadow: 0 2px 15px 0 rgba(0,0,0,.2);
+  transition: 0.2s;
+  background-color: white;
+  z-index: 99;
+}
+
+.func-menu {
+  position: absolute;
+  content: '';
+  top: 45px;
+  right: 10px;
   padding: 10px;
   padding-top: 0;
   padding-bottom: 20px;

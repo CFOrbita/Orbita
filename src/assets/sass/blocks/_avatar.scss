@@ -14,13 +14,13 @@
   overflow: hidden;
   box-sizing: border-box;
   background-color: $light-gray;
-  background: url("../img/default_avatar-gray.png")  no-repeat;
+  background: url("../img/default_avatar-gray.png") no-repeat;
   background-size: 100%;
   background-position: 50%;
   margin-bottom: 15px;
 
   &:hover .avatar__upload {
-    bottom: 0px;
+    bottom: 0;
   }
 }
 

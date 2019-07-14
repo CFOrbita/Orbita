@@ -17,8 +17,6 @@
 @import "blocks/card";
 @import "blocks/checkbox";
 
-
-
 @font-face {
   font-family: "ProximaNova-Light";
   src: url("../fonts/ProximaNova-Light.woff2") format("woff2"), url("../fonts/ProximaNova-Light.woff") format("woff");
@@ -26,18 +24,15 @@
   font-display: swap;
 }
 
-
-html,
 body {
   height: 100%;
 }
 
 body {
-  font-family: "ProximaNova-Light", "Arial", Serif;
+  font-family: "ProximaNova-Light";
 }
 
-a, a:hover {
-  color: black;
+a {
   text-decoration: none;
 }
 ul {
@@ -73,6 +68,5 @@ li {
 
 .input-wrapper {
   display: flex;
-
   align-items: center;
 }

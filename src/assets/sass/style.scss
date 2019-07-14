@@ -1,10 +1,10 @@
 @import "blocks/variables";
-@import "blocks/side-menu";
+//@import "blocks/side-menu";
 @import "blocks/header";
 @import "blocks/login";
 @import "blocks/forgot-pass";
-@import "blocks/button";
-@import "blocks/button-elements";
+//@import "blocks/button";
+//@import "blocks/button-elements";
 @import "blocks/breadcrumb";
 @import "blocks/avatar";
 @import "blocks/edit";
@@ -17,6 +17,8 @@
 @import "blocks/card";
 @import "blocks/checkbox";
 
+@import "modules/toolbar";
+
 @font-face {
   font-family: "ProximaNova-Light";
   src: url("../fonts/ProximaNova-Light.woff2") format("woff2"), url("../fonts/ProximaNova-Light.woff") format("woff");
@@ -24,49 +26,22 @@
   font-display: swap;
 }
 
-body {
+html {
   height: 100%;
 }
 
 body {
   font-family: "ProximaNova-Light";
+  height: 100%;
 }
 
 a {
   text-decoration: none;
 }
-ul {
-  padding: 0;
-  margin: 0;
-}
+
+
 li {
   list-style: none;
 }
-* {
-  box-sizing: border-box;
-}
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-.content {
-  flex: 1 0 auto;
-}
-.footer {
-  flex: 0 0 auto;
-}
 
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
-}
-
-.input-wrapper {
-  display: flex;
-  align-items: center;
-}

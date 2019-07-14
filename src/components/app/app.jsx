@@ -1,55 +1,47 @@
 import React, {Component} from "react";
+import Toolbar from "../Toolbar/Toolbar";
+import SideDrawer from "../side-drawer/side-drawer";
+import Backdrop from "../backdrop/Backdrop";
 
 class App extends Component{
   constructor(props) {
     super(props);
 
+    this.state = {
+      sideDrawerOpen: false
+    };
+
+    this.drawerToggleClickHandler = this.drawerToggleClickHandler.bind(this);
+    this.backDropClickHandler = this.backDropClickHandler.bind(this);
+  }
+
+  drawerToggleClickHandler()  {
+    this.setState((prevState) => {
+      return {sideDrawerOpen: !prevState.sideDrawerOpen}
+    })
+  };
+
+  backDropClickHandler() {
+    this.setState({
+        sideDrawerOpen: false
+    })
   }
 
   render() {
+    let backdrop;
+    const {sideDrawerOpen} = this.state;
 
+    if(sideDrawerOpen) {
+      backdrop = <Backdrop backDropClickHandler={this.backDropClickHandler}/>;
+    }
     return (
       <React.Fragment>
-          <header className="header">
-            <div className="header-menu">
-              <span className="toggle-button">
-                 <div className="menu-bar menu-bar-top"></div>
-                 <div className="menu-bar menu-bar-middle"></div>
-                 <div className="menu-bar menu-bar-bottom"></div>
-              </span>
-              <div className="menu-wrap">
-                <div className="menu-sidebar">
-                  <ul className="menu">
-                    <li>
-                      <a href="#">Зал</a>
-                    </li>
-                    <li className="menu-item-has-children">
-                      <a href="workout.html">
-                        Тренировка
-                      </a>
-                      <span className="sidebar-menu-arrow">
-                        <i className=" fas fa-angle-down fa-sm"></i>
-                      </span>
-                      <ul className="sub-menu">
-                        <li><a href="#">Дневник</a></li>
-                        <li><a href="#">Комплексы</a></li>
-                        <li><a href="#">Питание</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="#">Контакты</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="heading">
-              <a className="header-title" href="#">Orbita</a>
-            </div>
-
-            <p>Нужно войти в личный кабинет или зарегестрироваться (справа в углу)</p>
-          </header>
-          <main>
-
-          </main>
+        <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+        <SideDrawer onShown={sideDrawerOpen} />
+        {backdrop}
+        <main style={{marginTop: '64px'}}>
+          <p>Нужно войти в личный кабинет или зарегестрироваться (справа в углу)</p>
+        </main>
         <footer className="footer">
           <div className="footer-wrapper container">
             <ul className="footer__list">

@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Route} from "react-router-dom";
-import Trainings from "../trainings/trainings";
-import FitEat from "../fiteat/fiteat";
+import Trainings from "./trainings/trainings";
+import FitEat from "./fiteat/fiteat";
 
 class Content extends Component{
   constructor(props) {

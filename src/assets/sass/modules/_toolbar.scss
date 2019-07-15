@@ -22,9 +22,14 @@
 }
 
 .toolbar__logo {
-  width: 100px;
-  height: 36px;
+  color: black;
+  font-size: 36px;
   margin-left: 1rem;
+  transition: 0.3s;
+
+  &:hover {
+    letter-spacing: 5px;
+  }
  }
 
 .toolbar__navigation-items {

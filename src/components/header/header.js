@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import Toolbar from "../toolbar/toolbar";
-import SideDrawer from "../side-drawer/side-drawer";
-import Backdrop from "../backdrop/Backdrop";
+import Toolbar from "./toolbar/toolbar";
+import SideDrawer from "./side-drawer/side-drawer";
+import Backdrop from "./backdrop/Backdrop";
 
 class Header extends Component {
   constructor(props) {

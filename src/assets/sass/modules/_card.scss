@@ -1,0 +1,198 @@
+.card {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 25px;
+  transition: 0.3s;
+
+  &:hover {
+    box-shadow: 0 7px 15px 0 rgba(0,0,0,.2);
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f1f2f6;
+  padding: 0 15px;
+}
+
+.card-header__left {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.card-header__right {
+  display: flex;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.card-content__title {
+  font-size: 19px;
+  padding: 10px 20px;
+  margin: 0;
+}
+
+.card-header__item {
+  position: relative;
+  font-weight: bold;
+  margin: 0;
+  margin-right: 20px;
+}
+
+.card-header__item:last-child {
+  margin-right: 0;
+}
+
+.card-header__item::after {
+  position: absolute;
+  content: '';
+  width: 1px;
+  height: 20px;
+  top: 0;
+  right: -10px;
+  background-color: gray;
+}
+
+.card-header__item:nth-child(3)::after {
+  content: none;
+}
+
+.card-header__item:last-child::after {
+  content: none;
+}
+
+.card-content__list-item {
+  position: relative;
+  padding: 10px 20px;
+  margin: 0;
+  margin-left: 30px;
+}
+
+.card-content__list-item::before {
+  position: absolute;
+  content: '';
+  top: 43%;
+  left: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000;
+}
+
+.card-header__item--success {
+  margin-top: 3px;
+}
+
+.success-check-btn {
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.edit-btn {
+  width: 24px;
+  height: 24px;
+  transition: fill 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    fill: dodgerblue;
+  }
+}
+
+.delete-btn {
+  width: 24px;
+  height: 24px;
+  transition: fill 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    fill: red;
+  }
+}
+
+//// Для add-workout
+.card-header__func {
+  display: flex;
+  align-items: center;
+}
+
+.card-header__func label {
+  margin-bottom: 0;
+}
+
+.card-label {
+  margin-bottom: 0;
+}
+
+.card-header__func-item {
+  margin-right: 15px;
+}
+
+.card-header__func-item--select {
+  padding: 10px;
+  outline: none;
+}
+
+.card-header__func--input {
+  padding: 10px;
+  border: none;
+  outline: none;
+  max-width: 60px;
+}
+
+.card-content__workout-item {
+  margin-right: 20px;
+}
+
+.card-content--input {
+  padding: 5px;
+  border: none;
+  margin-right: 0;
+  max-width: 50px;
+  outline: none;
+}
+
+.card-content__workout-item.input-sets {
+  margin-left: 25px;
+}
+
+.card-content__workout {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.card-content--add-workout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-select {
+  padding: 10px;
+  border: 1px solid #f1f2f6;
+}
+
+.card-content__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-comment {
+  padding: 10px;
+}
+
+.card-comment__textarea {
+  padding: 10px;
+  border: 1px solid #f1f2f6;
+}

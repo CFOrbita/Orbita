@@ -11,11 +11,11 @@ class App extends Component{
   render() {
 
     return (
-      <React.Fragment>
+      <div className="wrapper">
         <Header />
         <Content />
         <Footer />
-      </React.Fragment>
+      </div>
     );
   }
 }

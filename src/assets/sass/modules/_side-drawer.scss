@@ -30,6 +30,10 @@
 .side-drawer__items a {
   color: white;
 
+  &.active {
+    text-decoration: underline;
+  }
+
   &:hover {
     color: orange;
   }

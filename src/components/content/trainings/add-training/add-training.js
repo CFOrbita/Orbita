@@ -1,11 +1,21 @@
 import React, {Component} from "react";
-import Select from "react-select";
+import CreatableSelect from 'react-select/creatable';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import TrainingSession from "../training-session/training-session";
 
-const options = [
+const optionsCrossfit = [
   {value: 'interval', label: 'Интервально'},
   {value: 'asap', label: 'ЗКМБР'},
   {value: 'emom', label: 'ЕМОМ'},
   {value: 'ontime', label: 'На время'}
+];
+
+const optionsGyms = [
+  {value: 'fitstudio', label: 'FitStudio'},
+  {value: 'fizkult', label: 'Физкульт'},
+  {value: 'fok', label: 'ФОК'},
+  {value: 'redwhite', label: 'К&Б'}
 ];
 
 class TrainingCardAdd extends Component {
@@ -13,18 +23,41 @@ class TrainingCardAdd extends Component {
     super(props);
 
     this.state = {
-      selectedOption: null,
-    }
+      gym: {
+        newValue: null,
+        inputValue: null
+      },
+      startDate: new Date(),
+      sessions: [],
+    };
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleGymChange = this.handleGymChange.bind(this);
+    this.handleIGymInputChange = this.handleIGymInputChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  handleChange (selectedOption) {
-    this.setState({ selectedOption });
+  handleGymChange(newValue) {
+    this.setState({
+      gym: {
+        newValue
+      }
+    });
+  };
+
+  handleIGymInputChange(inputValue) {
+    this.setState({
+      gym: {
+        inputValue
+      }
+    });
+  };
+
+  handleDateChange(selectedData) {
+    this.setState({selectedData});
   };
 
   render() {
-    const { selectedOption } = this.state;
+    const {gym, startDate, sessions} = this.state;
 
     return (
       <React.Fragment>
@@ -32,73 +65,27 @@ class TrainingCardAdd extends Component {
           <h1 className="add-workout__title">Редактирование</h1>
           <p className="add-workout__text">На этой странице вносятся изменения в тренировку</p>
           <form method="post" className="add-workout__form">
-            <div className="add-workout__list card">
-              <div className="card-item">
+            <div className="add-workout__list">
+              <div className="card">
                 <div className="card-header">
-                  <div className="card-header__func card-header--left">
-                    <div className="card-header__func-item card-select">
-                      <Select
-                        value={selectedOption}
-                        placeholder="Выбрать"
-                        onChange={this.handleChange}
-                        options={options}/>
-                      {/*<select className="card-header__func-menu card-select">*/}
-                      {/*<option selected disabled>Режим</option>*/}
-                      {/*<option className="card-select__item">Интервально</option>*/}
-                      {/*<option className="card-select__item">ЗКМБР</option>*/}
-                      {/*<option className="card-select__item">ЕМОМ</option>*/}
-                      {/*<option className="card-select__item">На время</option>*/}
-                      {/*</select>*/}
-                    </div>
-                    <input className="card-header__func-item card-header__func--input" type="number" placeholder="0"
-                           id="time"/>
-                    <label className="card-header__func-item card-label" htmlFor="time">мин.</label>
-                    <div className="card-header__func-item plus">
-                      <i className="fas fa-plus add-plus"></i>
-                    </div>
-                  </div>
-                  <div className="card-header__func card-header--right">
-                    <input type="checkbox" id="done"/>
-                    <label htmlFor="done" className="checkbox"></label>
-                    <span className="checkbox__text">Выполнено</span>
+                  <div className="card-header__info card-header__left">
+                    <DatePicker
+                      className="card__date-picker"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={this.handleDateChange} />
+                    <CreatableSelect
+                      className="card__select"
+                      value={gym.newValue}
+                      placeholder="Зал"
+                      onChange={this.handleGymChange}
+                      onInputChange={this.handleIGymInputChange}
+                      options={optionsGyms} />
                   </div>
                 </div>
-                <div className="card-content__wrapper">
-                  <div className="card-content card-content--add-workout">
-                    <div className="card-content__workout">
-                      <div className="input-wrapper">
-                        <input className="card-content__workout-item card-content--input" type="number" placeholder="0"
-                               id="reps"/>
-                        <span>x</span>
-                        <input className="card-content__workout-item card-content--input input-sets" type="number"
-                               placeholder="0" id="sets"/>
-                      </div>
-                    </div>
-                    <select className="card-content__workout-item card-select">
-                      <option selected disabled>Упражнение</option>
-                      <option className="card-select__item">Подтягивания</option>
-                      <option className="card-select__item">Cтановая тяга</option>
-                    </select>
-                    <select className="card-content__workout-item card-select">
-                      <option selected disabled>Снаряд</option>
-                      <option className="card-select__item">штанга</option>
-                      <option className="card-select__item">медбол</option>
-                      <option className="card-select__item">гиря</option>
-                      <option className="card-select__item">гантель</option>
-                      <option className="card-select__item">диск</option>
-                      <option className="card-select__item">сендбэг</option>
-                    </select>
-                    <div className="input-wrapper">
-                      <input className="card-content__workout-item card-content--input minutes" type="number"
-                             placeholder="0" id="minutes"/>
-                      <label className="card-label" htmlFor="minutes">мин.</label>
-                    </div>
-                    <div className="card-content__workout-item delete"><i className="fas fa-trash-alt"></i></div>
-                  </div>
-                  <div className="card-content card-comment">
-                    <textarea className="card-comment__textarea" placeholder="Для заметок"></textarea>
-                  </div>
-                </div>
+
+                <TrainingSession />
+
               </div>
             </div>
           </form>

@@ -1,0 +1,70 @@
+{
+  "optionsCrossfit": [
+    {
+      "value": "interval", "label": "Интервально"
+    },
+    {
+      "value": "asap", "label": "ЗКМБР"
+    },
+    {
+      "value": "emom", "label": "ЕМОМ"},
+    {
+      "value": "ontime", "label": "На время"
+    }
+  ],
+  "optionsGyms": [
+    {
+      "value": "fitstudio", "label": "FitStudio"},
+    {
+      "value": "fizkult", "label": "Физкульт"},
+    {
+      "value": "fok", "label": "ФОК"},
+    {
+      "value": "redwhite", "label": "К&Б"
+    }
+  ],
+  "optionsPartBody": [
+    {
+      "value": "shoulders", "label": "Плечи"
+    },
+    {
+      "value": "arms", "label": "Руки"
+    },
+    {
+      "value": "back", "label": "Спина"
+    },
+    {
+      "value": "chest", "label": "Грудь"
+    },
+    {
+      "value": "legs", "label": "Ноги"
+    }
+  ],
+  "optionsExercises": {
+    "shoulders": [
+      {"value": "1", "label": "Ex1S"},
+      {"value": "2", "label": "Ex2S"},
+      {"value": "3", "label": "Ex3S"}
+    ],
+    "arms": [
+      {"value": "1", "label": "Ex1A"},
+      {"value": "2", "label": "Ex2A"},
+      {"value": "3", "label": "Ex3A"}
+    ],
+    "back": [
+      {"value": "1", "label": "Ex1B"},
+      {"value": "2", "label": "Ex2B"},
+      {"value": "3", "label": "Ex3B"}
+    ],
+    "chest": [
+      {"value": "1", "label": "Ex1C"},
+      {"value": "2", "label": "Ex2C"},
+      {"value": "3", "label": "Ex3C"}
+    ],
+    "legs": [
+      {"value": "1", "label": "Ex1L"},
+      {"value": "2", "label": "Ex2L"},
+      {"value": "3", "label": "Ex3L"}
+    ]
+  }
+}

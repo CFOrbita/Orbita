@@ -1,17 +1,26 @@
-import React from "react";
+import React, {Component} from "react";
 import Select from "react-select";
 
-const Workout = props => {
-  return (
-    <React.Fragment>
-      <Select
-        className="card__select"
-        value={partBody}
-        placeholder="Часть тела"
-        onChange={this.handleBodyPartChange}
-        options={optionsPartBody} />
-    </React.Fragment>
-  );
-};
+class Workout extends Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+  render() {
+    const {selectedExercise, exercises, onExerciseChange} = this.props;
+
+    return (
+      <React.Fragment>
+        <Select
+          className="card__select"
+          value={selectedExercise}
+          placeholder="Упражнение"
+          onChange={onExerciseChange}
+          options={exercises}/>
+      </React.Fragment>
+    );
+  }
+}
 
 export default Workout;

@@ -1,22 +1,7 @@
 import React, {Component} from "react";
 import Select from "react-select";
 import Workout from "../workout/workout";
-
-const optionsPartBody = [
-  {value: 'shoulders', label: 'Плечи'},
-  {value: 'arms', label: 'Руки'},
-  {value: 'back', label: 'Спина'},
-  {value: 'chest', label: 'Грудь'},
-  {value: 'legs', label: 'Ноги'}
-];
-
-const optionsExercises = {
-  shoulders: [{value: '1', label: 'Ex1'}, {value: '2', label: 'Ex2'}, {value: '3', label: 'Ex3'},],
-  arms: [],
-  back: [],
-  chest: [],
-  legs: [],
-};
+import Options from "../../../../training-data/optionsData";
 
 class TrainingSession extends Component {
   constructor(props) {
@@ -24,27 +9,58 @@ class TrainingSession extends Component {
 
     this.state = {
       session: {
-        partBody: null
+        partBody: null,
+        exercise: null,
       }
     };
 
     this.handleBodyPartChange = this.handleBodyPartChange.bind(this);
+    this.handleExerciseChange = this.handleExerciseChange.bind(this);
+    this.setExercises = this.setExercises.bind(this);
   }
 
   handleBodyPartChange(selectedOption) {
     this.setState({
       session: {
-        partBody: selectedOption
+        partBody: selectedOption,
+        exercise: null
       }
     }, () => this.setExercises);
   };
 
-  setExercises() {
-    return null
+  handleExerciseChange(selectedOption) {
+    this.setState({
+      session: {
+        ...this.state.session,
+        exercise: selectedOption
+      }
+    });
+  };
+
+  setExercises(part) {
+    switch (part.value) {
+      case 'shoulders':
+        return Options.optionsExercises.shoulders;
+      case 'arms':
+        return Options.optionsExercises.arms;
+      case 'back':
+        return Options.optionsExercises.back;
+      case 'chest':
+        return Options.optionsExercises.chest;
+      case 'legs':
+        return Options.optionsExercises.legs;
+      default:
+        return null
+    }
   }
 
   render() {
-    const {partBody} = this.state.session;
+    const {partBody, exercise} = this.state.session;
+    let exercises = null;
+
+    if(partBody !== null) {
+      exercises = this.setExercises(partBody);
+    }
 
     return (
       <div className="card-content__wrapper">
@@ -54,10 +70,17 @@ class TrainingSession extends Component {
             value={partBody}
             placeholder="Часть тела"
             onChange={this.handleBodyPartChange}
-            options={optionsPartBody} />
-          {partBody && (
-            <Workout exercises={optionsExercises}/>
-          )}
+            options={Options.optionsPartBody} />
+
+          {partBody &&
+            <React.Fragment>
+              <Workout
+                selectedExercise={exercise}
+                exercises={exercises}
+                onExerciseChange={this.handleExerciseChange}
+              />
+            </React.Fragment>
+          }
 
           {/*<div className="card-content__workout">*/}
             {/*<div className="input-wrapper">*/}

@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import Select from "react-select";
 import Workout from "../workout/workout";
 import Options from "../../../../training-data/optionsData";
 
-class TrainingSession extends Component {
+class TrainingSession extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -14,28 +14,55 @@ class TrainingSession extends Component {
       }
     };
 
-    this.handleBodyPartChange = this.handleBodyPartChange.bind(this);
-    this.handleExerciseChange = this.handleExerciseChange.bind(this);
+    // this.handleBodyPartChange = this.handleBodyPartChange.bind(this);
+    // this.handleExerciseChange = this.handleExerciseChange.bind(this);
+    // this.handleSetsChange = this.handleSetsChange.bind(this);
+    // this.handleRepeatsChange = this.handleRepeatsChange.bind(this);
     this.setExercises = this.setExercises.bind(this);
   }
 
-  handleBodyPartChange(selectedOption) {
-    this.setState({
-      session: {
-        partBody: selectedOption,
-        exercise: null
-      }
-    }, () => this.setExercises);
-  };
-
-  handleExerciseChange(selectedOption) {
-    this.setState({
-      session: {
-        ...this.state.session,
-        exercise: selectedOption
-      }
-    });
-  };
+  // handleBodyPartChange(selectedOption) {
+  //   this.setState({
+  //     session: {
+  //       partBody: selectedOption,
+  //       exercise: null
+  //     }
+  //   });
+  // };
+  //
+  // handleExerciseChange(selectedOption) {
+  //   this.setState(
+  //     (prevState) => {
+  //       return {
+  //         session: {
+  //           ...prevState.session,
+  //           exercise: selectedOption
+  //         }
+  //       }
+  //     });
+  // };
+  //
+  // handleSetsChange(value) {
+  //   this.setState((prevState) => {
+  //     return {
+  //       session: {
+  //         ...prevState.session,
+  //         sets: value
+  //       }
+  //     }
+  //   });
+  // };
+  //
+  // handleRepeatsChange(value) {
+  //   this.setState((prevState) => {
+  //     return {
+  //       session: {
+  //         ...prevState.session,
+  //         repeats: value
+  //       }
+  //     }
+  //   });
+  // };
 
   setExercises(part) {
     switch (part.value) {
@@ -55,10 +82,14 @@ class TrainingSession extends Component {
   }
 
   render() {
-    const {partBody, exercise} = this.state.session;
+    // const {partBody, exercise} = this.state.session;
+    const {partBody, exercise, onPartBodyChange,  onExerciseChange,
+      onSetsChange,
+      onRepeatsChange} = this.props;
+
     let exercises = null;
 
-    if(partBody !== null) {
+    if (partBody !== null) {
       exercises = this.setExercises(partBody);
     }
 
@@ -69,7 +100,7 @@ class TrainingSession extends Component {
             className="card__select"
             value={partBody}
             placeholder="Часть тела"
-            onChange={this.handleBodyPartChange}
+            onChange={onPartBodyChange}
             options={Options.optionsPartBody} />
 
           {partBody &&
@@ -78,6 +109,8 @@ class TrainingSession extends Component {
                 selectedExercise={exercise}
                 exercises={exercises}
                 onExerciseChange={this.handleExerciseChange}
+                onSetsChange={this.handleSetsChange}
+                onRepeatsChange={this.handleRepeatsChange}
               />
             </React.Fragment>
           }

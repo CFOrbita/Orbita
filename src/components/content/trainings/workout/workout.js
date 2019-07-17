@@ -8,17 +8,32 @@ class Workout extends Component {
   }
 
   render() {
-    const {selectedExercise, exercises, onExerciseChange} = this.props;
+    const {
+      selectedExercise,
+      exercises,
+      onExerciseChange,
+      onSetsChange,
+      onRepeatsChange
+    } = this.props;
 
     return (
-      <React.Fragment>
+      <div className="card__workout">
         <Select
-          className="card__select"
+          className="card__select card__select--workout"
           value={selectedExercise}
           placeholder="Упражнение"
           onChange={onExerciseChange}
-          options={exercises}/>
-      </React.Fragment>
+          options={exercises} />
+        <input
+          className="card__input"
+          placeholder="Повторения"
+          onChange={onRepeatsChange} />
+
+        <input
+          className="card__input"
+          placeholder="Повторы"
+          onChange={onSetsChange} />
+      </div>
     );
   }
 }

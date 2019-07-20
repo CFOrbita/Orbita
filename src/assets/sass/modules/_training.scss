@@ -43,3 +43,24 @@
 .training-workout__list {
   max-width: 600px;
 }
+@media (max-width: 768px) {
+  .training {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .training-points {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .training-workout {
+    width: auto;
+  }
+}

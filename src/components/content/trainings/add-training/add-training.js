@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import TrainingCardEdit from "../training-card-edit/training-card-edit";
-import Workout from "../training-session/training-session";
 
 class TrainingCardAdd extends Component {
   constructor(props) {
@@ -12,7 +11,8 @@ class TrainingCardAdd extends Component {
         inputValue: null
       },
       startDate: new Date(),
-      sessions: [{ partBody: null, exercise: null }],
+      sessions: [{id: '1', partBody: null}],
+      note: ''
     };
 
     this.handleGymChange = this.handleGymChange.bind(this);
@@ -20,8 +20,35 @@ class TrainingCardAdd extends Component {
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleBodyPartChange = this.handleBodyPartChange.bind(this);
     this.handleExerciseChange = this.handleExerciseChange.bind(this);
-    this.handleSetsChange = this.handleSetsChange.bind(this);
-    this.handleRepeatsChange = this.handleRepeatsChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleTextareaChange = this.handleTextareaChange.bind(this);
+    this.handleDeleteSession = this.handleDeleteSession.bind(this);
+    this.handleAddSession = this.handleAddSession.bind(this);
+    this.sessionFinder = this.sessionFinder.bind(this);
+  }
+
+  sessionFinder(id) {
+    // 1. Make a shallow copy of the items
+    const sessions = [...this.state.sessions];
+    // 1.1 Find current object's index
+    const index = sessions.findIndex((session => session.id === id));
+    // 2. Make a shallow copy of the item you want to mutate
+    let session = {...sessions[index]};
+
+    return {session, index}
+  }
+
+  defineLastId() {
+    const sessions = [...this.state.sessions];
+    let id = 0;
+
+    sessions.forEach((item) => {
+      if (item.id > id) {
+        id = item.id
+      }
+    });
+
+    return Number(id);
   }
 
   handleGymChange(newValue) {
@@ -46,49 +73,68 @@ class TrainingCardAdd extends Component {
     });
   };
 
-  handleBodyPartChange(selectedOption) {
-    const first = this.state.sessions[0];
+  handleBodyPartChange(selectedOption, id) {
+    let sessions = [...this.state.sessions];
+    const {session, index} = this.sessionFinder(id);
+    // 3. Replace the property you're intested in
+    session.partBody = selectedOption;
+    session.exercise = null;
+    if (session.sets || session.repeats) {
+      session.sets = null;
+      session.repeats = null;
+    }
+    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    sessions[index] = session;
+    // 5. Set the state to our new copy
+    this.setState({sessions});
+  };
+
+  handleExerciseChange(selectedOption, id) {
+    let sessions = [...this.state.sessions];
+    const {session, index} = this.sessionFinder(id);
+
+    session.exercise = selectedOption;
+    sessions[index] = session;
+
+    this.setState({sessions});
+  };
+
+  handleInputChange(event, id) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    let sessions = [...this.state.sessions];
+    const {session, index} = this.sessionFinder(id);
+
+    session[name] = value;
+    sessions[index] = session;
+
+    this.setState({sessions});
+  };
+
+  handleTextareaChange(event) {
     this.setState({
-      first: {
-        partBody: selectedOption,
-        exercise: null
-      }
-    });
-  };
+      textarea: event.target.value
+    })
+  }
 
-  handleExerciseChange(selectedOption) {
-    this.setState(
-      (prevState) => {
-        return {
-          session: {
-            ...prevState.session,
-            exercise: selectedOption
-          }
-        }
-      });
-  };
+  handleDeleteSession(id) {
+    this.setState(state => {
+      const sessions = state.sessions.filter(item => item.id !== id);
 
-  handleSetsChange(value) {
-    this.setState((prevState) => {
-      return {
-        session: {
-          ...prevState.session,
-          sets: value
-        }
-      }
+      return {sessions};
     });
-  };
+  }
 
-  handleRepeatsChange(value) {
-    this.setState((prevState) => {
-      return {
-        session: {
-          ...prevState.session,
-          repeats: value
-        }
-      }
-    });
-  };
+  handleAddSession() {
+    let sessions = [...this.state.sessions];
+    const newId = this.defineLastId() + 1;
+
+    sessions.push({id: newId, partBody: null});
+
+    this.setState({sessions});
+  }
 
   render() {
     const {gym, startDate, sessions} = this.state;
@@ -109,8 +155,10 @@ class TrainingCardAdd extends Component {
               onGymInputChange={this.handleGymInputChange}
               onPartBodyChange={this.handleBodyPartChange}
               onExerciseChange={this.handleExerciseChange}
-              onSetsChange={this.handleSetsChange}
-              onRepeatsChange={this.handleRepeatsChange}
+              onInputChange={this.handleInputChange}
+              onTextareaChange={this.handleTextareaChange}
+              onDeleteSession={this.handleDeleteSession}
+              onAddSession={this.handleAddSession}
             />
           </div>
 

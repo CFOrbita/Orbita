@@ -21,8 +21,10 @@ class TrainingCardEdit extends Component {
       onGymInputChange,
       onPartBodyChange,
       onExerciseChange,
-      onSetsChange,
-      onRepeatsChange
+      onInputChange,
+      onTextareaChange,
+      onDeleteSession,
+      onAddSession
     } = this.props;
 
     return (
@@ -49,15 +51,30 @@ class TrainingCardEdit extends Component {
             return (
               <TrainingSession
                 key={index}
-                partBody={item.partBody}
-                exercise={item.exercise}
+                item={item}
                 onPartBodyChange={onPartBodyChange}
                 onExerciseChange={onExerciseChange}
-                onSetsChange={onSetsChange}
-                onRepeatsChange={onRepeatsChange}/>
+                onInputChange={onInputChange}
+                onDeleteSession={onDeleteSession} />
             )
           })}
-
+          <div className="card__add">
+            <button
+              className="card__add-workout"
+              onClick={onAddSession}>
+              Добавить
+            </button>
+          </div>
+          <div className="card__comment">
+            <textarea
+              className="card-comment__textarea"
+              placeholder="Для заметок"
+              onChange={onTextareaChange}/>
+          </div>
+          <div className="card__actions">
+            <button className="card__actions-save">Сохранить</button>
+            <button className="card__actions-cancel">Отмена</button>
+          </div>
         </div>
       </React.Fragment>
     )

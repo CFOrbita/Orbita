@@ -8,6 +8,7 @@ class Trainings extends Component {
   }
 
   render() {
+    const {onSaveTrainings} = this.props;
     return (
       <React.Fragment>
         <div className="training">
@@ -17,8 +18,8 @@ class Trainings extends Component {
             <li className="training-points__item"><a className="training-points__link" href="#">Тестирование</a></li>
           </ul>
           <div className="training-workout">
-            <a className="training-workout__text" href="add_workout.html">Добавить тренировку</a>
-            <TrainingCardAdd/>
+            <a className="training-workout__text" href="#">Добавить тренировку</a>
+            <TrainingCardAdd onSaveTrainings={onSaveTrainings}/>
             <div className="training-workout__list">
               <TrainingCard />
             </div>

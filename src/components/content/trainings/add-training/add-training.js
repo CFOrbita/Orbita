@@ -24,6 +24,7 @@ class TrainingCardAdd extends Component {
     this.handleTextareaChange = this.handleTextareaChange.bind(this);
     this.handleDeleteSession = this.handleDeleteSession.bind(this);
     this.handleAddSession = this.handleAddSession.bind(this);
+    this.handleSaveTraining = this.handleSaveTraining.bind(this);
     this.sessionFinder = this.sessionFinder.bind(this);
   }
 
@@ -136,6 +137,12 @@ class TrainingCardAdd extends Component {
     this.setState({sessions});
   }
 
+  handleSaveTraining() {
+    let sessions = [...this.state.sessions];
+
+    this.props.onSaveTrainings(sessions);
+  }
+
   render() {
     const {gym, startDate, sessions} = this.state;
 
@@ -159,6 +166,7 @@ class TrainingCardAdd extends Component {
               onTextareaChange={this.handleTextareaChange}
               onDeleteSession={this.handleDeleteSession}
               onAddSession={this.handleAddSession}
+              onSaveTraining={this.handleSaveTraining}
             />
           </div>
 

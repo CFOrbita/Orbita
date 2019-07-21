@@ -24,7 +24,8 @@ class TrainingCardEdit extends Component {
       onInputChange,
       onTextareaChange,
       onDeleteSession,
-      onAddSession
+      onAddSession,
+      onSaveTraining
     } = this.props;
 
     return (
@@ -72,7 +73,7 @@ class TrainingCardEdit extends Component {
               onChange={onTextareaChange}/>
           </div>
           <div className="card__actions">
-            <button className="card__actions-save">Сохранить</button>
+            <button className="card__actions-save" onClick={onSaveTraining}>Сохранить</button>
             <button className="card__actions-cancel">Отмена</button>
           </div>
         </div>

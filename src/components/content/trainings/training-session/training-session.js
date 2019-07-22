@@ -1,14 +1,13 @@
-import React, {PureComponent} from "react";
+import React, {Component} from "react";
 import Select from "react-select";
 import Workout from "../workout/workout";
 import Options from "../../../../training-data/optionsData";
 
-class TrainingSession extends PureComponent {
+class TrainingSession extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-    };
+    this.state = {};
 
     this.setExercises = this.setExercises.bind(this);
   }
@@ -36,15 +35,16 @@ class TrainingSession extends PureComponent {
       onPartBodyChange,
       onExerciseChange,
       onInputChange,
-      onDeleteSession
+      onDeleteSession,
+      onAddWorkout
     } = this.props;
 
-    const {id, partBody, exercise, sets, repeats} = item;
+    const {id, partBody, exercises} = item;
 
-    let exercises = null;
+    let optionExercises = null;
 
     if (partBody !== null) {
-      exercises = this.setExercises(partBody);
+      optionExercises = this.setExercises(partBody);
     }
 
     return (
@@ -55,25 +55,37 @@ class TrainingSession extends PureComponent {
             value={partBody}
             placeholder="Часть тела"
             onChange={(e) => onPartBodyChange(e, id)}
-            options={Options.optionsPartBody} />
+            options={Options.optionsPartBody}/>
 
           {partBody &&
             <React.Fragment>
-              <Workout
-                id={id}
-                selectedExercise={exercise}
-                sets={sets}
-                repeats={repeats}
-                exercises={exercises}
-                onExerciseChange={onExerciseChange}
-                onInputChange={onInputChange}
-              />
+              {exercises.map((item, index) => {
+                return (
+                  <Workout
+                    key={index}
+                    idSession={id}
+                    idWorkout={item.id}
+                    selectedExercise={item.exercise}
+                    sets={item.sets}
+                    repeats={item.repeats}
+                    exercises={optionExercises}
+                    onExerciseChange={onExerciseChange}
+                    onInputChange={onInputChange}/>
+                )
+              })}
+
+              <button
+                className="card__add-btn card__add-btn--workout"
+                onClick={() => onAddWorkout(id)}>
+                Ещё
+              </button>
             </React.Fragment>
           }
+
           <button
             className="card__btn-delete"
             onClick={() => onDeleteSession(id)}
-            />
+          />
         </div>
       </div>
     );

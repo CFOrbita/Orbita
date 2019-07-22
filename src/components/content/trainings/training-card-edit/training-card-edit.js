@@ -14,7 +14,7 @@ class TrainingCardEdit extends Component {
   render() {
     const {
       gym,
-      startDate,
+      date,
       sessions,
       onDateChange,
       onGymChange,
@@ -25,7 +25,9 @@ class TrainingCardEdit extends Component {
       onTextareaChange,
       onDeleteSession,
       onAddSession,
-      onSaveTraining
+      onAddWorkout,
+      onSaveTraining,
+      onCancel
     } = this.props;
 
     return (
@@ -35,7 +37,7 @@ class TrainingCardEdit extends Component {
             <div className="card-header__info card-header__left">
               <DatePicker
                 className="card__date-picker"
-                selected={startDate}
+                selected={date}
                 dateFormat="dd/MM/yyyy"
                 onChange={onDateChange}/>
 
@@ -56,12 +58,13 @@ class TrainingCardEdit extends Component {
                 onPartBodyChange={onPartBodyChange}
                 onExerciseChange={onExerciseChange}
                 onInputChange={onInputChange}
-                onDeleteSession={onDeleteSession} />
+                onDeleteSession={onDeleteSession}
+                onAddWorkout={onAddWorkout}/>
             )
           })}
           <div className="card__add">
             <button
-              className="card__add-workout"
+              className="card__add-btn card__add-btn--session"
               onClick={onAddSession}>
               Добавить
             </button>
@@ -74,7 +77,7 @@ class TrainingCardEdit extends Component {
           </div>
           <div className="card__actions">
             <button className="card__actions-save" onClick={onSaveTraining}>Сохранить</button>
-            <button className="card__actions-cancel">Отмена</button>
+            <button className="card__actions-cancel" onClick={onCancel}>Отмена</button>
           </div>
         </div>
       </React.Fragment>

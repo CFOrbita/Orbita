@@ -4,10 +4,10 @@ const ActionType = {
   SAVE_TRAININGS: `SAVE_TRAININGS`
 };
 
-const actionSaveTrainings = (items) => {
+const actionSaveTrainings = (item) => {
   return {
     type: ActionType.SAVE_TRAININGS,
-    payload: items
+    payload: item
   };
 };
 

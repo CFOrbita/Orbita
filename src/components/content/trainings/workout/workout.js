@@ -9,7 +9,8 @@ class Workout extends Component {
 
   render() {
     const {
-      id,
+      idSession,
+      idWorkout,
       selectedExercise,
       sets,
       repeats,
@@ -24,21 +25,21 @@ class Workout extends Component {
           className="card__select card__select--workout"
           value={selectedExercise}
           placeholder="Упражнение"
-          onChange={(e) => onExerciseChange(e, id)}
+          onChange={(e) => onExerciseChange(e, idSession, idWorkout)}
           options={exercises} />
         <input
           className="card__input"
           placeholder="Повторения"
           name="repeats"
           value={repeats}
-          onChange={(e) => onInputChange(e, id)} />
+          onChange={(e) => onInputChange(e, idSession, idWorkout)} />
 
         <input
           className="card__input"
           placeholder="Подходы"
           name="sets"
           value={sets}
-          onChange={(e) => onInputChange(e, id)} />
+          onChange={(e) => onInputChange(e, idSession, idWorkout)} />
       </div>
     );
   }

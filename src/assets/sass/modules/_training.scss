@@ -28,6 +28,16 @@
   }
 }
 
+.training-workout__text--empty {
+  font-size: 18px;
+  margin: 0;
+  padding: 10px 0;
+
+  &:hover {
+    font-weight: normal;
+  }
+}
+
 .training-points__item {
   margin-bottom: 20px;
 
@@ -43,6 +53,8 @@
 .training-workout__list {
   max-width: 600px;
 }
+
+
 @media (max-width: 768px) {
   .training {
     display: flex;

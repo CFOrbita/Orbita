@@ -32,6 +32,11 @@
   padding: 20px;
 }
 
+.card-content__info {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-content__title {
   font-size: 19px;
   padding: 10px 20px;
@@ -65,6 +70,10 @@
 
 .card-header__item:last-child::after {
   content: none;
+}
+
+.card-content__list {
+  margin: 0;
 }
 
 .card-content__list-item {
@@ -212,7 +221,7 @@
   padding: 10px 20px 0 20px;
 }
 
-.card__add-workout {
+.card__add-btn {
   text-align: center;
   width: 100%;
   padding: 10px 0;
@@ -228,6 +237,10 @@
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.4);
   }
+}
+
+.card__add-btn--workout {
+  margin-top: 15px;
 }
 
 .card__btn-delete {

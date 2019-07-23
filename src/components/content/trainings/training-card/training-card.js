@@ -60,15 +60,16 @@ const TrainingCard = (props) => {
         </div>
       </div>
 
-      <div className="card-content__wrapper">
-        {sessions.map((item, index) => {
-          return (
+
+      {sessions.map((item, index) => {
+        return (
+          <div key={index} className="card-content__wrapper">
             <div className="card-content">
-              <TrainingInfo key={index} item={item}/>
+              <TrainingInfo item={item}/>
             </div>
-          )
-        })}
-      </div>
+          </div>
+        )
+      })}
     </div>
   );
 };

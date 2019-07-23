@@ -33,7 +33,6 @@ class TrainingCardAdd extends Component {
     this.handleAddSession = this.handleAddSession.bind(this);
     this.handleSaveTraining = this.handleSaveTraining.bind(this);
     this.handleAddWorkout = this.handleAddWorkout.bind(this);
-    this.sessionFinder = this.sessionFinder.bind(this);
   }
 
   sessionFinder(id) {
@@ -148,6 +147,9 @@ class TrainingCardAdd extends Component {
   }
 
   handleDeleteSession(id) {
+    let sessions = [...this.state.sessions];
+    if (sessions.length === 1) return;
+
     this.setState(state => {
       const sessions = state.sessions.filter(item => item.id !== id);
 
@@ -176,12 +178,41 @@ class TrainingCardAdd extends Component {
 
   handleSaveTraining() {
     let training = {...this.state};
+    const error = this.isValid();
 
-    this.props.onSaveTrainings(training);
+    if (error) {
+      this.setState({error});
+    } else {
+      this.props.onSaveTrainings(training);
+    }
+  }
+
+  isValid() {
+    const {sessions} = this.state;
+
+    let error = false;
+
+    for (let i = 0; i < sessions.length; i++) {
+      const {exercises} = sessions[i];
+
+      if (sessions[i].partBody === null) {
+        error = true;
+        return error;
+      }
+
+      for (let j = 0; j < exercises.length; j++) {
+        if (exercises[j].exercise === null) {
+          error = true;
+          return error;
+        }
+      }
+    }
+
+    return error;
   }
 
   render() {
-    const {gym, date, sessions} = this.state;
+    const {error, gym, date, sessions} = this.state;
     const {onCancel} = this.props;
 
     return (
@@ -192,6 +223,7 @@ class TrainingCardAdd extends Component {
 
           <div className="add-workout__list">
             <TrainingCardEdit
+              error={error}
               sessions={sessions}
               gym={gym}
               date={date}

@@ -80,7 +80,7 @@ class Trainings extends Component {
 
             {trainings.length > 0 ?
               <div className="training-workout__list">
-                {trainings.map((item, index)=> <TrainingCard item={item} key={index}/>)}
+                {trainings.map((item, index)=> <TrainingCard key={index} item={item}/>)}
               </div> : <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>}
 
           </div>

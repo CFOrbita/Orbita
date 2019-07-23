@@ -1,4 +1,5 @@
 .card {
+  text-align: center;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   margin-bottom: 25px;
   transition: 0.3s;
@@ -13,6 +14,7 @@
   justify-content: space-between;
   background-color: #f1f2f6;
   padding: 0 15px;
+  margin-bottom: 15px;
 }
 
 .card-header__left {
@@ -33,14 +35,24 @@
 }
 
 .card-content__info {
+  position: relative;
   display: flex;
   justify-content: space-between;
+
+  &:not(:first-child) {
+    padding-top: 10px;
+  }
 }
 
 .card-content__title {
-  font-size: 19px;
-  padding: 10px 20px;
+  font-size: 17px;
+  padding: 0 20px;
   margin: 0;
+  align-self: center;
+}
+
+.card-content__text {
+  padding: 0 20px;
 }
 
 .card-header__item {
@@ -72,27 +84,27 @@
   content: none;
 }
 
+.card-content__exercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .card-content__list {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-content__list-item {
   position: relative;
-  padding: 10px 20px;
+  padding: 0 20px;
+  padding-bottom: 5px;
   margin: 0;
   margin-left: 30px;
 }
 
-.card-content__list-item::before {
-  position: absolute;
-  content: '';
-  top: 43%;
-  left: 7px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: #000;
-}
 
 .card-header__item--success {
   margin-top: 3px;
@@ -190,6 +202,10 @@
 
 .card__select--workout {
   min-width: 160px;
+}
+
+.card__error-text {
+  color: red;
 }
 
 .card__comment {

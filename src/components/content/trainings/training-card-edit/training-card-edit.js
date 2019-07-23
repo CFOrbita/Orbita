@@ -13,6 +13,7 @@ class TrainingCardEdit extends Component {
 
   render() {
     const {
+      error,
       gym,
       date,
       sessions,
@@ -50,6 +51,7 @@ class TrainingCardEdit extends Component {
                 options={Options.optionsGyms}/>
             </div>
           </div>
+          {error && <span className="card__error-text">Надо заполнить все поля</span>}
           {sessions.map((item, index) => {
             return (
               <TrainingSession

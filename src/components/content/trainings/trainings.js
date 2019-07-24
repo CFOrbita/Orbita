@@ -7,11 +7,15 @@ class Trainings extends Component {
     super(props);
 
     this.state = {
-      isAddNew: false
+      isEditing: false
     };
+
+    this.editingTraining = null;
 
     this.handleAddNewTraining = this.handleAddNewTraining.bind(this);
     this.handleSaveTraining = this.handleSaveTraining.bind(this);
+    this.handleDeleteTraining = this.handleDeleteTraining.bind(this);
+    this.handleEditTraining = this.handleEditTraining.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.setNewId = this.setNewId.bind(this);
   }
@@ -34,34 +38,63 @@ class Trainings extends Component {
   }
 
   handleAddNewTraining(e) {
-    const {isAddNew} = this.state;
-    if (isAddNew) {
+    const {isEditing} = this.state;
+    if (isEditing) {
       e.preventDefault();
       return;
     }
 
     this.setState(prev => {
-      return {isAddNew: !prev.isAddNew}
+      return {isEditing: !prev.isEditing}
     })
   }
 
   handleCancel() {
     this.setState(prev => {
-      return {isAddNew: !prev.isAddNew}
+      this.editingTraining = null;
+
+      return {isEditing: !prev.isEditing}
     })
   }
 
   handleSaveTraining(training) {
-    this.props.onSaveTrainings(training);
+    const trainings = [...this.props.trainings];
+    const indexTraining = trainings.findIndex((item => item.id === training.id));
+
+    if(indexTraining === -1) {
+      trainings.push(training)
+    } else {
+      trainings[indexTraining] = training;
+    }
+
+    this.props.onSaveTraining(trainings);
 
     this.setState(prev => {
-      return {isAddNew: !prev.isAddNew}
+      this.editingTraining = null;
+
+      return {isEditing: !prev.isEditing}
+    })
+  }
+
+  handleDeleteTraining(id) {
+    const trainings = [...this.props.trainings];
+    const state = trainings.filter(item => item.id !== id);
+
+    this.props.onDeleteTraining(state);
+  }
+
+  handleEditTraining(id) {
+    const trainings = [...this.props.trainings];
+    this.editingTraining = trainings.filter(item => item.id === id)[0];
+
+    this.setState(prev => {
+      return {isEditing: !prev.isEditing}
     })
   }
 
   render() {
     const {trainings} = this.props;
-    const {isAddNew} = this.state;
+    const {isEditing} = this.state;
 
     return (
       <React.Fragment>
@@ -75,13 +108,30 @@ class Trainings extends Component {
             <a className="training-workout__text" href="#" onClick={this.handleAddNewTraining}>
               Добавить тренировку
             </a>
-            {isAddNew && <TrainingCardAdd id={this.setNewId} onSaveTrainings={this.handleSaveTraining} onCancel={this.handleCancel}/>}
+            {isEditing &&
+              (
+                <TrainingCardAdd
+                  id={this.setNewId}
+                  editingTraining={this.editingTraining}
+                  onSaveTraining={this.handleSaveTraining}
+                  onCancel={this.handleCancel}/>
+              )
+            }
 
 
             {trainings.length > 0 ?
               <div className="training-workout__list">
-                {trainings.map((item, index)=> <TrainingCard key={index} item={item}/>)}
-              </div> : <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>}
+                {trainings.map((item, index) => {
+                  return <TrainingCard
+                    key={index}
+                    item={item}
+                    onEditTraining={this.handleEditTraining}
+                    onDeleteTraining={this.handleDeleteTraining}/>
+                })}
+              </div>
+              : <span
+                className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
+            }
 
           </div>
         </div>

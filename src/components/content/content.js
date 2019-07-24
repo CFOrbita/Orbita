@@ -3,7 +3,7 @@ import {Route} from "react-router-dom";
 import {connect} from "react-redux";
 import Trainings from "./trainings/trainings";
 import FitEat from "./fiteat/fiteat";
-import {actionSaveTrainings} from "../../reducer/trainings/trainings";
+import {actionDeleteTraining, actionSaveTraining} from "../../reducer/trainings/trainingsData";
 
 class Content extends Component{
   constructor(props) {
@@ -15,9 +15,9 @@ class Content extends Component{
   }
 
   render() {
-    const {onSaveTrainings, trainings} = this.props;
+    const {onSaveTraining, onDeleteTraining, trainings} = this.props;
 
-    const trainingsProps = {onSaveTrainings, trainings};
+    const trainingsProps = {onSaveTraining, onDeleteTraining, trainings};
 
     return (
         <main className="main">
@@ -36,9 +36,12 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSaveTrainings: (item) => {
-    dispatch(actionSaveTrainings(item));
-  }
+  onSaveTraining: (item) => {
+    dispatch(actionSaveTraining(item));
+  },
+  onDeleteTraining: (state) => {
+    dispatch(actionDeleteTraining(state));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Content);

@@ -16,6 +16,7 @@ class Workout extends Component {
       repeats,
       exercises,
       onExerciseChange,
+      onDeleteExercise,
       onInputChange
     } = this.props;
 
@@ -40,6 +41,7 @@ class Workout extends Component {
           name="sets"
           value={sets}
           onChange={(e) => onInputChange(e, idSession, idWorkout)} />
+        <button className="card__exercise-del" onClick={() => onDeleteExercise(idSession, idWorkout)}>D</button>
       </div>
     );
   }

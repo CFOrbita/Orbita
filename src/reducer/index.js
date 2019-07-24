@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {reducer as trainings} from "./trainings/trainings";
+import {reducer as trainings} from "./trainings/trainingsData";
 
 
 const reducer = combineReducers({

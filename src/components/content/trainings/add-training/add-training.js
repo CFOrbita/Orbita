@@ -5,21 +5,20 @@ class TrainingCardAdd extends Component {
   constructor(props) {
     super(props);
 
+    const {editingTraining} = props;
+
     this.state = {
-      id: this.props.id(),
-      gym: {
-        name: null,
-        inputValue: null
-      },
-      date: new Date(),
-      sessions: [
+      id: editingTraining && editingTraining.id || this.props.id(),
+      gym:  editingTraining && editingTraining.gym || { name: null, inputValue: null },
+      date:  editingTraining && editingTraining.date || new Date(),
+      sessions:  editingTraining && editingTraining.sessions || [
         {
           id: 1,
           partBody: null,
           exercises: [{id:1, exercise: null}]
         }
         ],
-      note: ''
+      note:  editingTraining && editingTraining.note || ''
     };
 
     this.handleGymChange = this.handleGymChange.bind(this);
@@ -31,6 +30,7 @@ class TrainingCardAdd extends Component {
     this.handleTextareaChange = this.handleTextareaChange.bind(this);
     this.handleDeleteSession = this.handleDeleteSession.bind(this);
     this.handleAddSession = this.handleAddSession.bind(this);
+    this.handleDeleteExercise = this.handleDeleteExercise.bind(this);
     this.handleSaveTraining = this.handleSaveTraining.bind(this);
     this.handleAddWorkout = this.handleAddWorkout.bind(this);
   }
@@ -56,7 +56,7 @@ class TrainingCardAdd extends Component {
   }
 
   defineLastId(indexSession) {
-    let iterableArr = indexSession ? [...this.state.sessions[indexSession].exercises] : [...this.state.sessions];
+    let iterableArr = indexSession !== undefined ? [...this.state.sessions[indexSession].exercises] : [...this.state.sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -157,6 +157,20 @@ class TrainingCardAdd extends Component {
     });
   }
 
+  handleDeleteExercise(idSession, idWorkout) {
+    let sessions = [...this.state.sessions];
+
+    const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
+
+    if(sessions[indexSession].exercises.length === 1) {
+      return;
+    } else {
+      sessions[indexSession].exercises = sessions[indexSession].exercises.filter(item => item.id !== idWorkout);
+
+      this.setState({sessions});
+    }
+  }
+
   handleAddWorkout(idSession) {
     let sessions = [...this.state.sessions];
     const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
@@ -183,7 +197,7 @@ class TrainingCardAdd extends Component {
     if (error) {
       this.setState({error});
     } else {
-      this.props.onSaveTrainings(training);
+      this.props.onSaveTraining(training);
     }
   }
 
@@ -235,6 +249,7 @@ class TrainingCardAdd extends Component {
               onInputChange={this.handleInputChange}
               onTextareaChange={this.handleTextareaChange}
               onDeleteSession={this.handleDeleteSession}
+              onDeleteExercise={this.handleDeleteExercise}
               onAddSession={this.handleAddSession}
               onSaveTraining={this.handleSaveTraining}
               onAddWorkout={this.handleAddWorkout}

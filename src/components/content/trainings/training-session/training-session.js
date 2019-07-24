@@ -36,6 +36,7 @@ class TrainingSession extends Component {
       onExerciseChange,
       onInputChange,
       onDeleteSession,
+      onDeleteExercise,
       onAddWorkout
     } = this.props;
 
@@ -70,6 +71,7 @@ class TrainingSession extends Component {
                     repeats={item.repeats}
                     exercises={optionExercises}
                     onExerciseChange={onExerciseChange}
+                    onDeleteExercise={onDeleteExercise}
                     onInputChange={onInputChange}/>
                 )
               })}

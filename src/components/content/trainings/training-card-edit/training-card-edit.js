@@ -25,6 +25,7 @@ class TrainingCardEdit extends Component {
       onInputChange,
       onTextareaChange,
       onDeleteSession,
+      onDeleteExercise,
       onAddSession,
       onAddWorkout,
       onSaveTraining,
@@ -44,7 +45,7 @@ class TrainingCardEdit extends Component {
 
               <CreatableSelect
                 className="card__select"
-                value={gym.newValue}
+                value={gym.name}
                 placeholder="Зал"
                 onChange={onGymChange}
                 onInputChange={onGymInputChange}
@@ -61,6 +62,7 @@ class TrainingCardEdit extends Component {
                 onExerciseChange={onExerciseChange}
                 onInputChange={onInputChange}
                 onDeleteSession={onDeleteSession}
+                onDeleteExercise={onDeleteExercise}
                 onAddWorkout={onAddWorkout}/>
             )
           })}

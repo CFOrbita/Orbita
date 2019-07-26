@@ -41,7 +41,7 @@ class Workout extends Component {
           name="sets"
           value={sets}
           onChange={(e) => onInputChange(e, idSession, idWorkout)} />
-        <button className="card__exercise-del" onClick={() => onDeleteExercise(idSession, idWorkout)}>D</button>
+        <button className="card__exercise-del" onClick={() => onDeleteExercise(idSession, idWorkout)}/>
       </div>
     );
   }

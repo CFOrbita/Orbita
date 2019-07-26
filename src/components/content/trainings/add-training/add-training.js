@@ -9,9 +9,9 @@ class TrainingCardAdd extends Component {
 
     this.state = {
       id: editingTraining && editingTraining.id || this.props.id(),
-      gym:  editingTraining && editingTraining.gym || { name: null, inputValue: null },
-      date:  editingTraining && editingTraining.date || new Date(),
-      sessions:  editingTraining && editingTraining.sessions || [
+      gym: editingTraining && editingTraining.gym || { name: null, inputValue: null },
+      date: editingTraining && editingTraining.date || new Date(),
+      sessions: editingTraining && editingTraining.sessions || [
         {
           id: 1,
           partBody: null,
@@ -162,7 +162,7 @@ class TrainingCardAdd extends Component {
 
     const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
 
-    if(sessions[indexSession].exercises.length === 1) {
+    if (sessions[indexSession].exercises.length === 1) {
       return;
     } else {
       sessions[indexSession].exercises = sessions[indexSession].exercises.filter(item => item.id !== idWorkout);
@@ -226,7 +226,7 @@ class TrainingCardAdd extends Component {
   }
 
   render() {
-    const {error, gym, date, sessions} = this.state;
+    const {error, gym, date, sessions, note} = this.state;
     const {onCancel} = this.props;
 
     return (
@@ -241,6 +241,7 @@ class TrainingCardAdd extends Component {
               sessions={sessions}
               gym={gym}
               date={date}
+              note={note}
               onDateChange={this.handleDateChange}
               onGymChange={this.handleGymChange}
               onGymInputChange={this.handleGymInputChange}

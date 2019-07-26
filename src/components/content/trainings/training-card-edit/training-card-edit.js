@@ -17,6 +17,7 @@ class TrainingCardEdit extends Component {
       gym,
       date,
       sessions,
+      note,
       onDateChange,
       onGymChange,
       onGymInputChange,
@@ -76,6 +77,7 @@ class TrainingCardEdit extends Component {
           <div className="card__comment">
             <textarea
               className="card-comment__textarea"
+              value={note}
               placeholder="Для заметок"
               onChange={onTextareaChange}/>
           </div>

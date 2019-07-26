@@ -23,7 +23,7 @@ const Footer = props => {
             </li>
           </ul>
           <p className="footer__text">Designed by Dimasick & Maxsick</p>
-          <p className="footer__text">2018г. Все права защищены. Перепечатка запрещена.</p>
+          <p className="footer__text">2018-2019г. Все права защищены. Перепечатка запрещена.</p>
         </div>
       </footer>
     </React.Fragment>

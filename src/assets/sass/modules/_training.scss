@@ -1,0 +1,78 @@
+.training {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px;
+}
+
+.training-points {
+  width: 30%;
+  margin: 0;
+  padding: 0;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.training-workout {
+  width: 70%;
+}
+
+.training-workout__text {
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+  font-size: 22px;
+  max-width: 600px;
+
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.training-workout__text--empty {
+  font-size: 18px;
+  margin: 0;
+  padding: 10px 0;
+
+  &:hover {
+    font-weight: normal;
+  }
+}
+
+.training-points__item {
+  margin-bottom: 20px;
+
+  &:hover{
+    font-weight: bold;
+  }
+}
+
+.training-points__item:last-child {
+  margin-bottom: 0;
+}
+
+.training-workout__list {
+  max-width: 600px;
+}
+
+
+@media (max-width: 768px) {
+  .training {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .training-points {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .training-workout {
+    width: auto;
+  }
+}

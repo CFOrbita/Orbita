@@ -1,23 +1,11 @@
-@import "blocks/variables";
-//@import "blocks/side-menu";
-@import "blocks/header";
-@import "blocks/login";
-@import "blocks/forgot-pass";
-//@import "blocks/button";
-//@import "blocks/button-elements";
-@import "blocks/breadcrumb";
-@import "blocks/avatar";
-@import "blocks/edit";
-@import "blocks/datepicker";
-@import "blocks/footer";
-@import "blocks/training";
-@import "blocks/decor-elements";
-@import "blocks/wishes";
-@import "blocks/custom-dropdown";
-@import "blocks/card";
-@import "blocks/checkbox";
-
+@import "modules/variables";
 @import "modules/toolbar";
+@import "modules/main";
+@import "modules/footer";
+@import "modules/card";
+@import "modules/training";
+@import "modules/add-workout";
+
 
 @font-face {
   font-family: "ProximaNova-Light";
@@ -33,15 +21,19 @@ html {
 body {
   font-family: "ProximaNova-Light";
   height: 100%;
+  margin: 0;
 }
 
 a {
   text-decoration: none;
 }
 
-
 li {
   list-style: none;
+}
+
+.main {
+  min-height: calc(100vh - 165px);
 }
 
 

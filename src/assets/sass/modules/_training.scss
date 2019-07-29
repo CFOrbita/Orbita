@@ -46,6 +46,13 @@
   }
 }
 
+.training-points__item a{
+
+  &.active{
+    text-decoration: underline;
+  }
+}
+
 .training-points__item:last-child {
   margin-bottom: 0;
 }

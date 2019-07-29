@@ -1,6 +1,8 @@
 import React, {Component} from "react";
-import TrainingCard from "./training-card/training-card";
-import TrainingCardAdd from "./add-training/add-training";
+import {Link, Route} from "react-router-dom";
+import Statistics from "./statistics/statistics.jsx";
+import Cards from "./cards/cards.jsx";
+
 
 class Trainings extends Component {
   constructor(props) {
@@ -100,40 +102,34 @@ class Trainings extends Component {
       <React.Fragment>
         <div className="training">
           <ul className="training-points">
-            <li className="training-points__item"><a className="training-points__link" href="#">Журнал</a></li>
-            <li className="training-points__item"><a className="training-points__link" href="#">Статистика</a></li>
-            <li className="training-points__item"><a className="training-points__link" href="#">Тестирование</a></li>
+            <li className="training-points__item">
+              <Link to="/trainings" className="training-points__link">Журнал</Link>
+            </li>
+            <li className="training-points__item">
+              <Link to="/trainings/statistics" className="training-points__link">Статистика</Link>
+            </li>
+            <li className="training-points__item">
+              <a className="training-points__link" href="#">Тестирование</a>
+            </li>
           </ul>
-          <div className="training-workout">
-            <a className="training-workout__text" href="#" onClick={this.handleAddNewTraining}>
-              Добавить тренировку
-            </a>
-            {isEditing &&
-              (
-                <TrainingCardAdd
-                  id={this.setNewId}
-                  editingTraining={this.editingTraining}
-                  onSaveTraining={this.handleSaveTraining}
-                  onCancel={this.handleCancel}/>
-              )
-            }
 
+          <Route path="/trainings/statistics" render={() => <Statistics trainings={trainings}/> } />
+          <Route exact path="/trainings" render={() => {
+             return (
+               <Cards
+                 trainings={trainings}
+                 isEditing={isEditing}
+                 setNewId={this.setNewId}
+                 editingTraining={this.editingTraining}
+                 onAddNewTraining={this.handleAddNewTraining}
+                 onSaveTraining={this.handleSaveTraining}
+                 onCancel={this.handleCancel}
+                 onEditTraining={this.handleEditTraining}
+                 onDeleteTraining={this.handleDeleteTraining}
+               />
+             );
+          }}/>
 
-            {trainings.length > 0 ?
-              <div className="training-workout__list">
-                {trainings.map((item, index) => {
-                  return <TrainingCard
-                    key={index}
-                    item={item}
-                    onEditTraining={this.handleEditTraining}
-                    onDeleteTraining={this.handleDeleteTraining}/>
-                })}
-              </div>
-              : <span
-                className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
-            }
-
-          </div>
         </div>
       </React.Fragment>
     )

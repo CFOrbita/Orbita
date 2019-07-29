@@ -12,3 +12,10 @@ export function formatDate(date) {
 
   return `${day} ${monthNames[monthIndex]} ${year} г.`;
 }
+export function dateSortAsc(a, b) {
+  return new Date(a.date).getTime() - new Date(b.date).getTime()
+}
+
+export function dateSortDesc(a, b) {
+  return new Date(b.date).getTime() - new Date(a.date).getTime()
+}

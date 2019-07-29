@@ -22,6 +22,7 @@ class Content extends Component{
     return (
         <main className="main">
           <p className="main__fake-text">Нужно войти в личный кабинет или зарегестрироваться</p>
+
           <Route path="/trainings" render={() => <Trainings {...trainingsProps}/>} />
           <Route path="/fiteat" component={FitEat} />
         </main>

@@ -8,7 +8,7 @@ class TrainingCardAdd extends Component {
     const {editingTraining} = props;
 
     this.state = {
-      id: editingTraining && editingTraining.id || this.props.id(),
+      id: editingTraining && editingTraining.id || this.props.setNewId(),
       gym: editingTraining && editingTraining.gym || { name: null, inputValue: null },
       date: editingTraining && editingTraining.date || new Date(),
       sessions: editingTraining && editingTraining.sessions || [

@@ -11,6 +11,7 @@ const TrainingInfo = (props) => {
       {exercises.map((item, index) => {
         const repeats = item.repeats ? item.repeats : '0';
         const sets = item.sets ? item.sets : '0';
+        const weight = item.weight ? item.weight : '0';
 
         return (
           <div key={index} className="card-content__info">
@@ -18,6 +19,7 @@ const TrainingInfo = (props) => {
               <span className="card-content__list-item">{item.exercise.label}</span>
             </div>
             <div className="card-content__list">
+              <span className="card-content__list-item">{weight} кг</span>
               <span className="card-content__list-item">Повторы: {repeats}</span>
               <span className="card-content__list-item">Подходы: {sets}</span>
             </div>

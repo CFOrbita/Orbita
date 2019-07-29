@@ -22,6 +22,8 @@ class TrainingSession extends Component {
         return Options.optionsExercises.back;
       case 'chest':
         return Options.optionsExercises.chest;
+      case 'press':
+        return Options.optionsExercises.press;
       case 'legs':
         return Options.optionsExercises.legs;
       default:
@@ -67,6 +69,7 @@ class TrainingSession extends Component {
                     idSession={id}
                     idWorkout={item.id}
                     selectedExercise={item.exercise}
+                    weight={item.weight}
                     sets={item.sets}
                     repeats={item.repeats}
                     exercises={optionExercises}

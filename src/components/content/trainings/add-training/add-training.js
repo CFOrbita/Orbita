@@ -215,7 +215,7 @@ class TrainingCardAdd extends Component {
       }
 
       for (let j = 0; j < exercises.length; j++) {
-        if (exercises[j].exercise === null) {
+        if (exercises[j].exercise === null || exercises[j].weight === undefined || exercises[j].sets === undefined || exercises[j].repeats === undefined) {
           error = true;
           return error;
         }

@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Link, Route} from "react-router-dom";
 import Statistics from "./statistics/statistics.jsx";
 import Cards from "./cards/cards.jsx";
+import {connect} from "react-redux";
+import {actionCancelTraining, actionDeleteTraining, actionSaveTraining} from "../../../reducer/trainings/trainingsData";
 
 
 class Trainings extends Component {
@@ -52,9 +54,10 @@ class Trainings extends Component {
   }
 
   handleCancel() {
-    this.setState(prev => {
-      this.editingTraining = null;
+    this.props.onCancelTraining();
+    this.editingTraining = null;
 
+    this.setState(prev => {
       return {isEditing: !prev.isEditing}
     })
   }
@@ -136,4 +139,22 @@ class Trainings extends Component {
   }
 }
 
-export default Trainings;
+const mapStateToProps = (state) => {
+  return {
+    trainings: state.trainings,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onSaveTraining: (item) => {
+    dispatch(actionSaveTraining(item));
+  },
+  onCancelTraining: () => {
+    dispatch(actionCancelTraining());
+  },
+  onDeleteTraining: (state) => {
+    dispatch(actionDeleteTraining(state));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Trainings);

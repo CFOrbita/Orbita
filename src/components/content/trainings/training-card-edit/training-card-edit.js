@@ -68,9 +68,7 @@ class TrainingCardEdit extends Component {
             )
           })}
           <div className="card__add">
-            <button
-              className="card__add-btn card__add-btn--session"
-              onClick={onAddSession}>
+            <button className="card__add-btn card__add-btn--session" onClick={onAddSession}>
               Добавить
             </button>
           </div>

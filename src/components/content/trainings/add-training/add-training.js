@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import TrainingCardEdit from "../training-card-edit/training-card-edit";
+import cloneDeep from "lodash.clonedeep";
 
 class TrainingCardAdd extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class TrainingCardAdd extends Component {
 
   sessionFinder(id) {
     // 1. Make a shallow copy of the items
-    const sessions = [...this.state.sessions];
+    const sessions = cloneDeep(this.state.sessions);
     // 1.1 Find current object's index
     const indexSession = sessions.findIndex((session => session.id === id));
     // 2. Make a shallow copy of the item you want to mutate
@@ -47,7 +48,7 @@ class TrainingCardAdd extends Component {
   }
 
   exercisesFinder(id, indexSession) {
-    const exercises = [...this.state.sessions[indexSession].exercises];
+    const exercises = cloneDeep(this.state.sessions[indexSession].exercises);
     const indexWorkout = exercises.findIndex((workout => workout.id === id));
 
     let workout = {...exercises[indexWorkout]};
@@ -56,7 +57,10 @@ class TrainingCardAdd extends Component {
   }
 
   defineLastId(indexSession) {
-    let iterableArr = indexSession !== undefined ? [...this.state.sessions[indexSession].exercises] : [...this.state.sessions];
+    let iterableArr =
+                    indexSession !== undefined ?
+                      [...this.state.sessions[indexSession].exercises]
+                      : [...this.state.sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -97,10 +101,11 @@ class TrainingCardAdd extends Component {
   };
 
   handleBodyPartChange(selectedOption, id) {
-    let sessions = [...this.state.sessions];
+    let sessions = cloneDeep(this.state.sessions);
     const {session, indexSession} = this.sessionFinder(id); //returns new copy of object
     // 3. Replace the property you're intested in
     session.partBody = selectedOption;
+
     if (session.exercises.length === 1) {
       session.exercises[0].exercise = null;
     } else {
@@ -108,14 +113,14 @@ class TrainingCardAdd extends Component {
       session.exercises.push({id:1, exercise: null});
     }
 
-    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    // 4. Put it back into our array
     sessions[indexSession] = session;
-    // 5. Set the state to our new copy
+    // 5. Set the state to new copy
     this.setState({sessions});
   };
 
   handleExerciseChange(selectedOption, idSession, idWorkout) {
-    let sessions = [...this.state.sessions];
+    let sessions = cloneDeep(this.state.sessions);
 
     const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
     const {workout, indexWorkout} = this.exercisesFinder(idWorkout, indexSession); //returns new copy of object
@@ -130,7 +135,7 @@ class TrainingCardAdd extends Component {
     const value = event.target.value;
     const name = event.target.name;
 
-    let sessions = [...this.state.sessions];
+    let sessions = cloneDeep(this.state.sessions);
     const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
     const {workout, indexWorkout} = this.exercisesFinder(idWorkout, indexSession); //returns new copy of object
 
@@ -172,7 +177,7 @@ class TrainingCardAdd extends Component {
   }
 
   handleAddWorkout(idSession) {
-    let sessions = [...this.state.sessions];
+    let sessions = cloneDeep(this.state.sessions);
     const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
     const newId = this.defineLastId(indexSession) + 1;
 

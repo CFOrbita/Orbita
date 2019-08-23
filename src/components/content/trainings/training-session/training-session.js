@@ -79,17 +79,13 @@ class TrainingSession extends Component {
                 )
               })}
 
-              <button
-                className="card__add-btn card__add-btn--workout"
-                onClick={() => onAddWorkout(id)}>
+              <button className="card__add-btn card__add-btn--workout" onClick={() => onAddWorkout(id)}>
                 Ещё
               </button>
             </React.Fragment>
           }
 
-          <button
-            className="card__btn-delete"
-            onClick={() => onDeleteSession(id)}
+          <button className="card__btn-delete" onClick={() => onDeleteSession(id)}
           />
         </div>
       </div>

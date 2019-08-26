@@ -49,6 +49,23 @@
       "value": "legs", "label": "Ноги"
     }
   ],
+  "optionsTonnageChart": [
+    {
+      "value": "shoulders", "label": "Плечи"
+    },
+    {
+      "value": "arms", "label": "Руки"
+    },
+    {
+      "value": "back", "label": "Спина"
+    },
+    {
+      "value": "chest", "label": "Грудь"
+    },
+    {
+      "value": "legs", "label": "Ноги"
+    }
+  ],
   "optionsExercises": {
     "shoulders": [
       {"value": "1", "label": "Ex1S"},

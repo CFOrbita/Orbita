@@ -50,7 +50,7 @@ class Statistics extends Component {
     const daysCounts = daysInMonth(month, year);
 
     for (let i = 1; i <= daysCounts; i++) {
-      datesArray.push({day: i, tonnage: 0})
+      datesArray.push({day: i})
     }
 
     return datesArray;
@@ -115,7 +115,7 @@ class Statistics extends Component {
             const sets = Number(element.sets);
             const repeats = Number(element.repeats);
 
-            tonnage = weight * sets * repeats;
+            tonnage += weight * sets * repeats;
           }
 
           currentMonthData.push({date: item.date, tonnage});
@@ -126,7 +126,7 @@ class Statistics extends Component {
     resultDates.forEach(item => {
       for (const el of currentMonthData) {
         if (item.day === el.date.getDate()) {
-          item.tonnage += el.tonnage;
+          item.tonnage !== undefined ? item.tonnage += el.tonnage : item.tonnage = el.tonnage;
         }
       }
     });

@@ -1,9 +1,15 @@
 import React, {Component} from "react";
-import {Route} from "react-router-dom";
+import {Route, Link } from "react-router-dom";
 
+import * as ROUTES from "../../utils/constants/routes";
 import Trainings from "./trainings/trainings";
 import FitEat from "./fiteat/fiteat";
-import {actionDeleteTraining, actionSaveTraining} from "../../reducer/trainings/trainingsData";
+import SignUpPage from './sign-up/sign-up.jsx';
+import SignInPage from './sign-in/sign-in.jsx';
+import PasswordForgetPage from './password-forget/password-forget.jsx';
+import AccountPage from './account/account.jsx';
+import AdminPage from './admin/admin.jsx';
+
 
 class Content extends Component{
   constructor(props) {
@@ -15,14 +21,20 @@ class Content extends Component{
   }
 
   render() {
-
-
     return (
         <main className="main">
-          <p className="main__fake-text">Нужно войти в личный кабинет или зарегестрироваться</p>
+          <p className="main__fake-text">
+            Нужно {<Link to={ROUTES.SIGN_IN}>войти</Link>} в личный кабинет
+            Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+          </p>
 
           <Route path="/trainings" render={() => <Trainings/>} />
           <Route path="/fiteat" component={FitEat} />
+          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+          <Route path={ROUTES.ADMIN} component={AdminPage} />
         </main>
     );
   }

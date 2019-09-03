@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from "react-router-dom";
+import Firebase, {FirebaseContext} from './components/Firebase/index';
 import {createStore} from "redux";
 import {Provider} from "react-redux";
 import App from './components/app/app.jsx'
@@ -14,9 +15,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App/>
-    </BrowserRouter>
+    <FirebaseContext.Provider value={new Firebase()}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')
 );

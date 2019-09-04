@@ -16,6 +16,12 @@ class Firebase {
     app.initializeApp(config);
 
     this.auth = app.auth();
+
+    this.doCreateUserWithEmailAndPassword = this.doCreateUserWithEmailAndPassword.bind(this);
+    this.doSignInWithEmailAndPassword = this.doSignInWithEmailAndPassword.bind(this);
+    this.doSignOut = this.doSignOut.bind(this);
+    this.doPasswordReset = this.doPasswordReset.bind(this);
+    this.doPasswordUpdate = this.doPasswordUpdate.bind(this);
   }
 
   // *** Auth API ***

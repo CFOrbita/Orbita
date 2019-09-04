@@ -9,33 +9,45 @@ import SignInPage from './sign-in/sign-in.jsx';
 import PasswordForgetPage from './password-forget/password-forget.jsx';
 import AccountPage from './account/account.jsx';
 import AdminPage from './admin/admin.jsx';
+import {AuthUserContext} from "../content/session/index";
 
 
 class Content extends Component{
   constructor(props) {
     super(props);
 
-    this.state = {
-      isAuth: false
-    }
   }
 
   render() {
     return (
-        <main className="main">
-          <p className="main__fake-text">
-            Нужно {<Link to={ROUTES.SIGN_IN}>войти</Link>} в личный кабинет
-            Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-          </p>
+      <AuthUserContext.Consumer>
+        {
+          authUser => {
+            return (
+              <main className="main">
+                {
+                  !!authUser ?
+                    <p className="main__fake-text">Упех, вы зашли</p>
+                    :
+                    <p className="main__fake-text">
+                      Нужно {<Link to={ROUTES.SIGN_IN}>войти</Link>} в личный кабинет
+                      Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+                    </p>
+                }
 
-          <Route path="/trainings" render={() => <Trainings/>} />
-          <Route path="/fiteat" component={FitEat} />
-          <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-          <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-          <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-          <Route path={ROUTES.ADMIN} component={AdminPage} />
-        </main>
+
+                <Route path="/trainings" render={() => <Trainings/>} />
+                <Route path="/fiteat" component={FitEat} />
+                <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+                <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+                <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                <Route path={ROUTES.ADMIN} component={AdminPage} />
+              </main>
+            );
+          }
+        }
+      </AuthUserContext.Consumer>
     );
   }
 }

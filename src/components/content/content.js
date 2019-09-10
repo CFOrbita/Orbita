@@ -7,6 +7,7 @@ import FitEat from "./fiteat/fiteat";
 import SignUpPage from './sign-up/sign-up.jsx';
 import SignInPage from './sign-in/sign-in.jsx';
 import PasswordForgetPage from './password-forget/password-forget.jsx';
+import PasswordChangeForm from './password-change/password-change.jsx';
 import AccountPage from './account/account.jsx';
 import AdminPage from './admin/admin.jsx';
 import {AuthUserContext} from "../content/session/index";
@@ -35,12 +36,12 @@ class Content extends Component{
                     </p>
                 }
 
-
                 <Route path="/trainings" render={() => <Trainings/>} />
                 <Route path="/fiteat" component={FitEat} />
                 <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
                 <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                 <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
+                <Route path={ROUTES.PASSWORD_CHANGE} component={PasswordChangeForm} />
                 <Route path={ROUTES.ACCOUNT} component={AccountPage} />
                 <Route path={ROUTES.ADMIN} component={AdminPage} />
               </main>

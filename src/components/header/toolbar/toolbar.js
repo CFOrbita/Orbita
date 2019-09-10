@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DrawerToggleButton from "../side-drawer/drawer-toggle-button";
 import SignOutButton from "../../content/sign-out/sign-out.jsx";
 import {AuthUserContext} from '../../content/session/index';
+import Account from "../../content/account/account.jsx";
 
 const Toolbar = props => {
   const {drawerClickHandler} = props;
@@ -23,19 +24,13 @@ const Toolbar = props => {
               <div className="spacer"/>
               <ul className="toolbar__navigation-items">
                 <li>
-                  <NavLink to="/trainings">Trainings</NavLink>
+                  {authUser && <NavLink to="/trainings">Trainings</NavLink>}
                 </li>
                 <li>
-                  <NavLink to="/fiteat">FitEat</NavLink>
+                  {authUser && <NavLink to="/fiteat">FitEat</NavLink>}
                 </li>
-                {
-                  !!authUser ?
-                    <li>
-                      <SignOutButton/>
-                    </li>
-                    :
-                    null
-                }
+                { authUser ? <li><Link to="/account">Account</Link></li> : null }
+                { authUser ? <li><SignOutButton/></li> : null }
               </ul>
             </nav>
           </header>

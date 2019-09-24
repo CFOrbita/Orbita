@@ -42,7 +42,7 @@ class Content extends Component{
                 <Route path={ROUTES.SIGN_IN} component={SignInPage} />
                 <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
                 <Route path={ROUTES.PASSWORD_CHANGE} component={PasswordChangeForm} />
-                <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+                <Route path={ROUTES.ACCOUNT} render={() => <AccountPage authUser={authUser}/>} />
                 <Route path={ROUTES.ADMIN} component={AdminPage} />
               </main>
             );

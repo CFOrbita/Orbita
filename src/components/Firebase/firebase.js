@@ -24,6 +24,7 @@ class Firebase {
     this.doSignOut = this.doSignOut.bind(this);
     this.doPasswordReset = this.doPasswordReset.bind(this);
     this.doPasswordUpdate = this.doPasswordUpdate.bind(this);
+    this.onAuthUserListener = this.onAuthUserListener.bind(this);
     this.user = this.user.bind(this);
     this.users = this.users.bind(this);
   }
@@ -47,6 +48,33 @@ class Firebase {
 
   doPasswordUpdate(password) {
     return this.auth.currentUser.updatePassword(password);
+  }
+
+  // *** Merge Auth and DB User API *** //
+
+  onAuthUserListener(next, fallback) {
+    return this.auth.onAuthStateChanged(authUser => {
+      if (authUser) {
+        this.user(authUser.uid)
+          .once('value')
+          .then(snapshot => {
+            const dbUser = snapshot.val();
+            // default empty roles
+            if (!dbUser.roles) {
+              dbUser.roles = {};
+            }
+            // merge auth and db user
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser,
+            };
+            next(authUser);
+          });
+      } else {
+        fallback();
+      }
+    });
   }
 
   // *** User API ***

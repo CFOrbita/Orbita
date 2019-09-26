@@ -6,6 +6,7 @@ import SignOutButton from "../../content/sign-out/sign-out.jsx";
 import {AuthUserContext} from '../../content/session/index';
 import Account from "../../content/account/account.jsx";
 import * as ROUTES from "../../../utils/constants/routes";
+import * as ROLES from "../../../utils/constants/roles";
 
 const Toolbar = props => {
   const {drawerClickHandler} = props;
@@ -31,7 +32,7 @@ const Toolbar = props => {
                   {authUser && <NavLink to="/fiteat">FitEat</NavLink>}
                 </li>
                 { authUser ? <li><Link to={ROUTES.ACCOUNT}>Account</Link></li> : null }
-                { authUser ? <li><Link to={ROUTES.ADMIN}>Admin</Link></li> : null }
+                { authUser && !!authUser.roles[ROLES.ADMIN] ? <li><Link to={ROUTES.ADMIN}>Admin</Link></li> : null }
                 { authUser ? <li><SignOutButton/></li> : null }
               </ul>
             </nav>

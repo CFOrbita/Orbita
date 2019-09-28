@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {withFirebase} from "../../Firebase";
-import * as ROUTES from "../../../utils/constants/routes";
-import * as ROLES from '../../../utils/constants/roles';
 import {withRouter} from "react-router-dom";
 import {compose} from "recompose";
+
+import {withFirebase} from "../../Firebase";
+import * as Messages from "../../../utils/constants/messages";
+import * as ROUTES from "../../../utils/constants/routes";
+import * as ROLES from '../../../utils/constants/roles';
 
 const INITIAL_STATE = {
   username: '',
@@ -59,6 +61,10 @@ class SignUpFormBase extends Component {
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        if (error.code === Messages.accountExistViaEmail.ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = Messages.accountExistViaEmail.ERROR_MSG_ACCOUNT_EXISTS;
+        }
+
         this.setState({ error });
       });
   }

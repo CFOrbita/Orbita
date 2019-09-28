@@ -19,6 +19,7 @@ class Firebase {
     this.auth = app.auth();
     this.db = app.database();
     this.googleProvider = new app.auth.GoogleAuthProvider();
+    this.emailAuthProvider = app.auth.EmailAuthProvider;
 
     this.doCreateUserWithEmailAndPassword = this.doCreateUserWithEmailAndPassword.bind(this);
     this.doSignInWithEmailAndPassword = this.doSignInWithEmailAndPassword.bind(this);

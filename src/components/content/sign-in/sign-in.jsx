@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'recompose';
+
 import {withFirebase} from '../../Firebase/context';
 import * as ROUTES from "../../../utils/constants/routes";
 import {SignInGoogle} from "./sign-in-with-google/sign-in-with-google.jsx";
@@ -9,7 +10,7 @@ import {SignInGoogle} from "./sign-in-with-google/sign-in-with-google.jsx";
 const SignInPage = () => (
   <div>
     <h1>SignIn</h1>
-    <SignInForm/>
+    <SignInForm />
     <SignInGoogle />
   </div>
 );

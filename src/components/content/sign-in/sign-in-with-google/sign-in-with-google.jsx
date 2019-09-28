@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from "recompose";
 import {withRouter} from 'react-router-dom';
-
+import * as Messages from "../../../../utils/constants/messages";
 import * as ROUTES from "../../../../utils/constants/routes";
 import {withFirebase} from "../../../Firebase";
 
@@ -32,6 +32,10 @@ class SignInGoogleBase extends Component {
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        if (error.code === Messages.accountExistViaSocial.ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = Messages.accountExistViaSocial.ERROR_MSG_ACCOUNT_EXISTS;
+        }
+
         this.setState({ error });
       });
     event.preventDefault();

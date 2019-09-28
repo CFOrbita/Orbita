@@ -1,0 +1,10 @@
+{
+  "accountExistViaSocial" : {
+    "ERROR_CODE_ACCOUNT_EXISTS" : "auth/account-exists-with-different-credential",
+    "ERROR_MSG_ACCOUNT_EXISTS " : "An account with an E-Mail address to\n  this social account already exists. Try to login from\n  this account instead and associate your social accounts on\n  your personal account page."
+  },
+  "accountExistViaEmail" : {
+    "ERROR_CODE_ACCOUNT_EXISTS" : "auth/email-already-in-use",
+    "ERROR_MSG_ACCOUNT_EXISTS " : "An account with this E-Mail address already exists.\n  Try to login with this account instead. If you think the\n  account is already used from one of the social logins, try\n  to sign-in with one of them. Afterward, associate your accounts\n  on your personal account page."
+  }
+}

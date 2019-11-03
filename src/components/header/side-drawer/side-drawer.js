@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { compose } from 'recompose';
 import { NavLink } from "react-router-dom";
-import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
+import { withAuthorization, withEmailVerification } from "../../content/session/index";
 
 const SideDrawer = props => {
   const {onShown} = props;
@@ -34,4 +35,7 @@ SideDrawer.propTypes = {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(SideDrawer);
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(SideDrawer);

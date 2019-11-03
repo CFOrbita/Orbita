@@ -1,5 +1,6 @@
 import React from "react";
-import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
+import {compose} from "recompose";
+import {withAuthorization, withEmailVerification} from "../../content/session";
 
 const Backdrop = props => {
   const {backDropClickHandler} = props;
@@ -11,4 +12,7 @@ const Backdrop = props => {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(Backdrop);
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition))
+(Backdrop);

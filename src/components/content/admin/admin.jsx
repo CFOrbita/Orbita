@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {compose} from "recompose";
 import { withFirebase } from '../../Firebase/context';
-import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
+import {withAuthorization, withEmailVerification} from "../../content/session/index";
 import * as ROLES from "../../../utils/constants/roles";
 import UserList from "./user-list/user-list.jsx";
 
@@ -55,6 +55,7 @@ class AdminPage extends Component {
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 
 export default compose(
+  withEmailVerification,
   withAuthorization(condition),
   withFirebase,
 )(AdminPage);

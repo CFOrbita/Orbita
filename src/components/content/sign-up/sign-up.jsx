@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import {compose} from "recompose";
-
 import {withFirebase} from "../../Firebase";
 import * as Messages from "../../../utils/constants/messages";
 import * as ROUTES from "../../../utils/constants/routes";
@@ -55,6 +54,9 @@ class SignUpFormBase extends Component {
             email,
             roles
           });
+      })
+      .then(() => {
+        return this.props.firebase.doSendEmailVerification();
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });

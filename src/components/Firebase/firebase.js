@@ -57,6 +57,12 @@ class Firebase {
     return this.auth.currentUser.updatePassword(password);
   }
 
+  doSendEmailVerification () {
+    return this.auth.currentUser.sendEmailVerification({
+      url: 'http://localhost:1337',
+    });
+  }
+
   // *** Merge Auth and DB User API *** //
 
   onAuthUserListener(next, fallback) {
@@ -74,6 +80,8 @@ class Firebase {
             authUser = {
               uid: authUser.uid,
               email: authUser.email,
+              emailVerified: authUser.emailVerified,
+              providerData: authUser.providerData,
               ...dbUser,
             };
             next(authUser);

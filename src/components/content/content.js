@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Route, Link } from "react-router-dom";
-
 import * as ROUTES from "../../utils/constants/routes";
 import Trainings from "./trainings/trainings";
 import FitEat from "./fiteat/fiteat";

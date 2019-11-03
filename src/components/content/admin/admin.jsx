@@ -1,58 +1,28 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {compose} from "recompose";
+import {Route, Switch} from "react-router-dom";
 import { withFirebase } from '../../Firebase/context';
 import {withAuthorization, withEmailVerification} from "../../content/session/index";
 import * as ROLES from "../../../utils/constants/roles";
-import UserList from "./user-list/user-list.jsx";
+import * as ROUTES from "../../../utils/constants/routes";
+import UserListBase from "./user-list/user-list.jsx";
+import UserItemBase from "./user-item/user-item.jsx";
 
-
-class AdminPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      users: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ loading: true });
-    this.props.firebase.users().on('value', snapshot => {
-      const usersObject = snapshot.val();
-
-      const usersList = Object.keys(usersObject).map(key => ({
-        ...usersObject[key],
-        uid: key,
-      }));
-
-      this.setState({
-        users: usersList,
-        loading: false,
-      });
-    });
-  }
-
-  componentWillUnmount() {
-    this.props.firebase.users().off();
-  }
-
-  render() {
-    const { users, loading } = this.state;
-
-    return (
-      <div>
-        <h1>Admin</h1>
-
-        {loading && <div>Loading ...</div>}
-
-        <UserList users={users} />
-      </div>
-    );
-  }
-}
+const AdminPage = () => (
+  <div>
+    <h1>Admin</h1>
+    <p>The Admin Page is accessible by every signed in admin user.</p>
+    <Switch>
+      <Route exact path={ROUTES.ADMIN_DETAILS} component={UserItem} />
+      <Route exact path={ROUTES.ADMIN} component={UserList} />
+    </Switch>
+  </div>
+);
 
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
+
+const UserList = withFirebase(UserListBase);
+const UserItem = withFirebase(UserItemBase);
 
 export default compose(
   withEmailVerification,

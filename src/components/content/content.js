@@ -10,6 +10,7 @@ import PasswordChangeForm from './password-change/password-change.jsx';
 import AccountPage from './account/account.jsx';
 import AdminPage from './admin/admin.jsx';
 import {AuthUserContext} from "../content/session/index";
+import Messages from "./messages/messages.jsx";
 
 
 class Content extends Component{
@@ -34,7 +35,7 @@ class Content extends Component{
                       Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
                     </p>
                 }
-
+                <Messages/>
                 <Route path="/trainings" render={() => <Trainings/>} />
                 <Route path="/fiteat" component={FitEat} />
                 <Route path={ROUTES.SIGN_UP} component={SignUpPage} />

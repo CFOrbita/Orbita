@@ -9,6 +9,8 @@ class UserItemBase extends Component {
       user: null,
       ...props.location.state,
     };
+
+    this.onSendPasswordResetEmail = this.onSendPasswordResetEmail.bind(this);
   }
 
   componentDidMount() {

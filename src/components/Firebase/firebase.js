@@ -18,6 +18,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+    this.serverValue = app.database.ServerValue;
     this.googleProvider = new app.auth.GoogleAuthProvider();
     this.emailAuthProvider = app.auth.EmailAuthProvider;
 
@@ -30,6 +31,8 @@ class Firebase {
     this.onAuthUserListener = this.onAuthUserListener.bind(this);
     this.user = this.user.bind(this);
     this.users = this.users.bind(this);
+    this.message = this.message.bind(this);
+    this.messages = this.messages.bind(this);
   }
 
   // *** Auth API ***
@@ -96,11 +99,21 @@ class Firebase {
 
   user(uid) {
     return this.db.ref(`users/${uid}`)
-  };
+  }
 
   users() {
     return this.db.ref('users')
-  };
+  }
+
+  // *** Message API ***
+
+  message(uid) {
+    return this.db.ref(`messages/${uid}`)
+  }
+
+  messages() {
+    return this.db.ref('messages')
+  }
 }
 
 export default Firebase;

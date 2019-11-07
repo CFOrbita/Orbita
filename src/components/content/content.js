@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, Link } from "react-router-dom";
+import {Route, Link} from "react-router-dom";
 import * as ROUTES from "../../utils/constants/routes";
 import Trainings from "./trainings/trainings";
 import FitEat from "./fiteat/fiteat";
@@ -10,7 +10,7 @@ import PasswordChangeForm from './password-change/password-change.jsx';
 import AccountPage from './account/account.jsx';
 import AdminPage from './admin/admin.jsx';
 import {AuthUserContext} from "../content/session/index";
-import Messages from "./messages/messages.jsx";
+import Preloader from "./preloader/preloader.jsx"
 
 
 class Content extends Component{
@@ -35,7 +35,8 @@ class Content extends Component{
                       Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
                     </p>
                 }
-                <Messages/>
+                {/*<Preloader/>*/}
+                {/*<Messages/>*/}
                 <Route path="/trainings" render={() => <Trainings/>} />
                 <Route path="/fiteat" component={FitEat} />
                 <Route path={ROUTES.SIGN_UP} component={SignUpPage} />

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import * as ROUTES from "../../../../utils/constants/routes";
+import Preloader from "../../preloader/preloader.jsx";
 
 class UserListBase extends Component {
   constructor(props) {
@@ -33,10 +34,11 @@ class UserListBase extends Component {
 
   render() {
     const {users, loading} = this.state;
+
     return (
       <div>
         <h2>Users</h2>
-        {loading && <div>Loading ...</div>}
+        {loading && <Preloader/>}
         <ul>
           {users.map(user => (
             <li key={user.uid}>

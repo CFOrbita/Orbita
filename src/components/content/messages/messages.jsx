@@ -4,6 +4,7 @@ import AuthUserContext from "../session/context";
 import {compose} from "recompose";
 import {withAuthorization, withEmailVerification} from "../session";
 import * as ROLES from "../../../utils/constants/roles";
+import Preloader from "../preloader/preloader.jsx";
 
 const MessageList = ({authUser, messages, onRemoveMessage, onEditMessage}) => {
   return <ul>
@@ -190,7 +191,7 @@ class MessagesBase extends Component {
                 More
               </button>
             }
-            {loading && <div>Loading ...</div>}
+            {loading && <Preloader/>}
             {messages ?
               <MessageList authUser={authUser}
                            messages={messages}

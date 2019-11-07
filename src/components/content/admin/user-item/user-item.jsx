@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Preloader from "../../preloader/preloader.jsx";
 
 class UserItemBase extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class UserItemBase extends Component {
     return (
       <div>
         <h2>User ({this.props.match.params.id})</h2>
-        {loading && <div>Loading ...</div>}
+        {loading && <Preloader/>}
         {user && (
           <div>
             <span>

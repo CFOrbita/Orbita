@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {withFirebase} from '../../Firebase/index';
-import AuthUserContext from "../session/context";
-import {compose} from "recompose";
+import {connect} from 'react-redux';
+import {compose} from 'recompose';
 import {withAuthorization, withEmailVerification} from "../session";
 import * as ROLES from "../../../utils/constants/roles";
 import Preloader from "../preloader/preloader.jsx";
+
+const LIMIT = 5;
 
 const MessageList = ({authUser, messages, onRemoveMessage, onEditMessage}) => {
   return <ul>
@@ -74,16 +76,16 @@ class MessageItem extends Component {
                 <button onClick={this.onSaveEditText}>Save</button>
                 <button onClick={this.onToggleEditMode}>Reset</button>
               </span>
-             :
+              :
               <button onClick={this.onToggleEditMode}>Edit</button>
             }
             {!editMode &&
-              <button
-                type="button"
-                onClick={() => onRemoveMessage(message.uid)}
-              >
-                Delete
-              </button>
+            <button
+              type="button"
+              onClick={() => onRemoveMessage(message.uid)}
+            >
+              Delete
+            </button>
             }
           </span>
         )}
@@ -92,15 +94,13 @@ class MessageItem extends Component {
   }
 }
 
-class MessagesBase extends Component {
+class Messages extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       text: '',
       loading: false,
-      messages: [],
-      limit: 5,
     };
 
     this.onChangeText = this.onChangeText.bind(this);
@@ -111,7 +111,17 @@ class MessagesBase extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.messages.length) {
+      this.setState({loading: true});
+    }
+
     this.onListenForMessages();
+  }
+
+  componentDidUpdate(props) {
+    if (props.limit !== this.props.limit) {
+      this.onListenForMessages();
+    }
   }
 
   componentWillUnmount() {
@@ -124,28 +134,16 @@ class MessagesBase extends Component {
     this.props.firebase
       .messages()
       .orderByChild('createdAt')
-      .limitToLast(this.state.limit)
+      .limitToLast(this.props.limit)
       .on('value', snapshot => {
-        const messageObject = snapshot.val();
+        this.props.onSetMessages(snapshot.val());
 
-        if (messageObject) {
-          const messageList = Object.keys(messageObject).map(key => ({
-            ...messageObject[key],
-            uid: key,
-          }));
-
-          this.setState({
-            messages: messageList,
-            loading: false,
-          });
-        } else {
-          this.setState({messages: null, loading: false});
-        }
+        this.setState({loading: false});
       });
   }
 
   onNextPage() {
-    this.setState(state => ({ limit: state.limit + 5 }), this.onListenForMessages);
+    this.props.onSetMessagesLimit(this.props.limit + LIMIT);
   }
 
   onChangeText(event) {
@@ -170,7 +168,7 @@ class MessagesBase extends Component {
   }
 
   onEditMessage(message, text) {
-    const { uid, ...messageSnapshot } = message;
+    const {uid, ...messageSnapshot} = message;
 
     this.props.firebase.message(message.uid).set({
       ...messageSnapshot,
@@ -180,48 +178,64 @@ class MessagesBase extends Component {
   }
 
   render() {
-    const {text, messages, loading} = this.state;
+    const {messages, authUser} = this.props;
+    const {text, loading} = this.state;
 
     return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <div>
-            {!loading && messages &&
-              <button type="button" onClick={this.onNextPage}>
-                More
-              </button>
-            }
-            {loading && <Preloader/>}
-            {messages ?
-              <MessageList authUser={authUser}
-                           messages={messages}
-                           onEditMessage={this.onEditMessage}
-                           onRemoveMessage={this.onRemoveMessage}/>
-              :
-              <div>There are no messages ...</div>
-            }
-            <form onSubmit={event => this.onCreateMessage(event, authUser)}>
-              <input
-                type="text"
-                value={text}
-                onChange={this.onChangeText}
-              />
-              <button type="submit">Send</button>
-            </form>
-          </div>
-        )
+      <div>
+        {!loading && messages &&
+        <button type="button" onClick={this.onNextPage}>
+          More
+        </button>
         }
-      </AuthUserContext.Consumer>
+        {loading && <span>Loading...</span>}
+        {messages ?
+          <MessageList authUser={authUser}
+                       messages={messages}
+                       onEditMessage={this.onEditMessage}
+                       onRemoveMessage={this.onRemoveMessage}/>
+          :
+          <div>There are no messages ...</div>
+        }
+        <form onSubmit={event => this.onCreateMessage(event, authUser)}>
+          <input
+            type="text"
+            value={text}
+            onChange={this.onChangeText}
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  authUser: state.sessionState.authUser,
+  messages: Object.keys(state.messageState.messages || {}).map(
+    key => ({
+      ...state.messageState.messages[key],
+      uid: key,
+    }),
+  ),
+  limit: state.messageState.limit,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetMessages: messages =>
+    dispatch({type: 'MESSAGES_SET', messages}),
+  onSetMessagesLimit: limit =>
+    dispatch({type: 'MESSAGES_LIMIT_SET', limit}),
+});
+
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 
-const Messages = compose(
+export default compose(
+  withFirebase,
   withEmailVerification,
   withAuthorization(condition),
-  withFirebase,
-)(MessagesBase);
-
-export default Messages;
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(Messages);

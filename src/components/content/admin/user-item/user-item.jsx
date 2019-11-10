@@ -1,31 +1,34 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import Preloader from "../../preloader/preloader.jsx";
+import {withFirebase} from "../../../Firebase";
 
-class UserItemBase extends Component {
+class UserItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: false,
-      user: null,
-      ...props.location.state,
+      loading: false
     };
 
     this.onSendPasswordResetEmail = this.onSendPasswordResetEmail.bind(this);
   }
 
   componentDidMount() {
-    if (this.state.user) return;
-
-    this.setState({ loading: true });
+    if (!this.props.user) {
+      this.setState({ loading: true });
+    }
 
     this.props.firebase
       .user(this.props.match.params.id)
       .on('value', snapshot => {
-        this.setState({
-          user: snapshot.val(),
-          loading: false,
-        });
+        this.props.onSetUser(
+          snapshot.val(),
+          this.props.match.params.id,
+        );
+
+        this.setState({ loading: false });
       });
   }
 
@@ -38,7 +41,9 @@ class UserItemBase extends Component {
   }
 
   render() {
-    const { user, loading } = this.state;
+    const {user} = this.props;
+    const {loading} = this.state;
+
     return (
       <div>
         <h2>User ({this.props.match.params.id})</h2>
@@ -55,8 +60,7 @@ class UserItemBase extends Component {
               <strong>Username:</strong> {user.username}
             </span>
             <span>
-              <button type="button"
-                      onClick={this.onSendPasswordResetEmail}>
+              <button type="button" onClick={this.onSendPasswordResetEmail}>
                 Send Password Reset
               </button>
             </span>
@@ -67,4 +71,18 @@ class UserItemBase extends Component {
   }
 }
 
-export default UserItemBase;
+const mapStateToProps = (state, props) => ({
+  user: (state.userState.users || {})[props.match.params.id],
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetUser: (user, uid) => dispatch({ type: 'USER_SET', user, uid }),
+});
+
+export default compose(
+  withFirebase,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(UserItem);

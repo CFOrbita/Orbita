@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import * as ROUTES from "../../../utils/constants/routes";
-import {withAuthorization, withEmailVerification} from "../session/index";
+import {withAuthorization} from "../session/index";
 import {LoginManagement} from "../login-management/login-management.jsx";
 import {compose} from "recompose";
 import {withFirebase} from "../../Firebase";
@@ -26,7 +26,6 @@ const Account = ({authUser}) => {
 const condition = authUser => authUser && !!authUser.roles[ROLES.ADMIN];
 
 export default compose(
-  withEmailVerification,
   withAuthorization(condition),
   withFirebase,
 )(Account);

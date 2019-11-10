@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { compose } from 'recompose';
 import { NavLink } from "react-router-dom";
+import { withAuthorization, withEmailVerification } from "../../content/session/index";
 
 const SideDrawer = props => {
   const {onShown} = props;
@@ -12,7 +14,6 @@ const SideDrawer = props => {
 
   return (
       <nav className={drawerClasses.join(' ')}>
-
           <ul className="side-drawer__items">
             <li>
               <NavLink to="/trainings">Тренировки</NavLink>
@@ -32,4 +33,9 @@ SideDrawer.propTypes = {
   onShown: PropTypes.bool.isRequired
 };
 
-export default SideDrawer;
+const condition = authUser => !!authUser;
+
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(SideDrawer);

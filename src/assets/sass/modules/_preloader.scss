@@ -1,0 +1,17 @@
+.preloader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.planet {
+  background: url("../img/Orbita_1_transparent.gif") no-repeat;
+  background-size: contain;
+  width: 256px;
+  height: 128px;
+}

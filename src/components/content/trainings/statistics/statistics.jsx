@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import Options from "../../../../training-data/optionsData";
 import Select from "react-select";
-import {dateSortAsc} from "../../../../utils/Helpers";
+import {dateSortAsc, getDateByTimestamp} from "../../../../utils/Helpers";
 
 const ONE_WEEK_MILLISECONDS = 604800000; //milliseconds
 const ONE_MONTH_MILLISECONDS = 2629800000;
@@ -68,7 +68,9 @@ class Statistics extends Component {
     trainings.sort(dateSortAsc);
 
     trainings.forEach(item => {
-      const itemTime = item.date.getTime(); //milliseconds
+      const date = getDateByTimestamp(item[1].training.date);
+
+      const itemTime = date.getTime(); //milliseconds
       if (itemTime + millisecs > NOW_MILLISECONDS) {
         counts++;
       } else {
@@ -85,9 +87,11 @@ class Statistics extends Component {
     if (trainings.length === 0) return data;
 
     trainings.forEach(item => {
-      for (let i = 0; i < item.sessions.length; i++) {
-        const exercisesCounts = item.sessions[i].exercises.length;
-        const indexItem = data.findIndex(elem => elem.subject === item.sessions[i].partBody.label);
+      const sessions = item[1].training.sessions;
+
+      for (let i = 0; i < sessions.length; i++) {
+        const exercisesCounts = sessions[i].exercises.length;
+        const indexItem = data.findIndex(elem => elem.subject === sessions[i].partBody.label);
         data[indexItem].value += exercisesCounts;
       }
     });
@@ -104,7 +108,9 @@ class Statistics extends Component {
     const currentMonthData = [];
 
     trainings.forEach((item, index) => {
-      for (const el of item.sessions) {
+      const {sessions, date} = item[1].training;
+
+      for (const el of sessions) {
         const partBody = el.partBody.value;
         const filterValue = filter.value;
 
@@ -118,7 +124,7 @@ class Statistics extends Component {
             tonnage += weight * sets * repeats;
           }
 
-          currentMonthData.push({date: item.date, tonnage});
+          currentMonthData.push({date, tonnage});
         }
       }
     });

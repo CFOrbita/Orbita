@@ -34,6 +34,7 @@ class Cards extends Component {
     }
   }
 
+
   render() {
     const {
       isEditing,
@@ -73,13 +74,13 @@ class Cards extends Component {
                 value={filter}
                 placeholder="Фильтр"
                 onChange={this.onFilterChange}
-                options={Options.optionsFilterCards}
-              />
+                options={Options.optionsFilterCards} />
               <div className="training-workout__list">
                 {trainings.map((item, index) => {
                   return <TrainingCard
-                    key={index}
-                    item={item}
+                    key={item[0]}
+                    fbId={item[0]}
+                    item={item[1]}
                     onEditTraining={onEditTraining}
                     onDeleteTraining={onDeleteTraining}/>
                 })}
@@ -89,7 +90,8 @@ class Cards extends Component {
         }
 
         {
-          trainings.length === 0 && <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
+          trainings.length === 0 &&
+            <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
         }
       </div>
     );

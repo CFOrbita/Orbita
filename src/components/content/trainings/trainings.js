@@ -3,7 +3,15 @@ import {Link, Route} from "react-router-dom";
 import Statistics from "./statistics/statistics.jsx";
 import Cards from "./cards/cards.jsx";
 import {connect} from "react-redux";
-import {actionCancelTraining, actionDeleteTraining, actionSaveTraining} from "../../../reducer/trainings/trainingsData";
+import cloneDeep from "lodash.clonedeep";
+import {
+  actionCancelTraining,
+  actionDeleteTraining,
+  actionSaveTraining,
+  actionSetTrainings
+} from "../../../reducer/trainings/trainingsData";
+import {compose} from "recompose";
+import {withFirebase} from "../../Firebase";
 
 
 class Trainings extends Component {
@@ -22,22 +30,41 @@ class Trainings extends Component {
     this.handleEditTraining = this.handleEditTraining.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.setNewId = this.setNewId.bind(this);
+    this.setTrainings = this.setTrainings.bind(this);
+  }
+
+  componentDidMount() {
+    this.setTrainings()
+  }
+
+  setTrainings() {
+    const {authUser} = this.props;
+    this.setState({loading: true});
+
+    this.props.firebase
+      .trainings(authUser.uid)
+      .once('value', snapshot => {
+        let trainings = [];
+        let values = snapshot.val();
+        if (!!values) {
+          trainings = Object.entries(values);
+        }
+
+        this.props.onSetTrainings(trainings);
+
+        this.setState({loading: false});
+      })
   }
 
   setNewId() {
-    const trainings = [...this.props.trainings];
-    let id = 0;
+    const trainings = this.props.trainings;
 
     if (trainings.length === 0) {
       return 1;
     } else {
-      trainings.forEach((item) => {
-        if (item.id > id) {
-          id = item.id
-        }
-      });
+      const lastIndex = trainings[trainings.length - 1][1].training.id;
 
-      return id + 1;
+      return lastIndex + 1;
     }
   }
 
@@ -62,14 +89,38 @@ class Trainings extends Component {
     })
   }
 
-  handleSaveTraining(training) {
-    const trainings = [...this.props.trainings];
-    const indexTraining = trainings.findIndex((item => item.id === training.id));
+  saveOnFirebase(authUser, training, key) {
+    this.props.firebase.training(authUser.uid, key).update(
+      {
+        training,
+        userId: authUser.uid,
+        username: authUser.username,
+        createdAt: this.props.firebase.serverValue.TIMESTAMP
+      },
+      function(error) {
+        if (error) {
+          console.error(error)
+        }
+      }
+    )
+  }
 
-    if(indexTraining === -1) {
-      trainings.push(training)
+  deleteOnFirebase(authUser, key) {
+    this.props.firebase.training(authUser.uid, key).remove()
+  }
+
+  handleSaveTraining(training, fbId) {
+    const {authUser} = this.props;
+    const trainings = cloneDeep(this.props.trainings);
+    const indexTraining = trainings.findIndex((item => item[0] === fbId));
+
+    if (indexTraining === -1) {
+      const fbId = this.props.firebase.trainings(authUser.uid).push().key;
+      trainings.push([fbId, {training}]);
+      this.saveOnFirebase(authUser, training, fbId);
     } else {
-      trainings[indexTraining] = training;
+      trainings[indexTraining][1].training = training;
+      this.saveOnFirebase(authUser, training, fbId);
     }
 
     this.props.onSaveTraining(trainings);
@@ -81,16 +132,19 @@ class Trainings extends Component {
     })
   }
 
-  handleDeleteTraining(id) {
-    const trainings = [...this.props.trainings];
-    const state = trainings.filter(item => item.id !== id);
+  handleDeleteTraining(fbId) {
+    const {authUser} = this.props;
+    const trainings = this.props.trainings;
+    const state = trainings.filter(item => item[0] !== fbId);
 
+    this.deleteOnFirebase(authUser, fbId);
     this.props.onDeleteTraining(state);
   }
 
-  handleEditTraining(id) {
-    const trainings = [...this.props.trainings];
-    this.editingTraining = trainings.filter(item => item.id === id)[0];
+  handleEditTraining(fbId) {
+    const trainings = this.props.trainings;
+    const forEdit = trainings.filter(item => item[0] === fbId)[0];
+    this.editingTraining = {fbId, training: forEdit[1].training};
 
     this.setState(prev => {
       return {isEditing: !prev.isEditing}
@@ -117,21 +171,16 @@ class Trainings extends Component {
           </ul>
 
           <Route path="/trainings/statistics" render={() => <Statistics trainings={trainings}/> } />
-          <Route exact path="/trainings" render={() => {
-             return (
-               <Cards
-                 trainings={trainings}
-                 isEditing={isEditing}
-                 setNewId={this.setNewId}
-                 editingTraining={this.editingTraining}
-                 onAddNewTraining={this.handleAddNewTraining}
-                 onSaveTraining={this.handleSaveTraining}
-                 onCancel={this.handleCancel}
-                 onEditTraining={this.handleEditTraining}
-                 onDeleteTraining={this.handleDeleteTraining}
-               />
-             );
-          }}/>
+          <Route exact path="/trainings" render={() => <Cards trainings={trainings}
+                                                              isEditing={isEditing}
+                                                              setNewId={this.setNewId}
+                                                              editingTraining={this.editingTraining}
+                                                              onAddNewTraining={this.handleAddNewTraining}
+                                                              onSaveTraining={this.handleSaveTraining}
+                                                              onCancel={this.handleCancel}
+                                                              onEditTraining={this.handleEditTraining}
+                                                              onDeleteTraining={this.handleDeleteTraining} />
+          }/>
 
         </div>
       </React.Fragment>
@@ -142,10 +191,14 @@ class Trainings extends Component {
 const mapStateToProps = (state) => {
   return {
     trainings: state.trainings,
+    authUser: state.sessionState.authUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  onSetTrainings: (item) => {
+    dispatch(actionSetTrainings(item));
+  },
   onSaveTraining: (item) => {
     dispatch(actionSaveTraining(item));
   },
@@ -157,4 +210,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Trainings);
+export default compose(
+  withFirebase,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(Trainings);

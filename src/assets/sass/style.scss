@@ -7,6 +7,7 @@
 @import "modules/add-workout";
 @import "modules/statistics";
 @import "modules/preloader";
+@import "modules/loader";
 
 
 @font-face {
@@ -38,4 +39,6 @@ li {
   min-height: calc(100vh - 150px);
 }
 
-
+.no-match {
+  text-align: center;
+}

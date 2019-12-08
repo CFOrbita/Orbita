@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Link, Route} from "react-router-dom";
+import {Link, Route, Switch, Redirect} from "react-router-dom";
 import Statistics from "./statistics/statistics.jsx";
 import Cards from "./cards/cards.jsx";
 import {connect} from "react-redux";
@@ -12,6 +12,9 @@ import {
 } from "../../../reducer/trainings/trainingsData";
 import {compose} from "recompose";
 import {withFirebase} from "../../Firebase";
+import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
+import NoMatch from "../no-match/no-match.jsx";
+import * as ROUTES from "../../../utils/constants/routes";
 
 
 class Trainings extends Component {
@@ -90,7 +93,7 @@ class Trainings extends Component {
   }
 
   saveOnFirebase(authUser, training, key) {
-    this.props.firebase.training(authUser.uid, key).update(
+    return this.props.firebase.training(authUser.uid, key).update(
       {
         training,
         userId: authUser.uid,
@@ -111,16 +114,24 @@ class Trainings extends Component {
 
   handleSaveTraining(training, fbId) {
     const {authUser} = this.props;
+    this.setState({loading: true});
+
     const trainings = cloneDeep(this.props.trainings);
     const indexTraining = trainings.findIndex((item => item[0] === fbId));
 
     if (indexTraining === -1) {
       const fbId = this.props.firebase.trainings(authUser.uid).push().key;
       trainings.push([fbId, {training}]);
-      this.saveOnFirebase(authUser, training, fbId);
+      this.saveOnFirebase(authUser, training, fbId)
+        .then(() => {
+          this.setState({loading: false})
+        });
     } else {
       trainings[indexTraining][1].training = training;
-      this.saveOnFirebase(authUser, training, fbId);
+      this.saveOnFirebase(authUser, training, fbId)
+        .then(() => {
+          this.setState({loading: false})
+        });
     }
 
     this.props.onSaveTraining(trainings);
@@ -153,35 +164,45 @@ class Trainings extends Component {
 
   render() {
     const {trainings} = this.props;
-    const {isEditing} = this.state;
+    const {url, path} = this.props.match;
+    const {isEditing, loading} = this.state;
 
     return (
       <React.Fragment>
         <div className="training">
           <ul className="training-points">
             <li className="training-points__item">
-              <Link to="/trainings" className="training-points__link">Журнал</Link>
+              <Link to={`${url}/dashboard`} className="training-points__link">Журнал</Link>
             </li>
             <li className="training-points__item">
-              <Link to="/trainings/statistics" className="training-points__link">Статистика</Link>
+              <Link to={`${url}/statistics`} className="training-points__link">Статистика</Link>
             </li>
             <li className="training-points__item">
               <a className="training-points__link" href="#">Тестирование</a>
             </li>
           </ul>
 
-          <Route path="/trainings/statistics" render={() => <Statistics trainings={trainings}/> } />
-          <Route exact path="/trainings" render={() => <Cards trainings={trainings}
-                                                              isEditing={isEditing}
-                                                              setNewId={this.setNewId}
-                                                              editingTraining={this.editingTraining}
-                                                              onAddNewTraining={this.handleAddNewTraining}
-                                                              onSaveTraining={this.handleSaveTraining}
-                                                              onCancel={this.handleCancel}
-                                                              onEditTraining={this.handleEditTraining}
-                                                              onDeleteTraining={this.handleDeleteTraining} />
-          }/>
-
+          <div className="trainings-screen">
+            <Switch>
+              <Route exact path={path}>
+                <h3>Please select a topic.</h3>
+              </Route>
+              <Route exact path={`${path}/statistics`} render={() => <Statistics trainings={trainings}/> } />
+              <Route exact path={`${path}/dashboard`}
+                     render={() => <Cards trainings={trainings}
+                                          loading={loading}
+                                          isEditing={isEditing}
+                                          setNewId={this.setNewId}
+                                          editingTraining={this.editingTraining}
+                                          onAddNewTraining={this.handleAddNewTraining}
+                                          onSaveTraining={this.handleSaveTraining}
+                                          onCancel={this.handleCancel}
+                                          onEditTraining={this.handleEditTraining}
+                                          onDeleteTraining={this.handleDeleteTraining} />
+                     }
+              />
+            </Switch>
+          </div>
         </div>
       </React.Fragment>
     )
@@ -210,8 +231,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
+const condition = authUser => !!authUser;
+
 export default compose(
   withFirebase,
+  withAuthorization(condition),
   connect(
     mapStateToProps,
     mapDispatchToProps

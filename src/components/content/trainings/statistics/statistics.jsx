@@ -1,19 +1,13 @@
 import React, {Component} from "react";
-import {
-  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
-  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip
-} from 'recharts';
 import Options from "../../../../training-data/optionsData";
 import Select from "react-select";
 import {dateSortAsc, getDateByTimestamp} from "../../../../utils/Helpers";
+import withAuthorization from "../../../hoc/with-authorization/with-authorization.jsx";
+import {compose} from "recompose";
+import Chart from 'react-apexcharts'
 
 const ONE_WEEK_MILLISECONDS = 604800000; //milliseconds
 const ONE_MONTH_MILLISECONDS = 2629800000;
-const data = [
-  {x: 100, y: 200}, {x: 120, y: 100},
-  {x: 170, y: 300}, {x: 140, y: 250},
-  {x: 150, y: 400}, {x: 110, y: 280,}
-];
 
 class Statistics extends Component {
   constructor(props) {
@@ -30,11 +24,11 @@ class Statistics extends Component {
     this.setState({filter})
   }
 
-  fillDefaultData() {
+  fillWithLabels() {
     const bodyParts = [...Options.optionsPartBody];
 
     return bodyParts.map(item => {
-      return {subject: item.label, value: 0}
+      return item.label
     });
   }
 
@@ -50,10 +44,24 @@ class Statistics extends Component {
     const daysCounts = daysInMonth(month, year);
 
     for (let i = 1; i <= daysCounts; i++) {
-      datesArray.push({day: i})
+      datesArray.push([i, 0])
     }
 
     return datesArray;
+  }
+
+  getMonthName() {
+    const monthNames = [
+      "Января", "Февраля", "Марта",
+      "Апреля", "Мая", "Июня", "Июля",
+      "Августа", "Сентября", "Октября",
+      "Ноября", "Декабря"
+    ];
+
+    const month = new Date().getMonth();
+    const string = monthNames[month].substring(0, 3);
+
+    return string;
   }
 
   getTotalTrainingsCount() {
@@ -83,20 +91,68 @@ class Statistics extends Component {
 
   getDataForRadar() {
     const trainings = [...this.props.trainings];
-    const data = this.fillDefaultData();
-    if (trainings.length === 0) return data;
+    const labels = this.fillWithLabels();
+    const data = Array(labels.length).fill(0);
 
-    trainings.forEach(item => {
-      const sessions = item[1].training.sessions;
+    if (trainings.length !== 0) {
+      trainings.forEach(item => {
+        const sessions = item[1].training.sessions;
 
-      for (let i = 0; i < sessions.length; i++) {
-        const exercisesCounts = sessions[i].exercises.length;
-        const indexItem = data.findIndex(elem => elem.subject === sessions[i].partBody.label);
-        data[indexItem].value += exercisesCounts;
-      }
-    });
+        for (let i = 0; i < sessions.length; i++) {
+          const exercisesCounts = sessions[i].exercises.length;
+          const indexItem = labels.findIndex(elem => elem === sessions[i].partBody.label);
+          data[indexItem] += exercisesCounts;
+        }
+      });
+    }
 
-    return data;
+    return {
+      chart: {
+        type: 'radar'
+      },
+      labels,
+      plotOptions: {
+        radar: {
+          size: 140,
+          polygons: {
+            strokeColor: '#e9e9e9',
+            fill: {
+              colors: ['#f8f8f8', '#fff']
+            }
+          }
+        }
+      },
+      title: {
+        text: ''
+      },
+      colors: ['#FF4560'],
+      markers: {
+        size: 4,
+        colors: ['#fff'],
+        strokeColor: '#FF4560',
+        strokeWidth: 2,
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) {
+            return val
+          }
+        }
+      },
+      yaxis: {
+        tickAmount: 5,
+        labels: {
+          formatter: function(val, i) {
+            if (i % 2 === 0) {
+              return parseFloat(val).toFixed(1)
+              } else {
+              return ''
+            }
+          }
+        }
+      },
+      series: [{name: 'Series 1', data}]
+    };
   }
 
   getDataForTonnage() {
@@ -131,13 +187,43 @@ class Statistics extends Component {
 
     resultDates.forEach(item => {
       for (const el of currentMonthData) {
-        if (item.day === el.date.getDate()) {
-          item.tonnage !== undefined ? item.tonnage += el.tonnage : item.tonnage = el.tonnage;
+        if (item[0] === new Date(el.date).getDate()) {
+          item[1] += el.tonnage;
         }
       }
     });
 
-    return resultDates;
+    return {
+      options: {
+        type: 'numeric',
+        chart: {
+          zoom: {
+            enabled: true,
+            type: 'xy'
+          }
+        },
+        xaxis: {
+          tickAmount: 10,
+          labels: {
+            formatter: function(val) {
+              return val + 'kek'
+            }
+          }
+        },
+        yaxis: {
+          tickAmount: 7,
+          labels: {
+            formatter: function(val) {
+              return val + 'kek'
+            }
+          }
+        }
+      },
+      series: [{
+        name: "Тоннаж, кг",
+        data: resultDates
+      }],
+    };
   }
 
   render() {
@@ -165,39 +251,27 @@ class Statistics extends Component {
 
           <React.Fragment>
             <h3>Загруженность частей тела</h3>
-            <div className="polar-grid">
-              <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={450} data={radarData}>
-                <PolarGrid/>
-                <PolarAngleAxis dataKey="subject"/>
-                <PolarRadiusAxis/>
-                <Radar name="parts" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6}/>
-              </RadarChart>
-            </div>
+            <Chart options={radarData} series={radarData.series} type="radar" width={500} height={320}/>
           </React.Fragment>
-
           <div className="tonnage-chart">
             <Select
               className="card__select"
               value={filter}
               placeholder="Фильтр"
               onChange={this.onFilterChange}
-              options={Options.optionsTonnageChart}
-            />
-            {filter !== null && (
-              <ScatterChart width={600} height={400}>
-                <CartesianGrid/>
-                <XAxis dataKey={'day'} type="number" name='Дата' unit=''/>
-                <YAxis dataKey={'tonnage'} type="number" name='Вес' unit='kg'/>
-                <Scatter name={'name'} data={tonnageData} fill='#8884d8'/>
-                <Tooltip cursor={{strokeDasharray: '3 3'}}/>
-              </ScatterChart>
-            )}
+              options={Options.optionsTonnageChart} />
+            {
+              filter !== null && <Chart options={tonnageData} series={tonnageData.series} type="scatter" height="350" />
+            }
           </div>
-
         </div>
       </React.Fragment>
     );
   }
 }
 
-export default Statistics;
+const condition = authUser => !!authUser;
+
+export default compose(
+  withAuthorization(condition)
+)(Statistics);

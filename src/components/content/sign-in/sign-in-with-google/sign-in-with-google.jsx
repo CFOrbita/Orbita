@@ -36,6 +36,10 @@ class SignInGoogleBase extends Component {
           error.message = Messages.accountExistViaSocial.ERROR_MSG_ACCOUNT_EXISTS;
         }
 
+        if (error.code === Messages.userClosedSignInViaGoogle.ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = '';
+        }
+
         this.setState({ error });
       });
     event.preventDefault();
@@ -45,8 +49,8 @@ class SignInGoogleBase extends Component {
     const { error } = this.state;
 
     return (
-      <form onSubmit={(e) => this.onSubmit(e)}>
-        <button type="submit">Sign In with Google</button>
+      <form className="sign-in__form" onSubmit={(e) => this.onSubmit(e)}>
+        <button type="submit" className="sign-in__google" />
         {error && <p>{error.message}</p>}
       </form>
     );

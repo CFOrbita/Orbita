@@ -4,6 +4,7 @@ import TrainingCardAdd from "../add-training/add-training";
 import Select from "react-select";
 import Options from "../../../../training-data/optionsData";
 import {dateSortAsc, dateSortDesc} from "../../../../utils/Helpers";
+import Loading from "../../loader/loader.jsx";
 
 class Cards extends Component {
   constructor(props) {
@@ -44,13 +45,16 @@ class Cards extends Component {
       onCancel,
       onEditTraining,
       onDeleteTraining,
+      loading
     } = this.props;
     const {filter} = this.state;
     const trainings = this.getFilteredTrainings();
 
     return (
       <div className="training-workout">
-        <a className="training-workout__text" href="#" onClick={onAddNewTraining}>
+        <a className="training-workout__text"
+           href="#"
+           onClick={onAddNewTraining}>
           Добавить тренировку
         </a>
         {
@@ -63,33 +67,31 @@ class Cards extends Component {
               onCancel={onCancel}/>
           )
         }
-
         {
-          trainings.length > 0 &&
-          (
+          loading && <Loading/>
+        }
+        {
+          trainings.length > 0 ?
             <React.Fragment>
               <Select
                 className="card__select"
                 value={filter}
                 placeholder="Фильтр"
                 onChange={this.onFilterChange}
-                options={Options.optionsFilterCards}
-              />
+                options={Options.optionsFilterCards} />
               <div className="training-workout__list">
                 {trainings.map((item, index) => {
                   return <TrainingCard
-                    key={index}
-                    item={item}
+                    key={item[0]}
+                    fbId={item[0]}
+                    item={item[1]}
                     onEditTraining={onEditTraining}
                     onDeleteTraining={onDeleteTraining}/>
                 })}
               </div>
             </React.Fragment>
-          )
-        }
-
-        {
-          trainings.length === 0 && <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
+           :
+            <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
         }
       </div>
     );

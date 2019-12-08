@@ -1,0 +1,14 @@
+.pass-forget {
+  text-align: center
+}
+
+.pass-forget__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &  .input-container {
+    margin-bottom: 20px;
+  }
+}

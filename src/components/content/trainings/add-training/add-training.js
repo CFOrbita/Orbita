@@ -1,25 +1,26 @@
 import React, {Component} from "react";
 import TrainingCardEdit from "../training-card-edit/training-card-edit";
 import cloneDeep from "lodash.clonedeep";
+import {getDateByTimestamp} from "../../../../utils/Helpers";
 
 class TrainingCardAdd extends Component {
   constructor(props) {
     super(props);
 
-    const {editingTraining} = props;
+    const training = props.editingTraining &&  props.editingTraining.training;
 
     this.state = {
-      id: editingTraining && editingTraining.id || this.props.setNewId(),
-      gym: editingTraining && editingTraining.gym || { name: null, inputValue: null },
-      date: editingTraining && editingTraining.date || new Date(),
-      sessions: editingTraining && editingTraining.sessions || [
+      id: training && training.id || this.props.setNewId(),
+      gym: training && training.gym || { name: null, inputValue: null },
+      date: training && getDateByTimestamp(training.date) || new Date(),
+      sessions: training && training.sessions || [
         {
           id: 1,
           partBody: null,
           exercises: [{id:1, exercise: null}]
         }
         ],
-      note:  editingTraining && editingTraining.note || ''
+      note: training && training.note || ''
     };
 
     this.handleGymChange = this.handleGymChange.bind(this);
@@ -57,10 +58,10 @@ class TrainingCardAdd extends Component {
   }
 
   defineLastId(indexSession) {
-    let iterableArr =
-                    indexSession !== undefined ?
-                      [...this.state.sessions[indexSession].exercises]
-                      : [...this.state.sessions];
+    let iterableArr = indexSession !== undefined ?
+                        [...this.state.sessions[indexSession].exercises]
+                        :
+                        [...this.state.sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -196,13 +197,18 @@ class TrainingCardAdd extends Component {
   }
 
   handleSaveTraining() {
-    let training = {...this.state};
+    const fbId = this.props.editingTraining && this.props.editingTraining.fbId;
+
+    let training = {
+      ...this.state,
+      date: this.state.date.getTime()
+    };
     const error = this.isValid();
 
     if (error) {
       this.setState({error});
     } else {
-      this.props.onSaveTraining(training);
+      this.props.onSaveTraining(training, fbId);
     }
   }
 

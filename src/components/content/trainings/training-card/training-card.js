@@ -1,19 +1,19 @@
 import React from "react";
 import TrainingInfo from "../training-info/training-info";
-import {formatDate} from "../../../../utils/Helpers";
+import {formatDate, getDateByTimestamp} from "../../../../utils/Helpers";
 
 const TrainingCard = (props) => {
-  const {onDeleteTraining, onEditTraining} = props;
-  const {id, gym, date, sessions, note} = props.item;
+  const {onDeleteTraining, onEditTraining, item, fbId} = props;
+  const {id, gym, date, sessions, note} = item.training;
   let gymName = gym.name !== null ? gym.name.label : 'Зала нет';
 
   return (
     <div className="card">
       <div className="card-header">
         <div className="card-header__left">
-          <p className="card-header__item date">{formatDate(date)}</p>
+          <p className="card-header__item date">{date ? formatDate(getDateByTimestamp(date)) : 'Нет даты'}</p>
           <p className="card-header__item gym">{gymName}</p>
-          <p className="card-header__item amount">1</p>
+          <p className="card-header__item amount">amount</p>
           <div className="card-header__item card-header__item--success">
 
             <svg className="card-header__item-icon success-check-btn"
@@ -23,20 +23,20 @@ const TrainingCard = (props) => {
                  style={{enableBackground: "new 0 0 50 50"}}>
               <circle style={{fill: "#25AE88"}} cx="25" cy="25" r="25"/>
               <polyline style={{
-                fill: "none",
-                stroke: "#FFFFFF",
-                strokeWidth: "2",
-                strokeLinecap: "round",
-                strokeLinejoin: "round",
-                strokeMiterlimit: "10"
-              }}
+                          fill: "none",
+                          stroke: "#FFFFFF",
+                          strokeWidth: "2",
+                          strokeLinecap: "round",
+                          strokeLinejoin: "round",
+                          strokeMiterlimit: "10"
+                        }}
                         points="38,15 22,33 12,25 "/>
             </svg>
 
           </div>
         </div>
         <div className="card-header__right">
-          <span className="card-header__item" onClick={() => onEditTraining(id)}>
+          <span className="card-header__item" onClick={() => onEditTraining(fbId)}>
             <svg className="card-header__item-icon edit-btn" width="24" height="24" viewBox="0 -1 401.52289 401"
                  xmlns="http://www.w3.org/2000/svg">
               <path
@@ -45,7 +45,7 @@ const TrainingCard = (props) => {
                 d="m376.628906 13.441406c-17.574218-17.574218-46.066406-17.574218-63.640625 0l-178.40625 178.40625c-1.222656 1.222656-2.105469 2.738282-2.566406 4.402344l-23.460937 84.699219c-.964844 3.472656.015624 7.191406 2.5625 9.742187 2.550781 2.546875 6.269531 3.527344 9.742187 2.566406l84.699219-23.464843c1.664062-.460938 3.179687-1.34375 4.402344-2.566407l178.402343-178.410156c17.546875-17.585937 17.546875-46.054687 0-63.640625zm-220.257812 184.90625 146.011718-146.015625 47.089844 47.089844-146.015625 146.015625zm-9.40625 18.875 37.621094 37.625-52.039063 14.417969zm227.257812-142.546875-10.605468 10.605469-47.09375-47.09375 10.609374-10.605469c9.761719-9.761719 25.589844-9.761719 35.351563 0l11.738281 11.734375c9.746094 9.773438 9.746094 25.589844 0 35.359375zm0 0"/>
             </svg>
           </span>
-          <span className="card-header__item" onClick={() => onDeleteTraining(id)}>
+          <span className="card-header__item" onClick={() => onDeleteTraining(fbId)}>
             <svg className="card-header__item-icon delete-btn" width="24" height="24" viewBox="-40 0 427 427.00131"
                  xmlns="http://www.w3.org/2000/svg">
               <path

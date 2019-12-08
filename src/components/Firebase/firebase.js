@@ -33,6 +33,8 @@ class Firebase {
     this.users = this.users.bind(this);
     this.message = this.message.bind(this);
     this.messages = this.messages.bind(this);
+    this.training = this.training.bind(this);
+    this.trainings = this.trainings.bind(this);
   }
 
   // *** Auth API ***
@@ -113,6 +115,16 @@ class Firebase {
 
   messages() {
     return this.db.ref('messages')
+  }
+
+  // *** Trainings API ***
+
+  training(userUid, trainigUid) {
+    return this.db.ref(`trainings/${userUid}/${trainigUid}`)
+  }
+
+  trainings(userUid) {
+    return this.db.ref(`trainings/${userUid}`)
   }
 }
 

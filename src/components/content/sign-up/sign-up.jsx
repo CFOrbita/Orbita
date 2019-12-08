@@ -5,6 +5,8 @@ import {withFirebase} from "../../Firebase";
 import * as Messages from "../../../utils/constants/messages";
 import * as ROUTES from "../../../utils/constants/routes";
 import * as ROLES from '../../../utils/constants/roles';
+import Input from "../../shared/input/input.jsx";
+import Button from "../../shared/button/button.jsx";
 
 const INITIAL_STATE = {
   username: '',
@@ -16,9 +18,9 @@ const INITIAL_STATE = {
 };
 
 const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
+  <div className="sign-up">
+    <h1>Регистрация</h1>
+    <SignUpForm/>
   </div>
 );
 
@@ -36,7 +38,7 @@ class SignUpFormBase extends Component {
   onSubmit(event) {
     event.preventDefault();
 
-    const { username, email, passwordOne, isAdmin  } = this.state;
+    const {username, email, passwordOne, isAdmin} = this.state;
     const roles = {};
 
     if (isAdmin) {
@@ -59,7 +61,7 @@ class SignUpFormBase extends Component {
         return this.props.firebase.doSendEmailVerification();
       })
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({...INITIAL_STATE});
         this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
@@ -67,16 +69,16 @@ class SignUpFormBase extends Component {
           error.message = Messages.accountExistViaEmail.ERROR_MSG_ACCOUNT_EXISTS;
         }
 
-        this.setState({ error });
+        this.setState({error});
       });
   }
 
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({[event.target.name]: event.target.value});
   };
 
   onChangeCheckbox(event) {
-    this.setState({ [event.target.name]: event.target.checked });
+    this.setState({[event.target.name]: event.target.checked});
   };
 
   render() {
@@ -96,35 +98,28 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="username"
-          value={username}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm Password"
-        />
+      <form className="sign-up__form" onSubmit={this.onSubmit}>
+        <Input name="username"
+               value={username}
+               onChange={this.onChange}
+               type="text"
+               placeholder="Full Name"/>
+        <Input name="email"
+               value={email}
+               onChange={this.onChange}
+               type="text"
+               placeholder="Email Address"/>
+        <Input name="passwordOne"
+               value={passwordOne}
+               onChange={this.onChange}
+               type="password"
+               placeholder="Password"/>
+        <Input name="passwordTwo"
+               value={passwordTwo}
+               onChange={this.onChange}
+               type="password"
+               placeholder="Confirm Password"/>
+
         <label>
           Admin:
           <input
@@ -134,8 +129,9 @@ class SignUpFormBase extends Component {
             onChange={this.onChangeCheckbox}
           />
         </label>
-        <button type="submit" disabled={isInvalid}>Sign Up</button>
-
+        <Button type="submit"
+                disabled={isInvalid}
+                text="Зарегистрироваться"/>
         {error && <p>{error.message}</p>}
       </form>
     );
@@ -149,4 +145,4 @@ const SignUpForm = compose(
 
 export default SignUpPage;
 
-export { SignUpForm };
+export {SignUpForm};

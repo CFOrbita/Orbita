@@ -33,15 +33,20 @@ class Content extends Component {
           !!authUser ?
             <p className="main__fake-text">Упех, вы зашли</p>
             :
-            <p className="main__fake-text">
-              Нужно {<Link to={ROUTES.SIGN_IN}>войти</Link>} в личный кабинет
-              Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
-            </p>
+            null
         }
         {/*<Messages/>*/}
         <Switch>
           <Route exact path={ROUTES.HOME}>
-            <React.Fragment/>
+            {
+              !!authUser ?
+                null
+                :
+                <p className="main__fake-text">
+                  Нужно {<Link to={ROUTES.SIGN_IN}>войти</Link>} в личный кабинет
+                  Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+                </p>
+            }
           </Route>
           <Route path={ROUTES.TRAININGS} render={() => <Trainings/>}/>
           <Route path={ROUTES.FIT_EAT} component={FitEat}/>

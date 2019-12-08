@@ -5,13 +5,15 @@ import {compose} from 'recompose';
 import {withFirebase} from '../../Firebase/context';
 import * as ROUTES from "../../../utils/constants/routes";
 import {SignInGoogle} from "./sign-in-with-google/sign-in-with-google.jsx";
+import Input from "../../shared/input/input.jsx";
+import Button from "../../shared/button/button.jsx";
 
 
 const SignInPage = () => (
-  <div>
-    <h1>SignIn</h1>
-    <SignInForm />
-    <SignInGoogle />
+  <div className="sign-in">
+    <h1>Авторизация</h1>
+    <SignInForm/>
+    <SignInGoogle/>
   </div>
 );
 
@@ -55,26 +57,22 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
-        {error && <p>{error.message}</p>}
+      <form className="sign-in__form" onSubmit={this.onSubmit}>
+        <Input name="email"
+               value={email}
+               onChange={this.onChange}
+               type="text"
+               placeholder="Email" />
+        <Input name="password"
+               value={password}
+               onChange={this.onChange}
+               type="password"
+               placeholder="Password" />
+        <Button disabled={isInvalid}
+                type="submit"
+                text="Войти" />
 
+        {error && <p>{error.message}</p>}
       </form>
     );
   }

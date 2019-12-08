@@ -9,7 +9,7 @@ import * as ROLES from "../../../utils/constants/roles";
 
 const Account = ({authUser}) => {
   return (
-    <div>
+    <div className="account">
       <h1>Account</h1>
       <p>Ваш e-mail: {authUser.email}</p>
       <p>

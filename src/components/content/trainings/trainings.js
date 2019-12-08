@@ -185,7 +185,7 @@ class Trainings extends Component {
           <div className="trainings-screen">
             <Switch>
               <Route exact path={path}>
-                <h3>Please select a topic.</h3>
+                <h3>Выберите раздел</h3>
               </Route>
               <Route exact path={`${path}/statistics`} render={() => <Statistics trainings={trainings}/> } />
               <Route exact path={`${path}/dashboard`}

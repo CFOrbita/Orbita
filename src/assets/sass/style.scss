@@ -1,4 +1,8 @@
 @import "modules/variables";
+@import "modules/preloader";
+@import "modules/loader";
+@import "modules/input";
+@import "modules/button";
 @import "modules/toolbar";
 @import "modules/main";
 @import "modules/footer";
@@ -6,9 +10,11 @@
 @import "modules/training";
 @import "modules/add-workout";
 @import "modules/statistics";
-@import "modules/preloader";
-@import "modules/loader";
-
+@import "modules/account";
+@import "modules/pass-forget";
+@import "modules/pass-change";
+@import "modules/sign-in";
+@import "modules/sign-up";
 
 @font-face {
   font-family: "ProximaNova-Light";

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {withFirebase} from '../../Firebase/context';
+import Input from "../../shared/input/input.jsx";
+import Button from "../../shared/button/button.jsx";
 
 const PasswordForgetPage = () => (
-  <div>
-    <h1>PasswordForget</h1>
+  <div className="pass-forget">
+    <h1>Восстановление пароля</h1>
     <PasswordForgetForm/>
   </div>
 );
@@ -49,17 +51,15 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
+      <form className="pass-forget__form" onSubmit={this.onSubmit}>
+        <Input
           name="email"
           value={this.state.email}
           onChange={this.onChange}
           type="text"
           placeholder="Email Address"
         />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+        <Button disabled={isInvalid} type="submit" text='Reset'/>
         {error && <p>{error.message}</p>}
       </form>
     );

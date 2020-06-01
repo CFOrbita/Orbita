@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {withRouter} from 'react-router-dom';
 import {compose} from 'recompose';
 
@@ -17,65 +17,48 @@ const SignInPage = () => (
   </div>
 );
 
-const INITIAL_STATE = {
-  email: '',
-  password: '',
-  error: null,
-};
+const SignInFormBase = ({firebase, history}) => {
 
-class SignInFormBase extends Component {
-  constructor(props) {
-    super(props);
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState(null);
+  const isInvalid = password === '' || email === '';
 
-    this.state = {...INITIAL_STATE};
-
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(event) {
+  function onSubmit(event) {
     event.preventDefault();
 
-    const {email, password} = this.state;
-    this.props.firebase
+    firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => {
-        this.setState({...INITIAL_STATE});
-        this.props.history.push(ROUTES.HOME);
+        setPassword('')
+        setEmail('')
+        setError(null)
+        history.push(ROUTES.HOME);
       })
       .catch(error => {
-        this.setState({error});
+        setError(error);
       });
-  };
-
-  onChange(event) {
-    this.setState({[event.target.name]: event.target.value});
-  };
-
-  render() {
-    const {email, password, error} = this.state;
-    const isInvalid = password === '' || email === '';
-
-    return (
-      <form className="sign-in__form" onSubmit={this.onSubmit}>
-        <Input name="email"
-               value={email}
-               onChange={this.onChange}
-               type="text"
-               placeholder="Email" />
-        <Input name="password"
-               value={password}
-               onChange={this.onChange}
-               type="password"
-               placeholder="Password" />
-        <Button disabled={isInvalid}
-                type="submit"
-                text="Войти" />
-
-        {error && <p>{error.message}</p>}
-      </form>
-    );
   }
+
+  return (
+    <form className="sign-in__form" onSubmit={onSubmit}>
+      <Input name="email"
+             value={email}
+             onChange={(e) => setEmail(e.target.value)}
+             type="text"
+             placeholder="Email"/>
+      <Input name="password"
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             type="password"
+             placeholder="Password"/>
+      <Button disabled={isInvalid}
+              type="submit"
+              text="Войти"/>
+
+      {error && <p>{error.message}</p>}
+    </form>
+  );
 }
 
 const SignInForm = compose(

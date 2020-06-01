@@ -14,7 +14,7 @@ const Toolbar = props => {
     <header className="toolbar">
       <nav className="toolbar__navigation">
         <div>
-          <DrawerToggleButton authUser={authUser} onClick={drawerClickHandler}/>
+          <DrawerToggleButton authUser={authUser} onClick={() => drawerClickHandler(prevState => !prevState)}/>
         </div>
         <Link to="/" className="toolbar__logo">
           Orbita

@@ -1,19 +1,15 @@
-import React, {Component} from "react";
+import React, {useContext} from "react";
 import Select from "react-select";
-import Workout from "../workout/workout";
+import {Workout} from "../workout/workout";
 import Options from "../../../../training-data/optionsData";
+import {CardContext} from "../../../../context";
 
-class TrainingSession extends Component {
-  constructor(props) {
-    super(props);
+export const TrainingSession = ({ item }) => {
+  const { onPartBodyChange, onDeleteSession, onAddWorkout } = useContext(CardContext);
+  const { id, partBody, exercises } = item;
 
-    this.state = {};
-
-    this.setExercises = this.setExercises.bind(this);
-  }
-
-  setExercises(part) {
-    switch (part.value) {
+  function setExercises(part) {
+    switch (part) {
       case 'shoulders':
         return Options.optionsExercises.shoulders;
       case 'arms':
@@ -31,66 +27,40 @@ class TrainingSession extends Component {
     }
   }
 
-  render() {
-    const {
-      item,
-      onPartBodyChange,
-      onExerciseChange,
-      onInputChange,
-      onDeleteSession,
-      onDeleteExercise,
-      onAddWorkout
-    } = this.props;
 
-    const {id, partBody, exercises} = item;
+  let optionExercises = null;
 
-    let optionExercises = null;
-
-    if (partBody !== null) {
-      optionExercises = this.setExercises(partBody);
-    }
-
-    return (
-      <div className="card-content__wrapper">
-        <div className="card-content">
-          <Select
-            className="card__select"
-            value={partBody}
-            placeholder="Часть тела"
-            onChange={(e) => onPartBodyChange(e, id)}
-            options={Options.optionsPartBody}/>
-
-          {partBody &&
-            <React.Fragment>
-              {exercises.map((item, index) => {
-                return (
-                  <Workout
-                    key={index}
-                    idSession={id}
-                    idWorkout={item.id}
-                    selectedExercise={item.exercise}
-                    weight={item.weight}
-                    sets={item.sets}
-                    repeats={item.repeats}
-                    exercises={optionExercises}
-                    onExerciseChange={onExerciseChange}
-                    onDeleteExercise={onDeleteExercise}
-                    onInputChange={onInputChange}/>
-                )
-              })}
-
-              <button className="card__add-btn card__add-btn--workout" onClick={() => onAddWorkout(id)}>
-                Ещё
-              </button>
-            </React.Fragment>
-          }
-
-          <button className="card__btn-delete" onClick={() => onDeleteSession(id)}
-          />
-        </div>
-      </div>
-    );
+  if (partBody !== null) {
+    optionExercises = setExercises(partBody.value);
   }
-}
 
-export default TrainingSession;
+  return (
+    <div className="card-content__wrapper">
+      <div className="card-content">
+        <Select
+          className="card__select"
+          value={partBody}
+          placeholder="Часть тела"
+          onChange={(e) => onPartBodyChange(e, id)}
+          options={Options.optionsPartBody}/>
+
+        {partBody &&
+          <>
+            {exercises.map((item, index) => (<Workout key={index}
+                                                      idSession={id}
+                                                      item={item}
+                                                      exercises={optionExercises} />)
+            )}
+
+            <button className="card__add-btn card__add-btn--workout"
+                    onClick={() => onAddWorkout(id)}>
+              Ещё
+            </button>
+          </>
+        }
+
+        <button className="card__btn-delete" onClick={() => onDeleteSession(id)}/>
+      </div>
+    </div>
+  )
+};

@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import TrainingInfo from "../training-info/training-info";
 import {formatDate, getDateByTimestamp} from "../../../../utils/Helpers";
+import {TrainingContext} from "../../../../context";
 
-const TrainingCard = (props) => {
-  const {onDeleteTraining, onEditTraining, item, fbId} = props;
+export const TrainingCard = ({ item, fbId }) => {
+  const { onEditTraining, onDeleteTraining} = useContext(TrainingContext);
   const {id, gym, date, sessions, note} = item.training;
   let gymName = gym.name !== null ? gym.name.label : 'Зала нет';
 
@@ -80,5 +81,3 @@ const TrainingCard = (props) => {
     </div>
   );
 };
-
-export default TrainingCard;

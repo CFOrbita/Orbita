@@ -22,9 +22,7 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
   const [editingTraining, setEditingTraining] = useState(null);
   const {url, path} = match;
 
-  useEffect(() => {
-    getTrainings()
-  }, []);
+  useEffect(getTrainings, []);
 
   function getTrainings() {
     setLoading(true);
@@ -155,10 +153,10 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
               <Route exact path={path}>
                 <h3>Выберите раздел</h3>
               </Route>
-              <Route exact path={`${path}/statistics`} render={() => <Statistics trainings={trainings}/>}/>
+              <Route exact path={`${path}/statistics`} component={Statistics}/>
               {
                 <EditingCardContext.Provider value={{ isEditing, editingTraining }}>
-                  <Route exact path={`${path}/dashboard`} render={() => <Cards/>} />
+                  <Route exact path={`${path}/dashboard`} component={Cards} />
                 </EditingCardContext.Provider>
               }
 
@@ -179,18 +177,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSetTrainings: (item) => {
-    dispatch(actionSetTrainings(item));
-  },
-  onSaveTraining: (item) => {
-    dispatch(actionSaveTraining(item));
-  },
-  onCancelTraining: () => {
-    dispatch(actionCancelTraining());
-  },
-  onDeleteTraining: (state) => {
-    dispatch(actionDeleteTraining(state));
-  },
+  onSetTrainings: (item) => dispatch(actionSetTrainings(item)),
+  onSaveTraining: (item) => dispatch(actionSaveTraining(item)),
+  onCancelTraining: () => dispatch(actionCancelTraining()),
+  onDeleteTraining: (state) => dispatch(actionDeleteTraining(state)),
 });
 
 const condition = authUser => !!authUser;

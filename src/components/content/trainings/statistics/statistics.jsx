@@ -1,30 +1,21 @@
-import React, {Component} from "react";
+import React, {useState, useContext} from "react";
+import cloneDeep from "lodash.clonedeep";
 import Options from "../../../../training-data/optionsData";
 import Select from "react-select";
 import {dateSortAsc, getDateByTimestamp} from "../../../../utils/Helpers";
 import withAuthorization from "../../../hoc/with-authorization/with-authorization.jsx";
 import {compose} from "recompose";
 import Chart from 'react-apexcharts'
+import {TrainingContext} from "../../../../context";
 
 const ONE_WEEK_MILLISECONDS = 604800000; //milliseconds
 const ONE_MONTH_MILLISECONDS = 2629800000;
 
-class Statistics extends Component {
-  constructor(props) {
-    super(props);
+const Statistics = () => {
+  const [filter, setFilter] = useState(null);
+  const {trainings} = useContext(TrainingContext);
 
-    this.state = {
-      filter: null
-    };
-
-    this.onFilterChange = this.onFilterChange.bind(this);
-  }
-
-  onFilterChange(filter) {
-    this.setState({filter})
-  }
-
-  fillWithLabels() {
+  function fillWithLabels() {
     const bodyParts = [...Options.optionsPartBody];
 
     return bodyParts.map(item => {
@@ -32,7 +23,7 @@ class Statistics extends Component {
     });
   }
 
-  fillCurrentMonthDates() {
+  function fillCurrentMonthDates() {
     function daysInMonth(month, year) {
       return new Date(year, month, 0).getDate();
     }
@@ -50,7 +41,7 @@ class Statistics extends Component {
     return datesArray;
   }
 
-  getMonthName() {
+  function getMonthName() {
     const monthNames = [
       "Января", "Февраля", "Марта",
       "Апреля", "Мая", "Июня", "Июля",
@@ -59,43 +50,39 @@ class Statistics extends Component {
     ];
 
     const month = new Date().getMonth();
-    const string = monthNames[month].substring(0, 3);
 
-    return string;
+    return monthNames[month].substring(0, 3);
   }
 
-  getTotalTrainingsCount() {
-    return this.props.trainings.length;
-  };
+  function getTotalTrainingsCount() {
+    return trainings.length;
+  }
 
-  getTrainingsForLastTime(millisecs) {
-    const trainings = [...this.props.trainings];
+  function getTrainingsForLastTime(millisecs) {
+    const clonedTrainings = cloneDeep(trainings);
     const NOW_MILLISECONDS = Date.now();
     let counts = 0;
 
-    trainings.sort(dateSortAsc);
+    clonedTrainings.sort(dateSortAsc);
 
-    trainings.forEach(item => {
+    clonedTrainings.forEach(item => {
       const date = getDateByTimestamp(item[1].training.date);
 
       const itemTime = date.getTime(); //milliseconds
-      if (itemTime + millisecs > NOW_MILLISECONDS) {
-        counts++;
-      } else {
-        return;
-      }
+      if (itemTime + millisecs > NOW_MILLISECONDS) counts++
+      else return
     });
 
     return counts;
   }
 
-  getDataForRadar() {
-    const trainings = [...this.props.trainings];
-    const labels = this.fillWithLabels();
+  function getDataForRadar() {
+    const clonedTrainings = cloneDeep(trainings);
+    const labels = fillWithLabels();
     const data = Array(labels.length).fill(0);
 
-    if (trainings.length !== 0) {
-      trainings.forEach(item => {
+    if (clonedTrainings.length !== 0) {
+      clonedTrainings.forEach(item => {
         const sessions = item[1].training.sessions;
 
         for (let i = 0; i < sessions.length; i++) {
@@ -134,7 +121,7 @@ class Statistics extends Component {
       },
       tooltip: {
         y: {
-          formatter: function(val) {
+          formatter: function (val) {
             return val
           }
         }
@@ -142,10 +129,10 @@ class Statistics extends Component {
       yaxis: {
         tickAmount: 5,
         labels: {
-          formatter: function(val, i) {
+          formatter: function (val, i) {
             if (i % 2 === 0) {
               return parseFloat(val).toFixed(1)
-              } else {
+            } else {
               return ''
             }
           }
@@ -155,15 +142,14 @@ class Statistics extends Component {
     };
   }
 
-  getDataForTonnage() {
-    const {filter} = this.state;
+  function getDataForTonnage() {
     if (filter === null) return;
 
-    const trainings = [...this.props.trainings];
-    const resultDates = this.fillCurrentMonthDates();
+    const clonedTrainings = cloneDeep(trainings);
+    const resultDates = fillCurrentMonthDates();
     const currentMonthData = [];
 
-    trainings.forEach((item, index) => {
+    clonedTrainings.forEach((item, index) => {
       const {sessions, date} = item[1].training;
 
       for (const el of sessions) {
@@ -205,7 +191,7 @@ class Statistics extends Component {
         xaxis: {
           tickAmount: 10,
           labels: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val + 'kek'
             }
           }
@@ -213,7 +199,7 @@ class Statistics extends Component {
         yaxis: {
           tickAmount: 7,
           labels: {
-            formatter: function(val) {
+            formatter: function (val) {
               return val + 'kek'
             }
           }
@@ -226,49 +212,51 @@ class Statistics extends Component {
     };
   }
 
-  render() {
-    const {filter} = this.state;
-    const totalTrainings = this.getTotalTrainingsCount();
-    const forLast30DaysTrainings = this.getTrainingsForLastTime(ONE_MONTH_MILLISECONDS);
-    const forLast7DaysTrainings = this.getTrainingsForLastTime(ONE_WEEK_MILLISECONDS);
-    const radarData = this.getDataForRadar();
-    const tonnageData = this.getDataForTonnage();
+  const totalTrainings = getTotalTrainingsCount();
+  const forLast30DaysTrainings = getTrainingsForLastTime(ONE_MONTH_MILLISECONDS);
+  const forLast7DaysTrainings = getTrainingsForLastTime(ONE_WEEK_MILLISECONDS);
+  const radarData = getDataForRadar();
+  const tonnageData = getDataForTonnage();
 
-    return (
-      <React.Fragment>
-        <div className="statistic">
-          <div className="statistic__summary">
-            <h2 className="statistic__summary-title">Сводка о тренировках</h2>
-            <ul className="statistic__summary-list">
-              <li className="statistic__summary-item">Общее количество
-                тренировок: {totalTrainings > 0 ? totalTrainings : 0}</li>
-              <li className="statistic__summary-item">Тренировок за последние 30
-                дней: {forLast30DaysTrainings > 0 ? forLast30DaysTrainings : 0}</li>
-              <li className="statistic__summary-item">Тренировок за последние 7
-                дней: {forLast7DaysTrainings > 0 ? forLast7DaysTrainings : 0}</li>
-            </ul>
-          </div>
-
-          <React.Fragment>
-            <h3>Загруженность частей тела</h3>
-            <Chart options={radarData} series={radarData.series} type="radar" width={500} height={320}/>
-          </React.Fragment>
-          <div className="tonnage-chart">
-            <Select
-              className="card__select"
-              value={filter}
-              placeholder="Фильтр"
-              onChange={this.onFilterChange}
-              options={Options.optionsTonnageChart} />
-            {
-              filter !== null && <Chart options={tonnageData} series={tonnageData.series} type="scatter" height="350" />
-            }
-          </div>
+  return (
+    <>
+      <div className="statistic">
+        <div className="statistic__summary">
+          <h2 className="statistic__summary-title">Сводка о тренировках</h2>
+          <ul className="statistic__summary-list">
+            <li className="statistic__summary-item">Общее количество
+              тренировок: {totalTrainings > 0 ? totalTrainings : 0}</li>
+            <li className="statistic__summary-item">Тренировок за последние 30
+              дней: {forLast30DaysTrainings > 0 ? forLast30DaysTrainings : 0}</li>
+            <li className="statistic__summary-item">Тренировок за последние 7
+              дней: {forLast7DaysTrainings > 0 ? forLast7DaysTrainings : 0}</li>
+          </ul>
         </div>
-      </React.Fragment>
-    );
-  }
-}
+
+        <>
+          <h3>Загруженность частей тела</h3>
+          <Chart type="radar"
+                 width={500} height={320}
+                 options={radarData}
+                 series={radarData.series} />
+        </>
+        <div className="tonnage-chart">
+          <Select
+            className="card__select"
+            value={filter}
+            placeholder="Фильтр"
+            onChange={setFilter}
+            options={Options.optionsTonnageChart} />
+          {
+            filter !== null && <Chart type="scatter" height="350"
+                                      options={tonnageData}
+                                      series={tonnageData.series} />
+          }
+        </div>
+      </div>
+    </>
+  )
+};
 
 const condition = authUser => !!authUser;
 

@@ -1,9 +1,10 @@
-import React, {Component} from "react";
-import {Link, Route, Switch, Redirect} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Route, Switch } from "react-router-dom";
 import Statistics from "./statistics/statistics.jsx";
-import Cards from "./cards/cards.jsx";
+import { Cards } from "./cards/cards.jsx";
 import {connect} from "react-redux";
 import cloneDeep from "lodash.clonedeep";
+import {TrainingContext, EditingCardContext} from '../../../context'
 import {
   actionCancelTraining,
   actionDeleteTraining,
@@ -13,38 +14,20 @@ import {
 import {compose} from "recompose";
 import {withFirebase} from "../../Firebase";
 import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
-import NoMatch from "../no-match/no-match.jsx";
-import * as ROUTES from "../../../utils/constants/routes";
 
 
-class Trainings extends Component {
-  constructor(props) {
-    super(props);
+const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCancelTraining, onSaveTraining, onDeleteTraining}) => {
+  const [isEditing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [editingTraining, setEditingTraining] = useState(null);
+  const {url, path} = match;
 
-    this.state = {
-      isEditing: false
-    };
+  useEffect(getTrainings, []);
 
-    this.editingTraining = null;
+  function getTrainings() {
+    setLoading(true);
 
-    this.handleAddNewTraining = this.handleAddNewTraining.bind(this);
-    this.handleSaveTraining = this.handleSaveTraining.bind(this);
-    this.handleDeleteTraining = this.handleDeleteTraining.bind(this);
-    this.handleEditTraining = this.handleEditTraining.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.setNewId = this.setNewId.bind(this);
-    this.setTrainings = this.setTrainings.bind(this);
-  }
-
-  componentDidMount() {
-    this.setTrainings()
-  }
-
-  setTrainings() {
-    const {authUser} = this.props;
-    this.setState({loading: true});
-
-    this.props.firebase
+    firebase
       .trainings(authUser.uid)
       .once('value', snapshot => {
         let trainings = [];
@@ -53,15 +36,13 @@ class Trainings extends Component {
           trainings = Object.entries(values);
         }
 
-        this.props.onSetTrainings(trainings);
+        onSetTrainings(trainings);
 
-        this.setState({loading: false});
+        setLoading(false);
       })
   }
 
-  setNewId() {
-    const trainings = this.props.trainings;
-
+  function setNewId() {
     if (trainings.length === 0) {
       return 1;
     } else {
@@ -71,143 +52,122 @@ class Trainings extends Component {
     }
   }
 
-  handleAddNewTraining(e) {
-    const {isEditing} = this.state;
+  function handleAddNewTraining(e) {
     if (isEditing) {
       e.preventDefault();
       return;
     }
-
-    this.setState(prev => {
-      return {isEditing: !prev.isEditing}
-    })
+    setEditing(prevState => !prevState)
   }
 
-  handleCancel() {
-    this.props.onCancelTraining();
-    this.editingTraining = null;
+  function handleCancel() {
+    onCancelTraining();
+    setEditingTraining(null);
 
-    this.setState(prev => {
-      return {isEditing: !prev.isEditing}
-    })
+    setEditing(prevState => !prevState)
   }
 
-  saveOnFirebase(authUser, training, key) {
-    return this.props.firebase.training(authUser.uid, key).update(
+  function saveOnFirebase(authUser, training, key) {
+    return firebase.training(authUser.uid, key).update(
       {
         training,
         userId: authUser.uid,
         username: authUser.username,
-        createdAt: this.props.firebase.serverValue.TIMESTAMP
+        createdAt: firebase.serverValue.TIMESTAMP
       },
-      function(error) {
-        if (error) {
-          console.error(error)
-        }
+      (error) => {
+        if (error) console.error(error)
       }
     )
   }
 
-  deleteOnFirebase(authUser, key) {
-    this.props.firebase.training(authUser.uid, key).remove()
+  function deleteOnFirebase(authUser, key) {
+    firebase.training(authUser.uid, key).remove()
   }
 
-  handleSaveTraining(training, fbId) {
-    const {authUser} = this.props;
-    this.setState({loading: true});
+  function handleSaveTraining(training, fbId) {
+    setLoading(true);
 
-    const trainings = cloneDeep(this.props.trainings);
-    const indexTraining = trainings.findIndex((item => item[0] === fbId));
+    const clonedTrainings = cloneDeep(trainings);
+    const indexTraining = clonedTrainings.findIndex((item => item[0] === fbId));
 
     if (indexTraining === -1) {
-      const fbId = this.props.firebase.trainings(authUser.uid).push().key;
-      trainings.push([fbId, {training}]);
-      this.saveOnFirebase(authUser, training, fbId)
-        .then(() => {
-          this.setState({loading: false})
-        });
+      const fbId = firebase.trainings(authUser.uid).push().key;
+      clonedTrainings.push([fbId, {training}]);
+
+      saveOnFirebase(authUser, training, fbId).then(() => setLoading(false));
     } else {
-      trainings[indexTraining][1].training = training;
-      this.saveOnFirebase(authUser, training, fbId)
-        .then(() => {
-          this.setState({loading: false})
-        });
+      clonedTrainings[indexTraining][1].training = training;
+
+      saveOnFirebase(authUser, training, fbId).then(() => setLoading(false));
     }
 
-    this.props.onSaveTraining(trainings);
+    onSaveTraining(clonedTrainings);
 
-    this.setState(prev => {
-      this.editingTraining = null;
-
-      return {isEditing: !prev.isEditing}
-    })
+    setEditingTraining(null);
+    setEditing(prevState => !prevState)
   }
 
-  handleDeleteTraining(fbId) {
-    const {authUser} = this.props;
-    const trainings = this.props.trainings;
-    const state = trainings.filter(item => item[0] !== fbId);
+  function handleDeleteTraining(fbId) {
+    const training = trainings.filter(item => item[0] !== fbId);
 
-    this.deleteOnFirebase(authUser, fbId);
-    this.props.onDeleteTraining(state);
+    deleteOnFirebase(authUser, fbId);
+    onDeleteTraining(training);
   }
 
-  handleEditTraining(fbId) {
-    const trainings = this.props.trainings;
+  function handleEditTraining(fbId) {
     const forEdit = trainings.filter(item => item[0] === fbId)[0];
-    this.editingTraining = {fbId, training: forEdit[1].training};
+    setEditingTraining({fbId, training: forEdit[1].training});
 
-    this.setState(prev => {
-      return {isEditing: !prev.isEditing}
-    })
+    setEditing(prevState => !prevState)
   }
 
-  render() {
-    const {trainings} = this.props;
-    const {url, path} = this.props.match;
-    const {isEditing, loading} = this.state;
 
-    return (
-      <React.Fragment>
-        <div className="training">
-          <ul className="training-points">
-            <li className="training-points__item">
-              <Link to={`${url}/dashboard`} className="training-points__link">Журнал</Link>
-            </li>
-            <li className="training-points__item">
-              <Link to={`${url}/statistics`} className="training-points__link">Статистика</Link>
-            </li>
-            <li className="training-points__item">
-              <a className="training-points__link" href="#">Тестирование</a>
-            </li>
-          </ul>
+  return (
+    <>
+      <div className="training">
+        <ul className="training-points">
+          <li className="training-points__item">
+            <Link to={`${url}/dashboard`} className="training-points__link">Журнал</Link>
+          </li>
+          <li className="training-points__item">
+            <Link to={`${url}/statistics`} className="training-points__link">Статистика</Link>
+          </li>
+          <li className="training-points__item">
+            <a className="training-points__link" href="#">Тестирование</a>
+          </li>
+        </ul>
 
-          <div className="trainings-screen">
+        <div className="trainings-screen">
+          {<TrainingContext.Provider value={{
+            trainings,
+            loading,
+            setNewId,
+            onAddNewTraining: (e) => handleAddNewTraining(e),
+            onSaveTraining: (training, fbId) => handleSaveTraining(training, fbId),
+            onCancel: handleCancel,
+            onEditTraining: (fbId) => handleEditTraining(fbId),
+            onDeleteTraining: (fbId) => handleDeleteTraining(fbId),
+          }}>
             <Switch>
               <Route exact path={path}>
                 <h3>Выберите раздел</h3>
               </Route>
-              <Route exact path={`${path}/statistics`} render={() => <Statistics trainings={trainings}/> } />
-              <Route exact path={`${path}/dashboard`}
-                     render={() => <Cards trainings={trainings}
-                                          loading={loading}
-                                          isEditing={isEditing}
-                                          setNewId={this.setNewId}
-                                          editingTraining={this.editingTraining}
-                                          onAddNewTraining={this.handleAddNewTraining}
-                                          onSaveTraining={this.handleSaveTraining}
-                                          onCancel={this.handleCancel}
-                                          onEditTraining={this.handleEditTraining}
-                                          onDeleteTraining={this.handleDeleteTraining} />
-                     }
-              />
+              <Route exact path={`${path}/statistics`} component={Statistics}/>
+              {
+                <EditingCardContext.Provider value={{ isEditing, editingTraining }}>
+                  <Route exact path={`${path}/dashboard`} component={Cards} />
+                </EditingCardContext.Provider>
+              }
+
             </Switch>
-          </div>
+          </TrainingContext.Provider>
+          }
         </div>
-      </React.Fragment>
-    )
-  }
-}
+      </div>
+    </>
+  )
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -217,18 +177,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSetTrainings: (item) => {
-    dispatch(actionSetTrainings(item));
-  },
-  onSaveTraining: (item) => {
-    dispatch(actionSaveTraining(item));
-  },
-  onCancelTraining: () => {
-    dispatch(actionCancelTraining());
-  },
-  onDeleteTraining: (state) => {
-    dispatch(actionDeleteTraining(state));
-  },
+  onSetTrainings: (item) => dispatch(actionSetTrainings(item)),
+  onSaveTraining: (item) => dispatch(actionSaveTraining(item)),
+  onCancelTraining: () => dispatch(actionCancelTraining()),
+  onDeleteTraining: (state) => dispatch(actionDeleteTraining(state)),
 });
 
 const condition = authUser => !!authUser;

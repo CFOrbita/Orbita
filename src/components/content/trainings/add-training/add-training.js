@@ -1,55 +1,35 @@
-import React, {Component} from "react";
-import TrainingCardEdit from "../training-card-edit/training-card-edit";
+import React, {useContext, useState} from "react";
+import { TrainingCardEdit } from "../training-card-edit/training-card-edit";
 import cloneDeep from "lodash.clonedeep";
 import {getDateByTimestamp} from "../../../../utils/Helpers";
+import {TrainingContext, EditingCardContext, CardContext} from "../../../../context";
 
-class TrainingCardAdd extends Component {
-  constructor(props) {
-    super(props);
+export const TrainingCardAdd = () => {
+  const { setNewId, onSaveTraining, onCancel } = useContext(TrainingContext);
+  const { editingTraining } = useContext(EditingCardContext);
+  const training = (editingTraining && editingTraining.training) || {};
+  const [error, setError] = useState(null);
+  const [id, setId] = useState(training.id || setNewId());
+  const [gym, setGym] = useState(training.gym || {name: null, inputValue: null});
+  const [date, setDate] = useState(training.date && getDateByTimestamp(training.date) || new Date());
+  const [sessions, setSessions] = useState(training.sessions || [{
+      id: 1,
+      partBody: null,
+      exercises: [{id: 1, exercise: null}]
+    }]);
+  const [note, setNote] = useState(training && training.note || '');
 
-    const training = props.editingTraining &&  props.editingTraining.training;
 
-    this.state = {
-      id: training && training.id || this.props.setNewId(),
-      gym: training && training.gym || { name: null, inputValue: null },
-      date: training && getDateByTimestamp(training.date) || new Date(),
-      sessions: training && training.sessions || [
-        {
-          id: 1,
-          partBody: null,
-          exercises: [{id:1, exercise: null}]
-        }
-        ],
-      note: training && training.note || ''
-    };
-
-    this.handleGymChange = this.handleGymChange.bind(this);
-    this.handleGymInputChange = this.handleGymInputChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleBodyPartChange = this.handleBodyPartChange.bind(this);
-    this.handleExerciseChange = this.handleExerciseChange.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleTextareaChange = this.handleTextareaChange.bind(this);
-    this.handleDeleteSession = this.handleDeleteSession.bind(this);
-    this.handleAddSession = this.handleAddSession.bind(this);
-    this.handleDeleteExercise = this.handleDeleteExercise.bind(this);
-    this.handleSaveTraining = this.handleSaveTraining.bind(this);
-    this.handleAddWorkout = this.handleAddWorkout.bind(this);
-  }
-
-  sessionFinder(id) {
-    // 1. Make a shallow copy of the items
-    const sessions = cloneDeep(this.state.sessions);
-    // 1.1 Find current object's index
-    const indexSession = sessions.findIndex((session => session.id === id));
-    // 2. Make a shallow copy of the item you want to mutate
-    let session = {...sessions[indexSession]};
+  function sessionFinder(id) {
+    const clonedSessions = cloneDeep(sessions);
+    const indexSession = clonedSessions.findIndex((session => session.id === id));
+    let session = {...clonedSessions[indexSession]};
 
     return {session, indexSession}
   }
 
-  exercisesFinder(id, indexSession) {
-    const exercises = cloneDeep(this.state.sessions[indexSession].exercises);
+  function exercisesFinder(id, indexSession) {
+    const exercises = cloneDeep(sessions[indexSession].exercises);
     const indexWorkout = exercises.findIndex((workout => workout.id === id));
 
     let workout = {...exercises[indexWorkout]};
@@ -57,11 +37,10 @@ class TrainingCardAdd extends Component {
     return {workout, indexWorkout}
   }
 
-  defineLastId(indexSession) {
-    let iterableArr = indexSession !== undefined ?
-                        [...this.state.sessions[indexSession].exercises]
-                        :
-                        [...this.state.sessions];
+  function defineLastId(indexSession) {
+    let iterableArr = indexSession !== undefined
+      ? [...sessions[indexSession].exercises]
+      : [...sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -73,148 +52,120 @@ class TrainingCardAdd extends Component {
     return id;
   }
 
-  handleGymChange(name) {
-    this.setState(prev => {
-      return {
-        gym: {
-          ...prev.gym,
-          name
-        }
-      }
-    });
-  };
+  function handleGymChange(name) {
+    setGym(prevState => ({
+      ...prevState,
+      name
+    }))
+  }
 
-  handleGymInputChange(inputValue) {
-    this.setState(prev => {
-      return {
-        gym: {
-          ...prev.gym,
-          inputValue
-        }
-      }
-    });
-  };
+  function handleGymInputChange(inputValue) {
+    setGym(prevState => ({
+      ...prevState,
+      inputValue
+    }))
+  }
 
-  handleDateChange(selectedData) {
-    this.setState({
-      date: selectedData
-    });
-  };
+  function handleBodyPartChange(selectedOption, id) {
+    let clonedSessions = cloneDeep(sessions);
 
-  handleBodyPartChange(selectedOption, id) {
-    let sessions = cloneDeep(this.state.sessions);
-    const {session, indexSession} = this.sessionFinder(id); //returns new copy of object
-    // 3. Replace the property you're intested in
+    const {session, indexSession} = sessionFinder(id); //returns new copy of object
     session.partBody = selectedOption;
 
     if (session.exercises.length === 1) {
       session.exercises[0].exercise = null;
     } else {
       session.exercises.length = 0;
-      session.exercises.push({id:1, exercise: null});
+      session.exercises.push({id: 1, exercise: null});
     }
 
-    // 4. Put it back into our array
-    sessions[indexSession] = session;
-    // 5. Set the state to new copy
-    this.setState({sessions});
-  };
+    clonedSessions[indexSession] = session;
 
-  handleExerciseChange(selectedOption, idSession, idWorkout) {
-    let sessions = cloneDeep(this.state.sessions);
+    setSessions(clonedSessions);
+  }
 
-    const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
-    const {workout, indexWorkout} = this.exercisesFinder(idWorkout, indexSession); //returns new copy of object
+  function handleExerciseChange(selectedOption, idSession, idWorkout) {
+    let clonedSessions = cloneDeep(sessions);
+
+    const {session, indexSession} = sessionFinder(idSession); //returns new copy of object
+    const {workout, indexWorkout} = exercisesFinder(idWorkout, indexSession); //returns new copy of object
 
     workout.exercise = selectedOption;
-    sessions[indexSession].exercises[indexWorkout] = workout;
+    clonedSessions[indexSession].exercises[indexWorkout] = workout;
 
-    this.setState({sessions});
-  };
+    setSessions(clonedSessions);
+  }
 
-  handleInputChange(event, idSession, idWorkout) {
+  function handleInputChange(event, idSession, idWorkout) {
     const value = event.target.value;
     const name = event.target.name;
 
-    let sessions = cloneDeep(this.state.sessions);
-    const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
-    const {workout, indexWorkout} = this.exercisesFinder(idWorkout, indexSession); //returns new copy of object
+    let clonedSessions = cloneDeep(sessions);
+    const {session, indexSession} = sessionFinder(idSession); //returns new copy of object
+    const {workout, indexWorkout} = exercisesFinder(idWorkout, indexSession); //returns new copy of object
 
     workout[name] = value;
-    sessions[indexSession].exercises[indexWorkout] = workout;
+    clonedSessions[indexSession].exercises[indexWorkout] = workout;
 
-    this.setState({sessions});
-  };
-
-  handleTextareaChange(event) {
-    this.setState({
-      note: event.target.value
-    })
+    setSessions(clonedSessions);
   }
 
-  handleDeleteSession(id) {
-    let sessions = [...this.state.sessions];
-    if (sessions.length === 1) return;
+  function handleDeleteSession(id) {
+    let filteredSessions = [...sessions].filter(item => item.id !== id);
+    if (filteredSessions.length === 1) return;
 
-    this.setState(state => {
-      const sessions = state.sessions.filter(item => item.id !== id);
-
-      return {sessions};
-    });
+    setSessions(filteredSessions)
   }
 
-  handleDeleteExercise(idSession, idWorkout) {
-    let sessions = [...this.state.sessions];
+  function handleDeleteExercise(idSession, idWorkout) {
+    let clonedSessions = cloneDeep(sessions);
 
-    const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
+    const {session, indexSession} = sessionFinder(idSession); //returns new copy of object
 
-    if (sessions[indexSession].exercises.length === 1) {
-      return;
-    } else {
-      sessions[indexSession].exercises = sessions[indexSession].exercises.filter(item => item.id !== idWorkout);
+    if (clonedSessions[indexSession].exercises.length === 1) return;
+    else {
+      clonedSessions[indexSession].exercises = clonedSessions[indexSession].exercises.filter(item => item.id !== idWorkout);
 
-      this.setState({sessions});
+      setSessions(clonedSessions)
     }
   }
 
-  handleAddWorkout(idSession) {
-    let sessions = cloneDeep(this.state.sessions);
-    const {session, indexSession} = this.sessionFinder(idSession); //returns new copy of object
-    const newId = this.defineLastId(indexSession) + 1;
+  function handleAddWorkout(idSession) {
+    let clonedSessions = cloneDeep(sessions);
+    const {session, indexSession} = sessionFinder(idSession); //returns new copy of object
+    const newId = defineLastId(indexSession) + 1;
 
-    sessions[indexSession].exercises.push({id: newId, exercise: null});
+    clonedSessions[indexSession].exercises.push({id: newId, exercise: null});
 
-    this.setState({sessions});
+    setSessions(clonedSessions)
   }
 
-  handleAddSession() {
-    let sessions = [...this.state.sessions];
-    const newId = this.defineLastId() + 1;
+  function handleAddSession() {
+    const clonedSessions = cloneDeep(sessions);
+    const newId = defineLastId() + 1;
 
-    sessions.push({ id: newId, partBody: null, exercises: [{id:1, exercise: null}] });
+    clonedSessions.push({id: newId, partBody: null, exercises: [{id: 1, exercise: null}]});
 
-    this.setState({sessions});
+    setSessions(clonedSessions)
   }
 
-  handleSaveTraining() {
-    const fbId = this.props.editingTraining && this.props.editingTraining.fbId;
+  function handleSaveTraining() {
+    const fbId = editingTraining && editingTraining.fbId;
 
     let training = {
-      ...this.state,
-      date: this.state.date.getTime()
+      id,
+      gym,
+      sessions,
+      date: date.getTime(),
+      note
     };
-    const error = this.isValid();
+    const error = isValid();
 
-    if (error) {
-      this.setState({error});
-    } else {
-      this.props.onSaveTraining(training, fbId);
-    }
+    if (error) setError(error);
+    else onSaveTraining(training, fbId);
   }
 
-  isValid() {
-    const {sessions} = this.state;
-
+  function isValid() {
     let error = false;
 
     for (let i = 0; i < sessions.length; i++) {
@@ -239,43 +190,39 @@ class TrainingCardAdd extends Component {
     return error;
   }
 
-  render() {
-    const {error, gym, date, sessions, note} = this.state;
-    const {onCancel} = this.props;
+  return (
+    <>
+      <section className="add-workout">
+        <h1 className="add-workout__title">Редактирование</h1>
+        <p className="add-workout__text">На этой странице вносятся изменения в тренировку</p>
 
-    return (
-      <React.Fragment>
-        <section className="add-workout">
-          <h1 className="add-workout__title">Редактирование</h1>
-          <p className="add-workout__text">На этой странице вносятся изменения в тренировку</p>
+        <div className="add-workout__list">
+          <CardContext.Provider value={{
+            error,
+            sessions,
+            gym,
+            date,
+            note,
+            onDateChange: (date) => setDate(date),
+            onGymChange: (name) => handleGymChange(name),
+            onGymInputChange: (inputValue) => handleGymInputChange(inputValue),
+            onPartBodyChange: (selectedOption, id) => handleBodyPartChange(selectedOption, id),
+            onExerciseChange: (selectedOption, idSession, idWorkout) => handleExerciseChange(selectedOption, idSession, idWorkout),
+            onInputChange: (event, idSession, idWorkout) => handleInputChange(event, idSession, idWorkout),
+            onTextareaChange: (event) => setNote(event.target.value),
+            onDeleteSession: (id) => handleDeleteSession(id),
+            onDeleteExercise: (idSession, idWorkout) => handleDeleteExercise(idSession, idWorkout),
+            onAddSession: handleAddSession,
+            onSaveTraining: handleSaveTraining,
+            onAddWorkout: (idSession) => handleAddWorkout(idSession),
+            onCancel,
+          }}>
+            <TrainingCardEdit/>
+          </CardContext.Provider>
 
-          <div className="add-workout__list">
-            <TrainingCardEdit
-              error={error}
-              sessions={sessions}
-              gym={gym}
-              date={date}
-              note={note}
-              onDateChange={this.handleDateChange}
-              onGymChange={this.handleGymChange}
-              onGymInputChange={this.handleGymInputChange}
-              onPartBodyChange={this.handleBodyPartChange}
-              onExerciseChange={this.handleExerciseChange}
-              onInputChange={this.handleInputChange}
-              onTextareaChange={this.handleTextareaChange}
-              onDeleteSession={this.handleDeleteSession}
-              onDeleteExercise={this.handleDeleteExercise}
-              onAddSession={this.handleAddSession}
-              onSaveTraining={this.handleSaveTraining}
-              onAddWorkout={this.handleAddWorkout}
-              onCancel={onCancel}
-            />
-          </div>
+        </div>
 
-        </section>
-      </React.Fragment>
-    )
-  }
-}
-
-export default TrainingCardAdd;
+      </section>
+    </>
+  )
+};

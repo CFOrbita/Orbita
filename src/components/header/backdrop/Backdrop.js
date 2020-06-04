@@ -6,7 +6,7 @@ const Backdrop = props => {
   const {backDropClickHandler} = props;
 
   return (
-    <div className="backdrop" onClick={backDropClickHandler}/>
+    <div className="backdrop" onClick={() => backDropClickHandler(false)}/>
   );
 };
 

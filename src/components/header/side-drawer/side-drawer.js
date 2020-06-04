@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { withAuthorization, withEmailVerification } from "../../content/session/index";
 
 const SideDrawer = props => {
-  const {onShown} = props;
+  const { onShown } = props;
   const drawerClasses = ['side-drawer'];
 
   if (onShown) {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { useState } from 'react';
 import {withRouter} from "react-router-dom";
 import {compose} from "recompose";
 import {withFirebase} from "../../Firebase";
@@ -8,15 +8,6 @@ import * as ROLES from '../../../utils/constants/roles';
 import Input from "../../shared/input/input.jsx";
 import Button from "../../shared/button/button.jsx";
 
-const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
-  isAdmin: false,
-  error: null,
-};
-
 const SignUpPage = () => (
   <div className="sign-up">
     <h1>Регистрация</h1>
@@ -24,32 +15,28 @@ const SignUpPage = () => (
   </div>
 );
 
-class SignUpFormBase extends Component {
-  constructor(props) {
-    super(props);
+const SignUpFormBase = ({firebase, history}) => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [passwordOne, setPasswordOne] = useState('');
+  const [passwordTwo, setPasswordTwo] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState(null);
 
-    this.state = {...INITIAL_STATE};
-
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChangeCheckbox = this.onChangeCheckbox.bind(this);
-  }
-
-  onSubmit(event) {
+  function onSubmit(event) {
     event.preventDefault();
 
-    const {username, email, passwordOne, isAdmin} = this.state;
     const roles = {};
 
     if (isAdmin) {
       roles[ROLES.ADMIN] = ROLES.ADMIN;
     }
 
-    this.props.firebase
+    firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your Firebase realtime database
-        return this.props.firebase
+        return firebase
           .user(authUser.user.uid)
           .set({
             username,
@@ -58,84 +45,71 @@ class SignUpFormBase extends Component {
           });
       })
       .then(() => {
-        return this.props.firebase.doSendEmailVerification();
+        return firebase.doSendEmailVerification();
       })
       .then(() => {
-        this.setState({...INITIAL_STATE});
-        this.props.history.push(ROUTES.HOME);
+        setUsername('')
+        setEmail('')
+        setPasswordOne('')
+        setPasswordTwo('')
+        setIsAdmin(false)
+        setError(null)
+
+        history.push(ROUTES.HOME);
       })
       .catch(error => {
         if (error.code === Messages.accountExistViaEmail.ERROR_CODE_ACCOUNT_EXISTS) {
           error.message = Messages.accountExistViaEmail.ERROR_MSG_ACCOUNT_EXISTS;
         }
 
-        this.setState({error});
+        setError(error);
       });
   }
 
-  onChange(event) {
-    this.setState({[event.target.name]: event.target.value});
-  };
+  const isInvalid =
+    passwordOne !== passwordTwo ||
+    passwordOne === '' ||
+    email === '' ||
+    username === '';
 
-  onChangeCheckbox(event) {
-    this.setState({[event.target.name]: event.target.checked});
-  };
+  return (
+    <form className="sign-up__form" onSubmit={onSubmit}>
+      <Input name="username"
+             value={username}
+             onChange={(e) => setUsername(e.target.value)}
+             type="text"
+             placeholder="Full Name"/>
+      <Input name="email"
+             value={email}
+             onChange={(e) => setEmail(e.target.value)}
+             type="text"
+             placeholder="Email Address"/>
+      <Input name="passwordOne"
+             value={passwordOne}
+             onChange={(e) => setPasswordOne(e.target.value)}
+             type="password"
+             placeholder="Password"/>
+      <Input name="passwordTwo"
+             value={passwordTwo}
+             onChange={(e) => setPasswordTwo(e.target.value)}
+             type="password"
+             placeholder="Confirm Password"/>
 
-  render() {
-    const {
-      username,
-      email,
-      passwordOne,
-      passwordTwo,
-      isAdmin,
-      error,
-    } = this.state;
-
-    const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      email === '' ||
-      username === '';
-
-    return (
-      <form className="sign-up__form" onSubmit={this.onSubmit}>
-        <Input name="username"
-               value={username}
-               onChange={this.onChange}
-               type="text"
-               placeholder="Full Name"/>
-        <Input name="email"
-               value={email}
-               onChange={this.onChange}
-               type="text"
-               placeholder="Email Address"/>
-        <Input name="passwordOne"
-               value={passwordOne}
-               onChange={this.onChange}
-               type="password"
-               placeholder="Password"/>
-        <Input name="passwordTwo"
-               value={passwordTwo}
-               onChange={this.onChange}
-               type="password"
-               placeholder="Confirm Password"/>
-
-        <label>
-          Admin:
-          <input
-            name="isAdmin"
-            type="checkbox"
-            checked={isAdmin}
-            onChange={this.onChangeCheckbox}
-          />
-        </label>
-        <Button type="submit"
-                disabled={isInvalid}
-                text="Зарегистрироваться"/>
-        {error && <p>{error.message}</p>}
-      </form>
-    );
-  }
+      <label>
+        Admin:
+        <input
+          name="isAdmin"
+          type="checkbox"
+          checked={isAdmin}
+          onChange={(e) => setIsAdmin(e.target.checked)}
+        />
+      </label>
+      <Button type="submit"
+              disabled={isInvalid}
+              text="Зарегистрироваться"/>
+      {error && <p>{error.message}</p>}
+    </form>
+  );
 }
 
 const SignUpForm = compose(

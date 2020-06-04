@@ -1,101 +1,59 @@
-import React, {Component} from "react";
-import TrainingCard from "../training-card/training-card";
-import TrainingCardAdd from "../add-training/add-training";
+import React, {useState, useContext} from "react";
+import {TrainingCardAdd} from "../add-training/add-training";
 import Select from "react-select";
 import Options from "../../../../training-data/optionsData";
+import {TrainingContext, EditingCardContext} from "../../../../context";
 import {dateSortAsc, dateSortDesc} from "../../../../utils/Helpers";
 import Loading from "../../loader/loader.jsx";
+import {TrainingCard} from "../training-card/training-card";
 
-class Cards extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      filter: null
-    };
+export const Cards = () => {
+  const [filter, setFilter] = useState(null);
+  const { loading, trainings, onAddNewTraining } = useContext(TrainingContext);
+  const { isEditing } = useContext(EditingCardContext);
 
-    this.onFilterChange = this.onFilterChange.bind(this);
-  }
+  function getFilteredTrainings() {
+    const filteredTrainings = [...trainings];
 
-  onFilterChange(filter) {
-    this.setState({filter})
-  }
-
-  getFilteredTrainings() {
-    const {filter} = this.state;
-    const trainings = [...this.props.trainings];
-
-    if (filter === null) return trainings;
+    if (filter === null) return filteredTrainings;
 
     switch (filter.value) {
       case 'dateAsc':
-        return trainings.sort(dateSortAsc);
+        return filteredTrainings.sort(dateSortAsc);
       case 'dateDesc':
-        return trainings.sort(dateSortDesc);
+        return filteredTrainings.sort(dateSortDesc);
     }
   }
 
-  render() {
-    const {
-      isEditing,
-      setNewId,
-      editingTraining,
-      onAddNewTraining,
-      onSaveTraining,
-      onCancel,
-      onEditTraining,
-      onDeleteTraining,
-      loading
-    } = this.props;
-    const {filter} = this.state;
-    const trainings = this.getFilteredTrainings();
-
-    return (
-      <div className="training-workout">
-        <a className="training-workout__text"
-           href="#"
-           onClick={onAddNewTraining}>
-          Добавить тренировку
-        </a>
-        {
-          isEditing &&
-          (
-            <TrainingCardAdd
-              setNewId={setNewId}
-              editingTraining={editingTraining}
-              onSaveTraining={onSaveTraining}
-              onCancel={onCancel}/>
-          )
-        }
-        {
-          loading && <Loading/>
-        }
-        {
-          trainings.length > 0 ?
-            <React.Fragment>
-              <Select
-                className="card__select"
-                value={filter}
-                placeholder="Фильтр"
-                onChange={this.onFilterChange}
-                options={Options.optionsFilterCards} />
+  return (
+    <div className="training-workout">
+      <a className="training-workout__text"
+         href="#"
+         onClick={onAddNewTraining}>
+        Добавить тренировку
+      </a>
+      { isEditing && <TrainingCardAdd/> }
+      { loading && <Loading/> }
+      {
+        getFilteredTrainings().length > 0
+          ? <>
+              <Select className="card__select"
+                      value={filter}
+                      placeholder="Фильтр"
+                      onChange={setFilter}
+                      options={Options.optionsFilterCards}/>
               <div className="training-workout__list">
-                {trainings.map((item, index) => {
-                  return <TrainingCard
-                    key={item[0]}
-                    fbId={item[0]}
-                    item={item[1]}
-                    onEditTraining={onEditTraining}
-                    onDeleteTraining={onDeleteTraining}/>
-                })}
+                {getFilteredTrainings().map(item => (<TrainingCard key={item[0]}
+                                                                   fbId={item[0]}
+                                                                   item={item[1]} />)
+                )}
               </div>
-            </React.Fragment>
-           :
-            <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
-        }
-      </div>
-    );
-  }
-}
+            </>
 
-export default Cards;
+          : <span className="training-workout__text training-workout__text--empty">Список тренировок отсутствует</span>
+      }
+    </div>
+  )
+};
+

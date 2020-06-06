@@ -1,6 +1,4 @@
 import React, {useContext} from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import CreatableSelect from 'react-select/creatable';
 import Options from "../../../../training-data/optionsData";
 import {TrainingSession} from "../training-session/training-session";
@@ -8,7 +6,7 @@ import {CardContext} from "../../../../context";
 
 export const TrainingCardEdit = () => {
   const {
-    error,
+    errors,
     date,
     sessions,
     note,
@@ -27,11 +25,11 @@ export const TrainingCardEdit = () => {
       <div className="card">
         <div className="card-header">
           <div className="card-header__info card-header__left">
-            <DatePicker
-              className="card__date-picker"
-              selected={date}
-              dateFormat="dd/MM/yyyy"
-              onChange={onDateChange}/>
+            <input type="date"
+                   className="card__date-picker"
+                   value={date}
+                   onChange={(e) => onDateChange(e.target.value)}
+            />
 
             <CreatableSelect
               className="card__select"
@@ -42,8 +40,11 @@ export const TrainingCardEdit = () => {
               options={Options.optionsGyms}/>
           </div>
         </div>
-        {error && <span className="card__error-text">Надо заполнить все поля</span>}
+
+        {errors && <div className="card__errors">{errors.map((error, index) => <span key={index} className="card__errors-text">{ error }</span> )}</div>}
+
         {sessions.map((item, index) => <TrainingSession key={index} item={item} />)}
+
         <div className="card__add">
           <button className="card__add-btn card__add-btn--session" onClick={onAddSession}>
             Добавить

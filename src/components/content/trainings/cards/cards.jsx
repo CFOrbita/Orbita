@@ -10,7 +10,7 @@ import {TrainingCard} from "../training-card/training-card";
 
 export const Cards = () => {
   const [filter, setFilter] = useState(null);
-  const { loading, trainings, onAddNewTraining } = useContext(TrainingContext);
+  const { isLoading, trainings, onAddNewTraining } = useContext(TrainingContext);
   const { isEditing } = useContext(EditingCardContext);
 
   function getFilteredTrainings() {
@@ -34,7 +34,7 @@ export const Cards = () => {
         Добавить тренировку
       </a>
       { isEditing && <TrainingCardAdd/> }
-      { loading && <Loading/> }
+      { isLoading && <Loading/> }
       {
         getFilteredTrainings().length > 0
           ? <>

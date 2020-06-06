@@ -5,8 +5,8 @@ import {TrainingContext} from "../../../../context";
 
 export const TrainingCard = ({ item, fbId }) => {
   const { onEditTraining, onDeleteTraining} = useContext(TrainingContext);
-  const {id, gym, date, sessions, note} = item.training;
-  let gymName = gym.name !== null ? gym.name.label : 'Зала нет';
+  const {id, gym = {}, date, sessions, note} = item.training;
+  let gymName = gym.name ? gym.name.label : '-';
 
   return (
     <div className="card">
@@ -14,27 +14,27 @@ export const TrainingCard = ({ item, fbId }) => {
         <div className="card-header__left">
           <p className="card-header__item date">{date ? formatDate(getDateByTimestamp(date)) : 'Нет даты'}</p>
           <p className="card-header__item gym">{gymName}</p>
-          <p className="card-header__item amount">amount</p>
-          <div className="card-header__item card-header__item--success">
+          {/*/!*<p className="card-header__item amount">amount</p>*!/*/}
+          {/*<div className="card-header__item card-header__item--success">*/}
 
-            <svg className="card-header__item-icon success-check-btn"
-                 xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                 viewBox="0 0 50 50"
-                 width="24" height="24"
-                 style={{enableBackground: "new 0 0 50 50"}}>
-              <circle style={{fill: "#25AE88"}} cx="25" cy="25" r="25"/>
-              <polyline style={{
-                          fill: "none",
-                          stroke: "#FFFFFF",
-                          strokeWidth: "2",
-                          strokeLinecap: "round",
-                          strokeLinejoin: "round",
-                          strokeMiterlimit: "10"
-                        }}
-                        points="38,15 22,33 12,25 "/>
-            </svg>
+            {/*<svg className="card-header__item-icon success-check-btn"*/}
+                 {/*xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"*/}
+                 {/*viewBox="0 0 50 50"*/}
+                 {/*width="24" height="24"*/}
+                 {/*style={{enableBackground: "new 0 0 50 50"}}>*/}
+              {/*<circle style={{fill: "#25AE88"}} cx="25" cy="25" r="25"/>*/}
+              {/*<polyline style={{*/}
+                          {/*fill: "none",*/}
+                          {/*stroke: "#FFFFFF",*/}
+                          {/*strokeWidth: "2",*/}
+                          {/*strokeLinecap: "round",*/}
+                          {/*strokeLinejoin: "round",*/}
+                          {/*strokeMiterlimit: "10"*/}
+                        {/*}}*/}
+                        {/*points="38,15 22,33 12,25 "/>*/}
+            {/*</svg>*/}
 
-          </div>
+          {/*</div>*/}
         </div>
         <div className="card-header__right">
           <span className="card-header__item" onClick={() => onEditTraining(fbId)}>
@@ -73,11 +73,7 @@ export const TrainingCard = ({ item, fbId }) => {
         )
       })}
 
-      {note && (
-        <div className="card__note">
-          {note}
-        </div>
-      )}
+      {note && <div className="card__note">{ note }</div>}
     </div>
   );
 };

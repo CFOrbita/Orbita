@@ -6,9 +6,10 @@ import {connect} from "react-redux";
 import cloneDeep from "lodash.clonedeep";
 import {TrainingContext, EditingCardContext} from '../../../context'
 import {
+  actionLoadingTrainings,
   actionCancelTraining,
   actionDeleteTraining,
-  actionSaveTraining,
+  actionSaveTrainings,
   actionSetTrainings
 } from "../../../reducer/trainings/trainingsData";
 import {compose} from "recompose";
@@ -16,16 +17,15 @@ import {withFirebase} from "../../Firebase";
 import withAuthorization from "../../hoc/with-authorization/with-authorization.jsx";
 
 
-const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCancelTraining, onSaveTraining, onDeleteTraining}) => {
+const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingChange, onSetTrainings, onCancelTraining, onSaveTraining, onDeleteTraining}) => {
   const [isEditing, setEditing] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [editingTraining, setEditingTraining] = useState(null);
   const {url, path} = match;
 
   useEffect(getTrainings, []);
 
   function getTrainings() {
-    setLoading(true);
+    onLoadingChange(true);
 
     firebase
       .trainings(authUser.uid)
@@ -38,7 +38,7 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
 
         onSetTrainings(trainings);
 
-        setLoading(false);
+        onLoadingChange(false);
       })
   }
 
@@ -75,9 +75,7 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
         username: authUser.username,
         createdAt: firebase.serverValue.TIMESTAMP
       },
-      (error) => {
-        if (error) console.error(error)
-      }
+      (error) => console.error(error)
     )
   }
 
@@ -86,7 +84,7 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
   }
 
   function handleSaveTraining(training, fbId) {
-    setLoading(true);
+    onLoadingChange(true);
 
     const clonedTrainings = cloneDeep(trainings);
     const indexTraining = clonedTrainings.findIndex((item => item[0] === fbId));
@@ -95,11 +93,11 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
       const fbId = firebase.trainings(authUser.uid).push().key;
       clonedTrainings.push([fbId, {training}]);
 
-      saveOnFirebase(authUser, training, fbId).then(() => setLoading(false));
+      saveOnFirebase(authUser, training, fbId).then(() => onLoadingChange(false));
     } else {
       clonedTrainings[indexTraining][1].training = training;
 
-      saveOnFirebase(authUser, training, fbId).then(() => setLoading(false));
+      saveOnFirebase(authUser, training, fbId).then(() => onLoadingChange(false));
     }
 
     onSaveTraining(clonedTrainings);
@@ -117,9 +115,17 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
 
   function handleEditTraining(fbId) {
     const forEdit = trainings.filter(item => item[0] === fbId)[0];
-    setEditingTraining({fbId, training: forEdit[1].training});
 
-    setEditing(prevState => !prevState)
+    if (isEditing) {
+      setEditingTraining(null);
+      setEditing(prevState => !prevState)
+    }
+    else {
+      setEditingTraining({fbId, training: forEdit[1].training});
+
+      window.scrollTo({top: 0, behavior: "smooth"});
+      setEditing(prevState => !prevState)
+    }
   }
 
 
@@ -141,7 +147,7 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
         <div className="trainings-screen">
           {<TrainingContext.Provider value={{
             trainings,
-            loading,
+            isLoading,
             setNewId,
             onAddNewTraining: (e) => handleAddNewTraining(e),
             onSaveTraining: (training, fbId) => handleSaveTraining(training, fbId),
@@ -171,14 +177,16 @@ const Trainings = ({trainings, authUser, match, firebase, onSetTrainings, onCanc
 
 const mapStateToProps = (state) => {
   return {
-    trainings: state.trainings,
+    isLoading: state.trainings.isLoading,
+    trainings: state.trainings.trainings,
     authUser: state.sessionState.authUser,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSetTrainings: (item) => dispatch(actionSetTrainings(item)),
-  onSaveTraining: (item) => dispatch(actionSaveTraining(item)),
+  onLoadingChange: (value) => dispatch(actionLoadingTrainings(value)),
+  onSetTrainings: (trainings) => dispatch(actionSetTrainings(trainings)),
+  onSaveTraining: (trainings) => dispatch(actionSaveTrainings(trainings)),
   onCancelTraining: () => dispatch(actionCancelTraining()),
   onDeleteTraining: (state) => dispatch(actionDeleteTraining(state)),
 });

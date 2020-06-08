@@ -10,5 +10,9 @@
   "userClosedSignInViaGoogle" : {
     "ERROR_CODE_ACCOUNT_EXISTS" : "auth/popup-closed-by-user",
     "ERROR_MSG_ACCOUNT_EXISTS " : ""
+  },
+  "trainingTypes": {
+    "POWER": "Силовая",
+    "CARDIO": "Кардио"
   }
 }

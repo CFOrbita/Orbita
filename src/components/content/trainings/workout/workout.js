@@ -15,26 +15,27 @@ export const Workout = ({ idSession, item, exercises }) => {
         onChange={(e) => onExerciseChange(e, idSession, idWorkout)}
         options={exercises}/>
       <input
-        className="card__input"
+        className="card__input card__input--weight"
         placeholder="Вес, кг"
         name="weight"
         value={weight}
         onChange={(e) => onInputChange(e, idSession, idWorkout)}/>
 
       <input
-        className="card__input"
+        className="card__input card__input--repeats"
         placeholder="Повторения"
         name="repeats"
         value={repeats}
         onChange={(e) => onInputChange(e, idSession, idWorkout)}/>
 
       <input
-        className="card__input"
+        className="card__input card__input--sets"
         placeholder="Подходы"
         name="sets"
         value={sets}
         onChange={(e) => onInputChange(e, idSession, idWorkout)}/>
-      <button className="card__exercise-del" onClick={() => onDeleteExercise(idSession, idWorkout)}/>
+      <button className="card__exercise-del"
+              onClick={() => onDeleteExercise(idSession, idWorkout)}/>
     </div>
   )
 };

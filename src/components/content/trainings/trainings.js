@@ -107,6 +107,7 @@ const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingCh
   }
 
   function handleDeleteTraining(fbId) {
+    if (isEditing) return
     const training = trainings.filter(item => item[0] !== fbId);
 
     deleteOnFirebase(authUser, fbId);
@@ -160,6 +161,7 @@ const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingCh
                 <h3>Выберите раздел</h3>
               </Route>
               <Route exact path={`${path}/statistics`} component={Statistics}/>
+
               {
                 <EditingCardContext.Provider value={{ isEditing, editingTraining }}>
                   <Route exact path={`${path}/dashboard`} component={Cards} />

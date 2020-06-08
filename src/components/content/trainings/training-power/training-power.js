@@ -4,7 +4,7 @@ import {Workout} from "../workout/workout";
 import Options from "../../../../training-data/optionsData";
 import {CardContext} from "../../../../context";
 
-export const TrainingSession = ({ item }) => {
+export const TrainingPower = ({ item }) => {
   const { onPartBodyChange, onDeleteSession, onAddWorkout } = useContext(CardContext);
   const { id, partBody, exercises } = item;
 
@@ -35,8 +35,7 @@ export const TrainingSession = ({ item }) => {
   }
 
   return (
-    <div className="card-content__wrapper">
-      <div className="card-content">
+    <>
         <Select
           className="card__select"
           value={partBody}
@@ -60,7 +59,6 @@ export const TrainingSession = ({ item }) => {
         }
 
         <button className="card__btn-delete" onClick={() => onDeleteSession(id)}/>
-      </div>
-    </div>
+      </>
   )
 };

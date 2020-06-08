@@ -3,6 +3,7 @@ import { TrainingCardEdit } from "../training-card-edit/training-card-edit";
 import cloneDeep from "lodash.clonedeep";
 import { isNullOrUndefined } from "../../../../utils/Helpers";
 import {TrainingContext, EditingCardContext, CardContext} from "../../../../context";
+import {POWER} from "../../../../utils/constants/contastns";
 
 export const TrainingCardAdd = () => {
   const { setNewId, onSaveTraining, onCancel } = useContext(TrainingContext);
@@ -10,13 +11,10 @@ export const TrainingCardAdd = () => {
   const training = (editingTraining && editingTraining.training) || {};
   const [errors, setErrors] = useState(null);
   const [id, setId] = useState(training.id || setNewId());
-  const [gym, setGym] = useState(training.gym || {name: null, inputValue: null});
+  const [type, setType] = useState(training.type || null);
+  const [place, setPlace] = useState(training.place || null);
   const [date, setDate] = useState(training.date || new Date().toISOString().substr(0, 10));
-  const [sessions, setSessions] = useState(training.sessions || [{
-      id: 1,
-      partBody: null,
-      exercises: [{id: 1, exercise: null}]
-    }]);
+  const [sessions, setSessions] = useState(training.sessions || []);
   const [note, setNote] = useState(training && training.note || '');
 
 
@@ -38,9 +36,7 @@ export const TrainingCardAdd = () => {
   }
 
   function defineLastId(indexSession) {
-    let iterableArr = indexSession !== undefined
-      ? [...sessions[indexSession].exercises]
-      : [...sessions];
+    let iterableArr = indexSession ? [...sessions[indexSession].exercises] : [...sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -51,19 +47,15 @@ export const TrainingCardAdd = () => {
 
     return id;
   }
+  function handleActivityChange(activityOption, id) {
+    let clonedSessions = cloneDeep(sessions);
 
-  function handleGymChange(name) {
-    setGym(prevState => ({
-      ...prevState,
-      name
-    }))
-  }
+    const {session, indexSession} = sessionFinder(id); //returns new copy of object
+    session.activity = activityOption;
 
-  function handleGymInputChange(inputValue) {
-    setGym(prevState => ({
-      ...prevState,
-      inputValue
-    }))
+    clonedSessions[indexSession] = session;
+
+    setSessions(clonedSessions);
   }
 
   function handleBodyPartChange(selectedOption, id) {
@@ -144,17 +136,34 @@ export const TrainingCardAdd = () => {
     const clonedSessions = cloneDeep(sessions);
     const newId = defineLastId() + 1;
 
-    clonedSessions.push({id: newId, partBody: null, exercises: [{id: 1, exercise: null}]});
+    if (type === POWER) clonedSessions.push({id: newId, partBody: null, exercises: [{id: 1, exercise: null}]});
+    else clonedSessions.push({id: newId, activity: null});
 
     setSessions(clonedSessions)
   }
+
+  function handleType(type) {
+    if (type === POWER) setSessions([{
+      id: 1,
+      partBody: null,
+      exercises: [{id: 1, exercise: null}]
+    }]);
+    else setSessions([{
+      id: 1,
+      activity: null
+    }])
+
+    setType(type)
+  }
+
 
   function handleSaveTraining() {
     const fbId = editingTraining && editingTraining.fbId;
 
     let training = {
       id,
-      gym,
+      type,
+      place,
       sessions,
       date,
       note
@@ -166,27 +175,29 @@ export const TrainingCardAdd = () => {
   }
 
   function isValid() {
-    let errors = [];
+    let errors = new Set();
 
     if (!date) errors.push('Дата не выбрана')
 
-    for (let i = 0; i < sessions.length; i++) {
-      const {exercises} = sessions[i];
+    if (type === POWER) {
+      for (let i = 0; i < sessions.length; i++) {
+        const {exercises} = sessions[i];
 
-      if (sessions[i].partBody === null)  {
-        errors.push('Не выбрана чать тела')
-        break
-      }
+        if (sessions[i].partBody === null)  {
+          errors.push('Не выбрана чать тела')
+          break
+        }
 
-      for (let j = 0; j < exercises.length; j++) {
-        if (isNullOrUndefined(exercises[j].exercise)) errors.push('Не везде выбраны упражнения')
-        if (isNullOrUndefined(exercises[j].weight)) errors.push('Не везде проставлен вес')
-        if (isNullOrUndefined(exercises[j].sets)) errors.push('Не везде проставлены подходы')
-        if (isNullOrUndefined(exercises[j].repeats)) errors.push('Не везде проставлены повторы')
+        for (let j = 0; j < exercises.length; j++) {
+          if (isNullOrUndefined(exercises[j].exercise)) errors.add(`В сессии ${i + 1} не везде выбраны упражнения`)
+          if (isNullOrUndefined(exercises[j].weight)) errors.add(`В сессии ${i + 1} не везде проставлен вес`)
+          if (isNullOrUndefined(exercises[j].sets)) errors.add(`В сессии ${i + 1} не везде проставлены подходы`)
+          if (isNullOrUndefined(exercises[j].repeats)) errors.add(`В сессии ${i + 1} не везде проставлены повторы`)
+        }
       }
     }
 
-    return errors;
+    return [...errors];
   }
 
   return (
@@ -199,12 +210,14 @@ export const TrainingCardAdd = () => {
           <CardContext.Provider value={{
             errors,
             sessions,
-            gym,
+            type,
+            place,
             date,
             note,
+            onTypeChange: (type) => handleType(type),
             onDateChange: (date) => setDate(date),
-            onGymChange: (name) => handleGymChange(name),
-            onGymInputChange: (inputValue) => handleGymInputChange(inputValue),
+            onPlaceChange: (place) => setPlace(place),
+            onCardioActivityChange: (activityOption, id) => handleActivityChange(activityOption, id),
             onPartBodyChange: (selectedOption, id) => handleBodyPartChange(selectedOption, id),
             onExerciseChange: (selectedOption, idSession, idWorkout) => handleExerciseChange(selectedOption, idSession, idWorkout),
             onInputChange: (event, idSession, idWorkout) => handleInputChange(event, idSession, idWorkout),
@@ -218,9 +231,7 @@ export const TrainingCardAdd = () => {
           }}>
             <TrainingCardEdit/>
           </CardContext.Provider>
-
         </div>
-
       </section>
     </>
   )

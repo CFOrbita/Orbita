@@ -6,7 +6,7 @@ import {TrainingContext} from "../../../../context";
 export const TrainingCard = ({ item, fbId }) => {
   const { onEditTraining, onDeleteTraining} = useContext(TrainingContext);
   const [isOpen, setOpen] = useState(false);
-  const {place, date, sessions, note} = item.training;
+  const {type, place, date, sessions, note} = item.training;
 
   return (
     <div className="card">
@@ -46,7 +46,7 @@ export const TrainingCard = ({ item, fbId }) => {
         return (
           <div key={index} className="card-content__wrapper">
             <div className="card-content">
-              <TrainingInfo item={item}/>
+              <TrainingInfo item={item} type={type}/>
             </div>
           </div>
         )

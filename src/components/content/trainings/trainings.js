@@ -19,6 +19,7 @@ import withAuthorization from "../../hoc/with-authorization/with-authorization.j
 
 const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingChange, onSetTrainings, onCancelTraining, onSaveTraining, onDeleteTraining}) => {
   const [isEditing, setEditing] = useState(false);
+  const [isAdding, setAdding] = useState(false);
   const [editingTraining, setEditingTraining] = useState(null);
   const {url, path} = match;
 
@@ -57,7 +58,7 @@ const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingCh
       e.preventDefault();
       return;
     }
-    setEditing(prevState => !prevState)
+    setAdding(prevState => !prevState)
   }
 
   function handleCancel() {
@@ -103,7 +104,8 @@ const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingCh
     onSaveTraining(clonedTrainings);
 
     setEditingTraining(null);
-    setEditing(prevState => !prevState)
+    if (isEditing) setEditing(prevState => !prevState)
+    else setAdding(prevState => !prevState)
   }
 
   function handleDeleteTraining(fbId) {
@@ -163,7 +165,7 @@ const Trainings = ({isLoading, trainings, authUser, match, firebase, onLoadingCh
               <Route exact path={`${path}/statistics`} component={Statistics}/>
 
               {
-                <EditingCardContext.Provider value={{ isEditing, editingTraining }}>
+                <EditingCardContext.Provider value={{ isAdding, isEditing, editingTraining }}>
                   <Route exact path={`${path}/dashboard`} component={Cards} />
                 </EditingCardContext.Provider>
               }

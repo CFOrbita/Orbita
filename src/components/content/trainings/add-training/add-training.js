@@ -7,7 +7,7 @@ import {POWER} from "../../../../utils/constants/contastns";
 
 export const TrainingCardAdd = () => {
   const { setNewId, onSaveTraining, onCancel } = useContext(TrainingContext);
-  const { editingTraining } = useContext(EditingCardContext);
+  const { isAdding, editingTraining } = useContext(EditingCardContext);
   const training = (editingTraining && editingTraining.training) || {};
   const [errors, setErrors] = useState(null);
   const [id, setId] = useState(training.id || setNewId());
@@ -47,22 +47,12 @@ export const TrainingCardAdd = () => {
 
     return id;
   }
-  function handleActivityChange(activityOption, id) {
+
+  function handleMainSelectChange(selectedOption, id, type) {
     let clonedSessions = cloneDeep(sessions);
 
     const {session, indexSession} = sessionFinder(id); //returns new copy of object
-    session.activity = activityOption;
-
-    clonedSessions[indexSession] = session;
-
-    setSessions(clonedSessions);
-  }
-
-  function handleBodyPartChange(selectedOption, id) {
-    let clonedSessions = cloneDeep(sessions);
-
-    const {session, indexSession} = sessionFinder(id); //returns new copy of object
-    session.partBody = selectedOption;
+    session[type] = selectedOption;
 
     if (session.exercises.length === 1) {
       session.exercises[0].exercise = null;
@@ -142,16 +132,12 @@ export const TrainingCardAdd = () => {
     setSessions(clonedSessions)
   }
 
-  function handleType(type) {
-    if (type === POWER) setSessions([{
+  function handleType(type, select) {
+     setSessions([{
       id: 1,
-      partBody: null,
+      [select]: null,
       exercises: [{id: 1, exercise: null}]
     }]);
-    else setSessions([{
-      id: 1,
-      activity: null
-    }])
 
     setType(type)
   }
@@ -197,13 +183,13 @@ export const TrainingCardAdd = () => {
       }
     }
 
-    return [...errors];
+    return [...errors].length;
   }
 
   return (
     <>
       <section className="add-workout">
-        <h1 className="add-workout__title">Редактирование</h1>
+        <h1 className="add-workout__title">{isAdding ? 'Добавление тренировки' : 'Редактирование'}</h1>
         <p className="add-workout__text">На этой странице вносятся изменения в тренировку</p>
 
         <div className="add-workout__list">
@@ -214,11 +200,10 @@ export const TrainingCardAdd = () => {
             place,
             date,
             note,
-            onTypeChange: (type) => handleType(type),
+            onTypeChange: (type, select) => handleType(type, select),
             onDateChange: (date) => setDate(date),
             onPlaceChange: (place) => setPlace(place),
-            onCardioActivityChange: (activityOption, id) => handleActivityChange(activityOption, id),
-            onPartBodyChange: (selectedOption, id) => handleBodyPartChange(selectedOption, id),
+            handleMainSelectChange: (selectedOption, id, type) => handleMainSelectChange(selectedOption, id, type),
             onExerciseChange: (selectedOption, idSession, idWorkout) => handleExerciseChange(selectedOption, idSession, idWorkout),
             onInputChange: (event, idSession, idWorkout) => handleInputChange(event, idSession, idWorkout),
             onTextareaChange: (event) => setNote(event.target.value),

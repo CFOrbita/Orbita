@@ -18,9 +18,13 @@ export function getDateByTimestamp(timestamp) {
 }
 
 export function dateSortAsc(a, b) {
-  return a[1].training.date - b[1].training.date
+  return new Date(a[1].training.date).getTime() - new Date(b[1].training.date).getTime()
 }
 
 export function dateSortDesc(a, b) {
-  return b[1].training.date -a[1].training.date
+  return new Date(b[1].training.date).getTime() - new Date(a[1].training.date).getTime()
+}
+
+export function isNullOrUndefined(value) {
+  return typeof value === 'undefined' || value === null
 }

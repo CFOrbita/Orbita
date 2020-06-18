@@ -1,29 +1,27 @@
 import React, {useContext, useState} from "react";
 import { TrainingCardEdit } from "../training-card-edit/training-card-edit";
 import cloneDeep from "lodash.clonedeep";
-import {getDateByTimestamp} from "../../../../utils/Helpers";
+import { isNullOrUndefined } from "../../../../utils/Helpers";
 import {TrainingContext, EditingCardContext, CardContext} from "../../../../context";
+import {POWER} from "../../../../utils/constants/contastns";
 
 export const TrainingCardAdd = () => {
   const { setNewId, onSaveTraining, onCancel } = useContext(TrainingContext);
-  const { editingTraining } = useContext(EditingCardContext);
+  const { isAdding, editingTraining } = useContext(EditingCardContext);
   const training = (editingTraining && editingTraining.training) || {};
-  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
   const [id, setId] = useState(training.id || setNewId());
-  const [gym, setGym] = useState(training.gym || {name: null, inputValue: null});
-  const [date, setDate] = useState(training.date && getDateByTimestamp(training.date) || new Date());
-  const [sessions, setSessions] = useState(training.sessions || [{
-      id: 1,
-      partBody: null,
-      exercises: [{id: 1, exercise: null}]
-    }]);
+  const [type, setType] = useState(training.type || null);
+  const [place, setPlace] = useState(training.place || null);
+  const [date, setDate] = useState(training.date || new Date().toISOString().substr(0, 10));
+  const [sessions, setSessions] = useState(training.sessions || []);
   const [note, setNote] = useState(training && training.note || '');
 
 
   function sessionFinder(id) {
     const clonedSessions = cloneDeep(sessions);
     const indexSession = clonedSessions.findIndex((session => session.id === id));
-    let session = {...clonedSessions[indexSession]};
+    const session = {...clonedSessions[indexSession]};
 
     return {session, indexSession}
   }
@@ -32,15 +30,13 @@ export const TrainingCardAdd = () => {
     const exercises = cloneDeep(sessions[indexSession].exercises);
     const indexWorkout = exercises.findIndex((workout => workout.id === id));
 
-    let workout = {...exercises[indexWorkout]};
+    const workout = {...exercises[indexWorkout]};
 
     return {workout, indexWorkout}
   }
 
   function defineLastId(indexSession) {
-    let iterableArr = indexSession !== undefined
-      ? [...sessions[indexSession].exercises]
-      : [...sessions];
+    let iterableArr = indexSession ? [...sessions[indexSession].exercises] : [...sessions];
     let id = 0;
 
     iterableArr.forEach((item) => {
@@ -52,25 +48,11 @@ export const TrainingCardAdd = () => {
     return id;
   }
 
-  function handleGymChange(name) {
-    setGym(prevState => ({
-      ...prevState,
-      name
-    }))
-  }
-
-  function handleGymInputChange(inputValue) {
-    setGym(prevState => ({
-      ...prevState,
-      inputValue
-    }))
-  }
-
-  function handleBodyPartChange(selectedOption, id) {
+  function handleMainSelectChange(selectedOption, id, type) {
     let clonedSessions = cloneDeep(sessions);
 
     const {session, indexSession} = sessionFinder(id); //returns new copy of object
-    session.partBody = selectedOption;
+    session[type] = selectedOption;
 
     if (session.exercises.length === 1) {
       session.exercises[0].exercise = null;
@@ -144,69 +126,84 @@ export const TrainingCardAdd = () => {
     const clonedSessions = cloneDeep(sessions);
     const newId = defineLastId() + 1;
 
-    clonedSessions.push({id: newId, partBody: null, exercises: [{id: 1, exercise: null}]});
+    if (type === POWER) clonedSessions.push({id: newId, partBody: null, exercises: [{id: 1, exercise: null}]});
+    else clonedSessions.push({id: newId, activity: null});
 
     setSessions(clonedSessions)
   }
+
+  function handleType(type, select) {
+     setSessions([{
+      id: 1,
+      [select]: null,
+      exercises: [{id: 1, exercise: null}]
+    }]);
+
+    setType(type)
+  }
+
 
   function handleSaveTraining() {
     const fbId = editingTraining && editingTraining.fbId;
 
     let training = {
       id,
-      gym,
+      type,
+      place,
       sessions,
-      date: date.getTime(),
+      date,
       note
     };
-    const error = isValid();
+    const errors = isValid();
 
-    if (error) setError(error);
+    if (errors.length > 0) setErrors(errors);
     else onSaveTraining(training, fbId);
   }
 
   function isValid() {
-    let error = false;
+    let errors = new Set();
 
-    for (let i = 0; i < sessions.length; i++) {
-      const {exercises} = sessions[i];
+    if (!date) errors.push('Дата не выбрана')
 
-      if (sessions[i].partBody === null) {
-        error = true;
-        return error;
-      }
+    if (type === POWER) {
+      for (let i = 0; i < sessions.length; i++) {
+        const {exercises} = sessions[i];
 
-      for (let j = 0; j < exercises.length; j++) {
-        if (exercises[j].exercise === null ||
-          exercises[j].weight === undefined ||
-          exercises[j].sets === undefined ||
-          exercises[j].repeats === undefined) {
-          error = true;
-          return error;
+        if (sessions[i].partBody === null)  {
+          errors.push('Не выбрана чать тела')
+          break
+        }
+
+        for (let j = 0; j < exercises.length; j++) {
+          if (isNullOrUndefined(exercises[j].exercise)) errors.add(`В сессии ${i + 1} не везде выбраны упражнения`)
+          if (isNullOrUndefined(exercises[j].weight)) errors.add(`В сессии ${i + 1} не везде проставлен вес`)
+          if (isNullOrUndefined(exercises[j].sets)) errors.add(`В сессии ${i + 1} не везде проставлены подходы`)
+          if (isNullOrUndefined(exercises[j].repeats)) errors.add(`В сессии ${i + 1} не везде проставлены повторы`)
         }
       }
     }
 
-    return error;
+    return [...errors].length;
   }
 
   return (
     <>
       <section className="add-workout">
-        <h1 className="add-workout__title">Редактирование</h1>
+        <h1 className="add-workout__title">{isAdding ? 'Добавление тренировки' : 'Редактирование'}</h1>
         <p className="add-workout__text">На этой странице вносятся изменения в тренировку</p>
 
         <div className="add-workout__list">
           <CardContext.Provider value={{
-            error,
+            errors,
             sessions,
-            gym,
+            type,
+            place,
             date,
             note,
+            onTypeChange: (type, select) => handleType(type, select),
             onDateChange: (date) => setDate(date),
-            onGymChange: (name) => handleGymChange(name),
-            onGymInputChange: (inputValue) => handleGymInputChange(inputValue),
-            onPartBodyChange: (selectedOption, id) => handleBodyPartChange(selectedOption, id),
+            onPlaceChange: (place) => setPlace(place),
+            handleMainSelectChange: (selectedOption, id, type) => handleMainSelectChange(selectedOption, id, type),
             onExerciseChange: (selectedOption, idSession, idWorkout) => handleExerciseChange(selectedOption, idSession, idWorkout),
             onInputChange: (event, idSession, idWorkout) => handleInputChange(event, idSession, idWorkout),
             onTextareaChange: (event) => setNote(event.target.value),
@@ -219,9 +216,7 @@ export const TrainingCardAdd = () => {
           }}>
             <TrainingCardEdit/>
           </CardContext.Provider>
-
         </div>
-
       </section>
     </>
   )

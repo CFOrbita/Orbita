@@ -1,40 +1,19 @@
-import React, {useContext} from "react";
+import React, {useState, useContext} from "react";
 import TrainingInfo from "../training-info/training-info";
 import {formatDate, getDateByTimestamp} from "../../../../utils/Helpers";
 import {TrainingContext} from "../../../../context";
 
 export const TrainingCard = ({ item, fbId }) => {
   const { onEditTraining, onDeleteTraining} = useContext(TrainingContext);
-  const {id, gym, date, sessions, note} = item.training;
-  let gymName = gym.name !== null ? gym.name.label : 'Зала нет';
+  const [isOpen, setOpen] = useState(false);
+  const {type, place, date, sessions, note} = item.training;
 
   return (
     <div className="card">
       <div className="card-header">
         <div className="card-header__left">
           <p className="card-header__item date">{date ? formatDate(getDateByTimestamp(date)) : 'Нет даты'}</p>
-          <p className="card-header__item gym">{gymName}</p>
-          <p className="card-header__item amount">amount</p>
-          <div className="card-header__item card-header__item--success">
-
-            <svg className="card-header__item-icon success-check-btn"
-                 xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                 viewBox="0 0 50 50"
-                 width="24" height="24"
-                 style={{enableBackground: "new 0 0 50 50"}}>
-              <circle style={{fill: "#25AE88"}} cx="25" cy="25" r="25"/>
-              <polyline style={{
-                          fill: "none",
-                          stroke: "#FFFFFF",
-                          strokeWidth: "2",
-                          strokeLinecap: "round",
-                          strokeLinejoin: "round",
-                          strokeMiterlimit: "10"
-                        }}
-                        points="38,15 22,33 12,25 "/>
-            </svg>
-
-          </div>
+          <p className="card-header__item place">{place ? place.label : '-'}</p>
         </div>
         <div className="card-header__right">
           <span className="card-header__item" onClick={() => onEditTraining(fbId)}>
@@ -67,7 +46,7 @@ export const TrainingCard = ({ item, fbId }) => {
         return (
           <div key={index} className="card-content__wrapper">
             <div className="card-content">
-              <TrainingInfo item={item}/>
+              <TrainingInfo item={item} type={type}/>
             </div>
           </div>
         )
@@ -75,9 +54,12 @@ export const TrainingCard = ({ item, fbId }) => {
 
       {note && (
         <div className="card__note">
-          {note}
-        </div>
-      )}
+          <span className={`card__note-title ${isOpen ? 'open' : ''}`}
+                onClick={() => setOpen(prevState => !prevState)}>
+            Комментарий
+          </span>
+          {isOpen && <p className="card__note-content">{ note }</p>}
+        </div>)}
     </div>
   );
 };

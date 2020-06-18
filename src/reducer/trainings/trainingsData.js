@@ -1,10 +1,21 @@
-const initialState = [];
+const initialState = {
+  isLoading: false,
+  trainings: []
+};
 
 const ActionType = {
-  SAVE_TRAINING: `SAVE_TRAINING`,
+  SAVE_TRAININGS: `SAVE_TRAININGS`,
   CANCEL_TRAINING: `CANCEL_TRAINING`,
   DELETE_TRAINING: `DELETE_TRAINING`,
-  SET_TRAININGS: `SET_TRAININGS`
+  SET_TRAININGS: `SET_TRAININGS`,
+  LOADING_TRAININGS: `LOADING_TRAININGS`,
+};
+
+const actionLoadingTrainings = (value) => {
+  return {
+    type: ActionType.LOADING_TRAININGS,
+    payload: value
+  }
 };
 
 const actionSetTrainings = (state) => {
@@ -14,9 +25,9 @@ const actionSetTrainings = (state) => {
   }
 };
 
-const actionSaveTraining = (state) => {
+const actionSaveTrainings = (state) => {
   return {
-    type: ActionType.SAVE_TRAINING,
+    type: ActionType.SAVE_TRAININGS,
     payload: state
   }
 };
@@ -34,24 +45,33 @@ const actionCancelTraining = () => {
   }
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.SAVE_TRAINING:
-      return [
-        ...action.payload
-      ];
+const reducer = (state = initialState, {type, payload}) => {
+  switch (type) {
+    case ActionType.SAVE_TRAININGS:
+      return {
+        ...state,
+        trainings: payload
+      };
     case ActionType.CANCEL_TRAINING:
-      return [
+      return {
         ...state
-      ];
+      };
     case ActionType.DELETE_TRAINING:
-      return [
-        ...action.payload
-      ];
+      return {
+        ...state,
+        trainings: payload
+      };
     case ActionType.SET_TRAININGS:
-      return [
-        ...action.payload
-      ];
+      return {
+        ...state,
+        trainings: payload
+      };
+    case ActionType.LOADING_TRAININGS: {
+      return {
+        ...state,
+        isLoading: payload
+      }
+    }
   }
 
   return state;
@@ -59,7 +79,8 @@ const reducer = (state = initialState, action) => {
 
 
 export {
-  actionSaveTraining,
+  actionLoadingTrainings,
+  actionSaveTrainings,
   actionCancelTraining,
   actionDeleteTraining,
   actionSetTrainings,

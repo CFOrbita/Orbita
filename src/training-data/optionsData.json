@@ -1,70 +1,37 @@
 {
   "optionsCrossfit": [
-    {
-      "value": "interval", "label": "Интервально"
-    },
-    {
-      "value": "asap", "label": "ЗКМБР"
-    },
-    {
-      "value": "emom", "label": "ЕМОМ"},
-    {
-      "value": "ontime", "label": "На время"
-    }
+    {"value": "interval", "label": "Интервально"},
+    {"value": "asap", "label": "ЗКМБР"},
+    {"value": "emom", "label": "ЕМОМ"},
+    {"value": "ontime", "label": "На время"}
   ],
-  "optionsGyms": [
-    {
-      "value": "fitstudio", "label": "FitStudio"
-    },
-    {
-      "value": "fizkult", "label": "Физкульт"
-    },
-    {
-      "value": "fok", "label": "ФОК"
-    },
-    {
-      "value": "stadium", "label": "Стадион"
-    },
-    {
-      "value": "redwhite", "label": "К&Б"
-    }
+  "optionsPlace": [
+    {"value": "gym", "label": "Зал"},
+    {"value": "nature", "label": "Природа"},
+    {"value": "outside", "label": "Улица"},
+    {"value": "stadium", "label": "Стадион"}
   ],
   "optionsPartBody": [
-    {
-      "value": "shoulders", "label": "Плечи"
-    },
-    {
-      "value": "arms", "label": "Руки"
-    },
-    {
-      "value": "back", "label": "Спина"
-    },
-    {
-      "value": "chest", "label": "Грудь"
-    },
-    {
-      "value": "press", "label": "Пресс"
-    },
-    {
-      "value": "legs", "label": "Ноги"
-    }
+    {"value": "shoulders", "label": "Плечи"},
+    {"value": "arms", "label": "Руки"},
+    {"value": "back", "label": "Спина"},
+    {"value": "chest", "label": "Грудь"},
+    {"value": "press", "label": "Пресс"},
+    {"value": "legs", "label": "Ноги"}
+  ],
+  "optionsCardioActivities": [
+    {"value": "run", "label": "Бег"},
+    {"value": "bicycle", "label": "Велосипед"},
+    {"value": "swim", "label": "Плавание"},
+    {"value": "ski", "label": "Лыжи"},
+    {"value": "walk", "label": "Ходьба"}
   ],
   "optionsTonnageChart": [
-    {
-      "value": "shoulders", "label": "Плечи"
-    },
-    {
-      "value": "arms", "label": "Руки"
-    },
-    {
-      "value": "back", "label": "Спина"
-    },
-    {
-      "value": "chest", "label": "Грудь"
-    },
-    {
-      "value": "legs", "label": "Ноги"
-    }
+    {"value": "shoulders", "label": "Плечи"},
+    {"value": "arms", "label": "Руки"},
+    {"value": "back", "label": "Спина"},
+    {"value": "chest", "label": "Грудь"},
+    {"value": "legs", "label": "Ноги"}
   ],
   "optionsExercises": {
     "shoulders": [
@@ -99,11 +66,7 @@
     ]
   },
   "optionsFilterCards": [
-    {
-      "value": "dateAsc", "label": "Дата: по возрастанию"
-    },
-    {
-      "value": "dateDesc", "label": "Дата: по убыванию"
-    }
+    {"value": "dateAsc", "label": "Дата: по возрастанию"},
+    {"value": "dateDesc", "label": "Дата: по убыванию"}
   ]
 }

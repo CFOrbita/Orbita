@@ -16,6 +16,8 @@ export const WorkoutCardio = ({ idSession, item }) => {
       <input
         className="card__input card__input--repeats"
         placeholder="Время"
+        type="time"
+        step={10}
         name="time"
         value={time}
         onChange={(e) => onInputChange(e, idSession, idWorkout)}/>

@@ -7,6 +7,7 @@ import withAuthorization from "../../../hoc/with-authorization/with-authorizatio
 import {compose} from "recompose";
 import Chart from 'react-apexcharts'
 import {TrainingContext} from "../../../../context";
+import {POWER} from "../../../../utils/constants/contastns";
 
 const ONE_WEEK_MILLISECONDS = 604800000; //milliseconds
 const ONE_MONTH_MILLISECONDS = 2629800000;
@@ -77,21 +78,21 @@ const Statistics = () => {
   }
 
   function getDataForRadar() {
-    const clonedTrainings = cloneDeep(trainings);
+    if (trainings.length === 0) return
+
     const labels = fillWithLabels();
     const data = Array(labels.length).fill(0);
 
-    if (clonedTrainings.length !== 0) {
-      clonedTrainings.forEach(item => {
-        const sessions = item[1].training.sessions;
-
+    trainings.forEach(item => {
+      const {type, sessions}= item[1].training;
+      if (type === POWER) {
         for (let i = 0; i < sessions.length; i++) {
           const exercisesCounts = sessions[i].exercises.length;
           const indexItem = labels.findIndex(elem => elem === sessions[i].partBody.label);
           data[indexItem] += exercisesCounts;
         }
-      });
-    }
+      }
+    });
 
     return {
       chart: {
@@ -150,23 +151,25 @@ const Statistics = () => {
     const currentMonthData = [];
 
     clonedTrainings.forEach((item, index) => {
-      const {sessions, date} = item[1].training;
+      const {type, sessions, date} = item[1].training;
 
-      for (const el of sessions) {
-        const partBody = el.partBody.value;
-        const filterValue = filter.value;
+      if (type === POWER) {
+        for (const el of sessions) {
+          const partBody = el.partBody.value;
+          const filterValue = filter.value;
 
-        if (partBody === filterValue) {
-          let tonnage = 0;
-          for (const element of el.exercises) {
-            const weight = Number(element.weight);
-            const sets = Number(element.sets);
-            const repeats = Number(element.repeats);
+          if (partBody === filterValue) {
+            let tonnage = 0;
+            for (const element of el.exercises) {
+              const weight = Number(element.weight);
+              const sets = Number(element.sets);
+              const repeats = Number(element.repeats);
 
-            tonnage += weight * sets * repeats;
+              tonnage += weight * sets * repeats;
+            }
+
+            currentMonthData.push({date, tonnage});
           }
-
-          currentMonthData.push({date, tonnage});
         }
       }
     });
@@ -235,10 +238,12 @@ const Statistics = () => {
 
         <>
           <h3>Загруженность частей тела</h3>
-          <Chart type="radar"
-                 width={500} height={320}
-                 options={radarData}
-                 series={radarData.series} />
+          {radarData && (
+              <Chart type="radar"
+                     width={500} height={320}
+                     options={radarData}
+                     series={radarData.series} />
+          )}
         </>
         <div className="tonnage-chart">
           <Select
